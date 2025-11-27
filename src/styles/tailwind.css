@@ -1,0 +1,94 @@
+@import "tailwindcss";
+
+@theme {
+  /* Colores principales - Basados en el ejemplo */
+    --color-primary-green: #1D7D4D;
+    --color-secondary-green: #25a366;
+    --color-accent-green: #2ec77d;  /* Grises y fondos oscuros */
+  --color-dark-gray: #3d3d3d;
+  --color-dark-bg: #0f172a;
+  --color-light-bg: #f8fafc;
+  --color-text-dark: #1e293b;
+  --color-text-light: #64748b;
+  
+  /* Escala de verdes institucionales */
+  --color-carabinero-green-50: #f0f9f4;
+  --color-carabinero-green-100: #dcf3e4;
+  --color-carabinero-green-200: #bae6cd;
+  --color-carabinero-green-300: #88d4ab;
+  --color-carabinero-green-400: #51ba82;
+  --color-carabinero-green-500: #2d9d63;
+  --color-carabinero-green-600: #1f7d4e;
+  --color-carabinero-green-700: #1a6440;
+  --color-carabinero-green-800: #175035;
+  --color-carabinero-green-900: #14422c;
+  
+  /* Escala de dorados */
+  --color-carabinero-gold-50: #fefce8;
+  --color-carabinero-gold-100: #fef9c3;
+  --color-carabinero-gold-200: #fef08a;
+  --color-carabinero-gold-300: #fde047;
+  --color-carabinero-gold-400: #facc15;
+  --color-carabinero-gold-500: #eab308;
+  --color-carabinero-gold-600: #ca8a04;
+  --color-carabinero-gold-700: #a16207;
+  --color-carabinero-gold-800: #854d0e;
+  --color-carabinero-gold-900: #713f12;
+  
+  /* Slate colors para backgrounds */
+  --color-slate-800: #1e293b;
+  --color-slate-900: #0f172a;
+}
+
+/* Animaciones personalizadas */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 0.3;
+    transform: translateY(0);
+  }
+}
+
+@keyframes gridMove {
+  0% { transform: translate(0, 0); }
+  100% { transform: translate(100px, 100px); }
+}
+
+@keyframes rotateOrbit {
+  from { transform: translate(-50%, -50%) rotate(0deg); }
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@keyframes drawLine {
+  from {
+    stroke-dashoffset: 2000;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    transform: translateY(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
