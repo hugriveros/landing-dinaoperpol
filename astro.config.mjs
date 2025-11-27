@@ -6,5 +6,5 @@ import react from '@astrojs/react';
 export default defineConfig({
 	integrations: [react()],
 	site: 'https://hugriveros.github.io',
-	base: '/landing-dinaoperpol',
+	base: '/landing-dinaoperpol/',
 });
