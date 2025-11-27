@@ -5,7 +5,7 @@ interface AnimatedLogoProps {
   logoPath?: string;
 }
 
-export default function AnimatedLogo({ logoPath = '/logo_carabineros.svg' }: AnimatedLogoProps) {
+export default function AnimatedLogo({ logoPath = `${import.meta.env.BASE_URL}logo_carabineros.svg` }: AnimatedLogoProps) {
   const logoInnerRef = useRef<HTMLDivElement>(null);
   const logoContainerRef = useRef<HTMLDivElement>(null);
   const logoGlowRef = useRef<HTMLDivElement>(null);

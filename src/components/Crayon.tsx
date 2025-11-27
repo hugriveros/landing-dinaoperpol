@@ -39,7 +39,7 @@ export default function Crayon() {
           <div className="relative w-[460px] h-[395px] flex items-center justify-center">
             {/* Imagen hero_director encima del crayón */}
             <img
-              src="/hero_director.png"
+              src={`${import.meta.env.BASE_URL}hero_director.png`}
               alt="Director"
               className="absolute top-[45%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-auto z-10"
             />

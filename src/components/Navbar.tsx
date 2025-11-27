@@ -86,7 +86,7 @@ export default function Navbar() {
               showLogo ? 'w-12 opacity-100' : 'w-0 opacity-0'
             }`}>
               <img 
-                src="/logo_carabineros.svg" 
+                src={`${import.meta.env.BASE_URL}logo_carabineros.svg`} 
                 alt="DIRNAOPERPOL"
                 className="w-12 h-12 object-contain transition-transform duration-300 hover:scale-110"
               />
