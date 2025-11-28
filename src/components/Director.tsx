@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import CrayonContent from './CrayonContent';
+import DirectorParticles from './DirectorParticles';
 import { EyeIcon, ShieldCheckIcon } from '@heroicons/react/24/solid';
 
 export default function Director() {
@@ -18,7 +18,6 @@ export default function Director() {
           const visibleHeight = Math.min(rect.bottom, windowHeight) - Math.max(rect.top, 0);
           const progress = Math.min(1, visibleHeight / windowHeight);
           setScrollProgress(progress);
-          console.log('Scroll Progress:', progress); // Debug
         } else if (rect.top >= windowHeight) {
           setScrollProgress(0);
         } else if (rect.bottom <= 0) {
@@ -43,7 +42,7 @@ export default function Director() {
             className="lg:col-span-2 flex justify-center opacity-0 relative min-h-[600px]"
             style={{ animation: 'fadeInUp 1s ease forwards' }}
           >
-            <CrayonContent />
+            <DirectorParticles />
           </div>
 
           {/* Columna derecha: Información (3/5) */}

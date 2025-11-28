@@ -49,7 +49,6 @@ export default function Hero() {
               </p>
             </div>
 
-
           </div>
 
           {/* Columna derecha: Logo animado */}

@@ -105,32 +105,39 @@ export default function Footer() {
           <div>
             <h4 className="text-base font-semibold text-white mb-6">Contacto</h4>
             <div className="space-y-3">
-              <div className="flex items-start gap-3 text-gray-400 text-sm">
+              <div className="flex items-start gap-3 text-gray-400 text-sm hover:text-[#25a366] transition-colors cursor-pointer">
                 <span className="w-5 text-center">📍</span>
-                <span>Av. Libertador Bernardo O'Higgins 1196, Santiago</span>
+                <span>Av. Libertador Bernardo O'Higgins 1196, Santiago, Chile</span>
               </div>
-              <div className="flex items-start gap-3 text-gray-400 text-sm">
+              <div className="flex items-start gap-3 text-gray-400 text-sm hover:text-[#25a366] transition-colors cursor-pointer">
                 <span className="w-5 text-center">📞</span>
-                <span>+56 2 92xxxxxx</span>
+                <span>+56 2 2927 0000</span>
               </div>
-              <div className="flex items-start gap-3 text-gray-400 text-sm">
+              <div className="flex items-start gap-3 text-gray-400 text-sm hover:text-[#25a366] transition-colors cursor-pointer">
                 <span className="w-5 text-center">📧</span>
-                <span>contacto@carabineros.cl</span>
+                <span>contacto@dinaoperpol.cl</span>
               </div>
-              <div className="flex items-start gap-3 text-gray-400 text-sm">
-                <span className="w-5 text-center">💬</span>
-                <span>WhatsApp +56 9xxxxxxxx</span>
+              <div className="flex items-start gap-3 text-gray-400 text-sm hover:text-[#25a366] transition-colors cursor-pointer">
+                <span className="w-5 text-center">🕐</span>
+                <span>Lunes a Viernes: 08:30 - 17:30 hrs</span>
               </div>
             </div>
           </div>
         </div>
 
         {/* Footer bottom */}
-        <div className="border-t border-white/10 pt-8 text-center">
-          <p className="text-gray-500 text-sm">
-            &copy; 2025 DIRNAOPERPOL - Dirección Nacional de Apoyo a las Operaciones Policiales. 
-            Todos los derechos reservados.
-          </p>
+        <div className="border-t border-white/10 pt-8">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            <p className="text-gray-500 text-sm text-center md:text-left">
+              &copy; 2025 DIRNAOPERPOL - Dirección Nacional de Apoyo a las Operaciones Policiales. 
+              Todos los derechos reservados.
+            </p>
+            <div className="flex gap-6 text-sm">
+              <a href="#" className="text-gray-400 hover:text-[#25a366] transition-colors">Política de Privacidad</a>
+              <a href="#" className="text-gray-400 hover:text-[#25a366] transition-colors">Términos de Uso</a>
+              <a href="#" className="text-gray-400 hover:text-[#25a366] transition-colors">Transparencia</a>
+            </div>
+          </div>
         </div>
       </div>
     </footer>

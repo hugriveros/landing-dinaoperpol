@@ -6,255 +6,104 @@ interface AnimatedLogoProps {
 }
 
 export default function AnimatedLogo({ logoPath = `${import.meta.env.BASE_URL}logo_carabineros.svg` }: AnimatedLogoProps) {
-  const logoInnerRef = useRef<HTMLDivElement>(null);
-  const logoContainerRef = useRef<HTMLDivElement>(null);
-  const logoGlowRef = useRef<HTMLDivElement>(null);
+  const logoRef = useRef<HTMLDivElement>(null);
+  const particlesRef = useRef<(HTMLDivElement | null)[]>([]);
+  const glowRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
-    // Animación inicial del logo
+    // Respiración del logo
     anime({
-      targets: logoInnerRef.current,
-      keyframes: [
-        { rotateY: 0, scale: 0.3, opacity: 0 },
-        { rotateY: 180, scale: 1.1, opacity: 1 },
-        { rotateY: 360, scale: 1, opacity: 1 }
-      ],
-      duration: 2000,
-      easing: 'easeInOutExpo',
-      delay: 1200,
-      complete: function() {
-        startLoopAnimation();
-      }
+      targets: logoRef.current,
+      scale: [1, 1.1, 1],
+      duration: 3000,
+      easing: 'easeInOutQuad',
+      loop: true
     });
 
-    function startLoopAnimation() {
-      // Rotación continua
-      anime({
-        targets: logoInnerRef.current,
-        rotateY: '+=360',
-        duration: 8000,
-        easing: 'linear',
-        loop: true
-      });
+    // Pulso del glow de fondo
+    anime({
+      targets: glowRef.current,
+      scale: [1, 1.4, 1],
+      opacity: [0.3, 0.7, 0.3],
+      duration: 3000,
+      easing: 'easeInOutQuad',
+      loop: true
+    });
 
-      // Flotación vertical
-      anime({
-        targets: logoContainerRef.current,
-        keyframes: [
-          { translateY: 0 },
-          { translateY: -25 },
-          { translateY: 0 }
-        ],
-        duration: 5000,
-        easing: 'easeInOutSine',
-        loop: true
-      });
+    // Animación de partículas: todas salen desde el centro y regresan al centro
+    particlesRef.current.forEach((particle, index) => {
+      if (particle) {
+        // Ángulo aleatorio para cada partícula
+        const randomAngle = Math.random() * 360;
+        // Radio aleatorio para variedad
+        const randomRadiusX = 350 + Math.random() * 200; // Entre 350-550px
+        const randomRadiusY = 200 + Math.random() * 150; // Entre 200-350px
+        // Duración aleatoria más lenta
+        const randomDuration = 3000 + Math.random() * 2000; // Entre 3-5 segundos
+        // Delay aleatorio
+        const randomDelay = Math.random() * 1000;
 
-      // Pulso del glow
-      anime({
-        targets: logoGlowRef.current,
-        keyframes: [
-          { opacity: 0, scale: 0.8 },
-          { opacity: 0.6, scale: 1.3 },
-          { opacity: 0, scale: 0.8 }
-        ],
-        duration: 3000,
-        easing: 'easeInOutQuad',
-        loop: true
-      });
-    }
+        anime({
+          targets: particle,
+          translateX: [
+            { value: 0, duration: 0 },
+            { value: Math.cos(randomAngle * Math.PI / 180) * randomRadiusX, duration: randomDuration, easing: 'easeInOutSine' },
+            { value: 0, duration: randomDuration, easing: 'easeInOutSine' }
+          ],
+          translateY: [
+            { value: 0, duration: 0 },
+            { value: Math.sin(randomAngle * Math.PI / 180) * randomRadiusY, duration: randomDuration, easing: 'easeInOutSine' },
+            { value: 0, duration: randomDuration, easing: 'easeInOutSine' }
+          ],
+          opacity: [
+            { value: 0, duration: 0 },
+            { value: 0.8 + Math.random() * 0.2, duration: randomDuration / 2, easing: 'easeInOutSine' },
+            { value: 0, duration: randomDuration / 2, easing: 'easeInOutSine' }
+          ],
+          scale: [
+            { value: 0, duration: 0 },
+            { value: 1.2 + Math.random() * 0.8, duration: randomDuration / 2, easing: 'easeInOutSine' },
+            { value: 0, duration: randomDuration / 2, easing: 'easeInOutSine' }
+          ],
+          rotate: [
+            { value: 0, duration: 0 },
+            { value: Math.random() > 0.5 ? 360 : -360, duration: randomDuration, easing: 'easeInOutSine' },
+            { value: 0, duration: randomDuration, easing: 'easeInOutSine' }
+          ],
+          delay: randomDelay,
+          loop: true
+        });
+      }
+    });
   }, []);
-
-  const handleRotate = () => {
-    anime.remove(logoInnerRef.current);
-    anime({
-      targets: logoInnerRef.current,
-      keyframes: [
-        { rotateY: 180, rotateZ: 180, scale: 1.2 },
-        { rotateY: 360, rotateZ: 360, scale: 1 }
-      ],
-      duration: 1500,
-      easing: 'easeInOutExpo',
-      complete: () => {
-        setTimeout(() => {
-          anime({
-            targets: logoInnerRef.current,
-            rotateY: '+=360',
-            duration: 8000,
-            easing: 'linear',
-            loop: true
-          });
-        }, 500);
-      }
-    });
-  };
-
-  const handleBounce = () => {
-    anime.remove(logoInnerRef.current);
-    anime.remove(logoContainerRef.current);
-
-    const timeline = anime.timeline({
-      complete: () => {
-        setTimeout(() => {
-          anime({
-            targets: logoInnerRef.current,
-            rotateY: '+=360',
-            duration: 8000,
-            easing: 'linear',
-            loop: true
-          });
-        }, 500);
-      }
-    });
-
-    timeline
-      .add({
-        targets: logoContainerRef.current,
-        keyframes: [
-          { translateY: -120 },
-          { translateY: 0 },
-          { translateY: -60 },
-          { translateY: 0 }
-        ],
-        duration: 1800,
-        easing: 'easeOutElastic(1, .6)'
-      })
-      .add({
-        targets: logoInnerRef.current,
-        rotateY: '+=720',
-        duration: 1800
-      }, 0);
-  };
-
-  const handlePulse = () => {
-    anime.remove(logoInnerRef.current);
-    anime.remove(logoGlowRef.current);
-
-    const timeline = anime.timeline({
-      complete: () => {
-        setTimeout(() => {
-          anime({
-            targets: logoInnerRef.current,
-            rotateY: '+=360',
-            duration: 8000,
-            easing: 'linear',
-            loop: true
-          });
-        }, 500);
-      }
-    });
-
-    timeline
-      .add({
-        targets: logoInnerRef.current,
-        keyframes: [
-          { scale: 1.3 },
-          { scale: 0.9 },
-          { scale: 1.2 },
-          { scale: 1 }
-        ],
-        duration: 1200,
-        easing: 'easeInOutQuad'
-      })
-      .add({
-        targets: logoGlowRef.current,
-        keyframes: [
-          { opacity: 0.8, scale: 1.5 },
-          { opacity: 0, scale: 0.8 }
-        ],
-        duration: 800
-      }, 0);
-  };
-
-  const handleFloat = () => {
-    anime.remove(logoInnerRef.current);
-    anime.remove(logoContainerRef.current);
-
-    const timeline = anime.timeline({
-      complete: () => {
-        setTimeout(() => {
-          anime({
-            targets: logoInnerRef.current,
-            rotateY: '+=360',
-            duration: 8000,
-            easing: 'linear',
-            loop: true
-          });
-        }, 500);
-      }
-    });
-
-    timeline
-      .add({
-        targets: logoContainerRef.current,
-        keyframes: [
-          { translateY: -40, translateX: 20 },
-          { translateY: -80, translateX: -20 },
-          { translateY: -40, translateX: 20 },
-          { translateY: 0, translateX: 0 }
-        ],
-        duration: 3000,
-        easing: 'easeInOutSine'
-      })
-      .add({
-        targets: logoInnerRef.current,
-        rotateY: '+=360',
-        duration: 3000,
-        easing: 'linear'
-      }, 0);
-  };
 
   return (
     <div className="relative flex items-center justify-center opacity-0" style={{ animation: 'fadeInUp 1s ease 0.6s forwards' }}>
-      {/* Órbita decorativa */}
+      {/* Glow de fondo */}
       <div 
-        className="absolute border-2 border-dashed border-secondary-green/20 rounded-full"
-        style={{
-          width: '450px',
-          height: '450px',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          animation: 'rotateOrbit 30s linear infinite'
-        }}
-      >
-        <div 
-          className="absolute w-3 h-3 bg-accent-green rounded-full top-0 left-1/2 -translate-x-1/2"
-          style={{ boxShadow: '0 0 20px var(--color-accent-green)' }}
-        ></div>
-      </div>
+        ref={glowRef}
+        className="absolute w-[500px] h-[500px] rounded-full bg-[#25a366]/20 blur-3xl"
+      />
 
       {/* Contenedor del logo */}
-      <div 
-        ref={logoContainerRef}
-        className="relative"
-        style={{ 
-          width: '350px', 
-          height: '350px',
-          perspective: '1500px'
-        }}
-      >
-        {/* Glow effect */}
-        <div 
-          ref={logoGlowRef}
-          className="absolute inset-0 rounded-full opacity-0"
-          style={{
-            background: 'radial-gradient(circle, rgba(0, 168, 98, 0.4) 0%, transparent 70%)',
-            filter: 'blur(40px)'
-          }}
-        ></div>
+      <div className="relative" style={{ width: '350px', height: '350px' }}>
+        {/* Partículas explosivas */}
+        {Array.from({ length: 16 }).map((_, i) => (
+          <div
+            key={i}
+            ref={el => { particlesRef.current[i] = el; }}
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-5 h-5 bg-gradient-to-br from-[#25a366] to-[#1D7D4D] rounded-full"
+            style={{ boxShadow: '0 0 20px #25a366' }}
+          />
+        ))}
 
-        {/* Logo inner */}
-        <div 
-          ref={logoInnerRef}
-          className="w-full h-full relative flex items-center justify-center"
-          style={{ transformStyle: 'preserve-3d' }}
-        >
+        {/* Logo central */}
+        <div ref={logoRef} className="absolute inset-0 flex items-center justify-center">
           <img 
             src={logoPath}
             alt="Logo DIRNAOPERPOL"
             className="w-full h-full object-contain"
-            style={{ filter: 'drop-shadow(0 25px 50px rgba(0, 0, 0, 0.5))' }}
+            style={{ filter: 'drop-shadow(0 0 5px rgba(37, 163, 102, 0.8))' }}
           />
         </div>
       </div>
