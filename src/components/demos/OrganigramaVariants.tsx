@@ -76,6 +76,27 @@ const orgData: OrgNode[] = [
   },
 ];
 
+// Componente auxiliar para avatar que puede mostrar imagen o iniciales
+function Avatar({ image, name, showImage }: { image: string; name: string; showImage: boolean }) {
+  if (showImage && image) {
+    return (
+      <img
+        src={`${import.meta.env.BASE_URL}${image}`}
+        alt={name}
+        className="w-full h-full object-cover rounded-full"
+      />
+    );
+  }
+
+  // Si no mostramos imagen (ya vista o no disponible), mostrar iniciales discretas
+  const initials = name.split(' ').slice(0, 2).map(n => n[0]).join('').toUpperCase();
+  return (
+    <div className="w-full h-full flex items-center justify-center bg-[#0B1220] text-white font-bold rounded-full">
+      {initials}
+    </div>
+  );
+}
+
 export default function OrganigramaVariants() {
   const [selectedVariant, setSelectedVariant] = useState<number>(1);
 
@@ -130,6 +151,12 @@ export default function OrganigramaVariants() {
       return acc;
     }, {} as Record<number, OrgNode[]>);
 
+    // Sets para evitar repetir imágenes por nivel (solo para esta variante)
+    const seenLevel1 = new Set<string>();
+    const seenLevel2 = new Set<string>();
+
+    
+
     return (
       <div className="relative">
         {/* Nivel 0 */}
@@ -162,23 +189,25 @@ export default function OrganigramaVariants() {
 
         {/* Nivel 1 */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12 max-w-5xl mx-auto">
-          {nodesByLevel[1]?.map((node) => (
-            <div key={node.id} className="bg-gradient-to-br from-[#0F172A] to-slate-900 rounded-lg p-4 shadow-lg border border-[#25a366]/20">
-              <div className="flex flex-col items-center text-center gap-3">
-                <div className="w-14 h-14 rounded-full p-0.5 bg-gradient-to-br from-[#1D7D4D] via-[#25a366] to-[#35AF6F]">
-                  <img
-                    src={`${import.meta.env.BASE_URL}${node.image}`}
-                    alt={node.name}
-                    className="w-full h-full object-cover rounded-full"
-                  />
+          {(() => {
+            const seenImages = new Set<string>();
+            return nodesByLevel[1]?.map((node) => {
+              const showImg = (() => { if (seenImages.has(node.image)) return false; seenImages.add(node.image); return true; })();
+              return (
+                <div key={node.id} className="bg-gradient-to-br from-[#0F172A] to-slate-900 rounded-lg p-4 shadow-lg border border-[#25a366]/20">
+                  <div className="flex flex-col items-center text-center gap-3">
+                    <div className="w-14 h-14 rounded-full p-0.5 bg-gradient-to-br from-[#1D7D4D] via-[#25a366] to-[#35AF6F]">
+                      <Avatar image={node.image} name={node.name} showImage={showImg} />
+                    </div>
+                    <div>
+                      <h4 className="text-white font-bold text-xs mb-1">{node.name}</h4>
+                      <p className="text-[#25a366] text-xs">{node.department}</p>
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <h4 className="text-white font-bold text-xs mb-1">{node.name}</h4>
-                  <p className="text-[#25a366] text-xs">{node.department}</p>
-                </div>
-              </div>
-            </div>
-          ))}
+              );
+            });
+          })()}
         </div>
 
         {/* Icono de flecha hacia abajo */}
@@ -192,23 +221,25 @@ export default function OrganigramaVariants() {
 
         {/* Nivel 2 */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
-          {nodesByLevel[2]?.map((node) => (
-            <div key={node.id} className="bg-gradient-to-br from-[#0F172A] to-slate-900 rounded-lg p-4 shadow-lg border border-[#25a366]/20">
-              <div className="flex flex-col items-center text-center gap-3">
-                <div className="w-14 h-14 rounded-full p-0.5 bg-gradient-to-br from-[#1D7D4D] via-[#25a366] to-[#35AF6F]">
-                  <img
-                    src={`${import.meta.env.BASE_URL}${node.image}`}
-                    alt={node.name}
-                    className="w-full h-full object-cover rounded-full"
-                  />
+          {(() => {
+            const seenImages = new Set<string>();
+            return nodesByLevel[2]?.map((node) => {
+              const showImg = (() => { if (seenImages.has(node.image)) return false; seenImages.add(node.image); return true; })();
+              return (
+                <div key={node.id} className="bg-gradient-to-br from-[#0F172A] to-slate-900 rounded-lg p-4 shadow-lg border border-[#25a366]/20">
+                  <div className="flex flex-col items-center text-center gap-3">
+                    <div className="w-14 h-14 rounded-full p-0.5 bg-gradient-to-br from-[#1D7D4D] via-[#25a366] to-[#35AF6F]">
+                      <Avatar image={node.image} name={node.name} showImage={showImg} />
+                    </div>
+                    <div>
+                      <h4 className="text-white font-bold text-xs mb-1">{node.name}</h4>
+                      <p className="text-[#25a366] text-xs">{node.department}</p>
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <h4 className="text-white font-bold text-xs mb-1">{node.name}</h4>
-                  <p className="text-[#25a366] text-xs">{node.department}</p>
-                </div>
-              </div>
-            </div>
-          ))}
+              );
+            });
+          })()}
         </div>
       </div>
     );
@@ -257,23 +288,25 @@ export default function OrganigramaVariants() {
             </button>
             {openLevels.includes(Number(level)) && (
               <div className="p-4 pt-0 grid grid-cols-1 md:grid-cols-2 gap-4">
-                {nodes.map((node) => (
-                  <div key={node.id} className="bg-slate-800/50 rounded-lg p-4 border border-[#25a366]/20">
-                    <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 rounded-full p-0.5 bg-gradient-to-br from-[#1D7D4D] via-[#25a366] to-[#35AF6F] flex-shrink-0">
-                        <img
-                          src={`${import.meta.env.BASE_URL}${node.image}`}
-                          alt={node.name}
-                          className="w-full h-full object-cover rounded-full"
-                        />
+                {(() => {
+                  const seenImages = new Set<string>();
+                  return nodes.map((node) => {
+                    const showImg = (() => { if (seenImages.has(node.image)) return false; seenImages.add(node.image); return true; })();
+                    return (
+                      <div key={node.id} className="bg-slate-800/50 rounded-lg p-4 border border-[#25a366]/20">
+                        <div className="flex items-center gap-3">
+                          <div className="w-12 h-12 rounded-full p-0.5 bg-gradient-to-br from-[#1D7D4D] via-[#25a366] to-[#35AF6F] flex-shrink-0">
+                            <Avatar image={node.image} name={node.name} showImage={showImg} />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <h4 className="text-white font-bold text-sm truncate">{node.name}</h4>
+                            <p className="text-[#25a366] text-xs truncate">{node.department}</p>
+                          </div>
+                        </div>
                       </div>
-                      <div className="flex-1 min-w-0">
-                        <h4 className="text-white font-bold text-sm truncate">{node.name}</h4>
-                        <p className="text-[#25a366] text-xs truncate">{node.department}</p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
+                    );
+                  });
+                })()}
               </div>
             )}
           </div>
@@ -324,54 +357,58 @@ export default function OrganigramaVariants() {
 
         {/* Nivel 1 */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {nodesByLevel[1]?.map((node) => (
-            <div key={node.id}>
-              <div className="bg-gradient-to-br from-[#0F172A] to-slate-900 rounded-lg p-5 shadow-lg border border-[#25a366]/30">
-                <div className="flex flex-col items-center text-center gap-3">
-                  <div className="w-16 h-16 rounded-full p-0.5 bg-gradient-to-br from-[#1D7D4D] via-[#25a366] to-[#35AF6F]">
-                    <img
-                      src={`${import.meta.env.BASE_URL}${node.image}`}
-                      alt={node.name}
-                      className="w-full h-full object-cover rounded-full"
-                    />
+          {(() => {
+            const seenImages = new Set<string>();
+            return nodesByLevel[1]?.map((node) => {
+              const showImg = (() => { if (seenImages.has(node.image)) return false; seenImages.add(node.image); return true; })();
+              return (
+                <div key={node.id}>
+                  <div className="bg-gradient-to-br from-[#0F172A] to-slate-900 rounded-lg p-5 shadow-lg border border-[#25a366]/30">
+                    <div className="flex flex-col items-center text-center gap-3">
+                      <div className="w-16 h-16 rounded-full p-0.5 bg-gradient-to-br from-[#1D7D4D] via-[#25a366] to-[#35AF6F]">
+                        <Avatar image={node.image} name={node.name} showImage={showImg} />
+                      </div>
+                      <div>
+                        <h4 className="text-white font-bold text-sm mb-1">{node.name}</h4>
+                        <p className="text-[#25a366] text-xs">{node.department}</p>
+                      </div>
+                    </div>
                   </div>
-                  <div>
-                    <h4 className="text-white font-bold text-sm mb-1">{node.name}</h4>
-                    <p className="text-[#25a366] text-xs">{node.department}</p>
+                  {/* Icono conector hacia nivel 2 */}
+                  <div className="flex justify-center my-4">
+                    <div className="w-6 h-6 bg-[#25a366] rounded-full flex items-center justify-center">
+                      <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M19 9l-7 7-7-7" />
+                      </svg>
+                    </div>
                   </div>
                 </div>
-              </div>
-              {/* Icono conector hacia nivel 2 */}
-              <div className="flex justify-center my-4">
-                <div className="w-6 h-6 bg-[#25a366] rounded-full flex items-center justify-center">
-                  <svg className="w-3 h-3 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M19 9l-7 7-7-7" />
-                  </svg>
-                </div>
-              </div>
-            </div>
-          ))}
+              );
+            });
+          })()}
         </div>
 
         {/* Nivel 2 */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {nodesByLevel[2]?.map((node) => (
-            <div key={node.id} className="bg-gradient-to-br from-[#0F172A] to-slate-900 rounded-lg p-4 shadow-lg border border-[#25a366]/20">
-              <div className="flex flex-col items-center text-center gap-2">
-                <div className="w-14 h-14 rounded-full p-0.5 bg-gradient-to-br from-[#1D7D4D] via-[#25a366] to-[#35AF6F]">
-                  <img
-                    src={`${import.meta.env.BASE_URL}${node.image}`}
-                    alt={node.name}
-                    className="w-full h-full object-cover rounded-full"
-                  />
+          {(() => {
+            const seenImages = new Set<string>();
+            return nodesByLevel[2]?.map((node) => {
+              const showImg = (() => { if (seenImages.has(node.image)) return false; seenImages.add(node.image); return true; })();
+              return (
+                <div key={node.id} className="bg-gradient-to-br from-[#0F172A] to-slate-900 rounded-lg p-4 shadow-lg border border-[#25a366]/20">
+                  <div className="flex flex-col items-center text-center gap-2">
+                    <div className="w-14 h-14 rounded-full p-0.5 bg-gradient-to-br from-[#1D7D4D] via-[#25a366] to-[#35AF6F]">
+                      <Avatar image={node.image} name={node.name} showImage={showImg} />
+                    </div>
+                    <div>
+                      <h4 className="text-white font-bold text-xs mb-1">{node.name}</h4>
+                      <p className="text-[#25a366] text-xs">{node.department}</p>
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <h4 className="text-white font-bold text-xs mb-1">{node.name}</h4>
-                  <p className="text-[#25a366] text-xs">{node.department}</p>
-                </div>
-              </div>
-            </div>
-          ))}
+              );
+            });
+          })()}
         </div>
       </div>
     );
@@ -410,23 +447,25 @@ export default function OrganigramaVariants() {
           <div className="text-[#25a366] text-sm font-bold uppercase tracking-wide mb-2">
             ↳ Nivel 1 - Gabinetes y Departamentos
           </div>
-          {nodesByLevel[1]?.map((node) => (
-            <div key={node.id} className="bg-gradient-to-br from-[#0F172A] to-slate-900 rounded-lg p-4 border-l-4 border-[#25a366] shadow-lg">
-              <div className="flex items-center gap-3">
-                <div className="w-12 h-12 rounded-full p-0.5 bg-gradient-to-br from-[#1D7D4D] via-[#25a366] to-[#35AF6F]">
-                  <img
-                    src={`${import.meta.env.BASE_URL}${node.image}`}
-                    alt={node.name}
-                    className="w-full h-full object-cover rounded-full"
-                  />
+          {(() => {
+            const seenImages = new Set<string>();
+            return nodesByLevel[1]?.map((node) => {
+              const showImg = (() => { if (seenImages.has(node.image)) return false; seenImages.add(node.image); return true; })();
+              return (
+                <div key={node.id} className="bg-gradient-to-br from-[#0F172A] to-slate-900 rounded-lg p-4 border-l-4 border-[#25a366] shadow-lg">
+                  <div className="flex items-center gap-3">
+                    <div className="w-12 h-12 rounded-full p-0.5 bg-gradient-to-br from-[#1D7D4D] via-[#25a366] to-[#35AF6F]">
+                      <Avatar image={node.image} name={node.name} showImage={showImg} />
+                    </div>
+                    <div>
+                      <h4 className="text-white font-bold text-sm">{node.name}</h4>
+                      <p className="text-[#25a366] text-xs">{node.department}</p>
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <h4 className="text-white font-bold text-sm">{node.name}</h4>
-                  <p className="text-[#25a366] text-xs">{node.department}</p>
-                </div>
-              </div>
-            </div>
-          ))}
+              );
+            });
+          })()}
         </div>
 
         {/* Nivel 2 */}
@@ -435,23 +474,25 @@ export default function OrganigramaVariants() {
             ↳ Nivel 2 - Direcciones
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {nodesByLevel[2]?.map((node) => (
-              <div key={node.id} className="bg-gradient-to-br from-[#0F172A] to-slate-900 rounded-lg p-4 border-l-4 border-[#35AF6F] shadow-lg">
-                <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 rounded-full p-0.5 bg-gradient-to-br from-[#1D7D4D] via-[#25a366] to-[#35AF6F]">
-                    <img
-                      src={`${import.meta.env.BASE_URL}${node.image}`}
-                      alt={node.name}
-                      className="w-full h-full object-cover rounded-full"
-                    />
+            {(() => {
+              const seenImages = new Set<string>();
+              return nodesByLevel[2]?.map((node) => {
+                const showImg = (() => { if (seenImages.has(node.image)) return false; seenImages.add(node.image); return true; })();
+                return (
+                  <div key={node.id} className="bg-gradient-to-br from-[#0F172A] to-slate-900 rounded-lg p-4 border-l-4 border-[#35AF6F] shadow-lg">
+                    <div className="flex items-center gap-3">
+                      <div className="w-12 h-12 rounded-full p-0.5 bg-gradient-to-br from-[#1D7D4D] via-[#25a366] to-[#35AF6F]">
+                        <Avatar image={node.image} name={node.name} showImage={showImg} />
+                      </div>
+                      <div>
+                        <h4 className="text-white font-bold text-sm">{node.name}</h4>
+                        <p className="text-[#25a366] text-xs">{node.department}</p>
+                      </div>
+                    </div>
                   </div>
-                  <div>
-                    <h4 className="text-white font-bold text-sm">{node.name}</h4>
-                    <p className="text-[#25a366] text-xs">{node.department}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
+                );
+              });
+            })()}
           </div>
         </div>
       </div>
@@ -508,33 +549,35 @@ export default function OrganigramaVariants() {
                 tab.level === 1 ? 'grid-cols-1 md:grid-cols-3' :
                 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-4'
               }`}>
-                {nodesByLevel[tab.level]?.map((node) => (
-                  <div
-                    key={node.id}
-                    className={`bg-gradient-to-br from-[#0F172A] to-slate-900 rounded-xl shadow-xl border border-[#25a366]/30 overflow-hidden hover:scale-105 transition-transform ${
-                      tab.level === 0 ? 'p-8' : 'p-5'
-                    }`}
-                  >
-                    <div className="flex flex-col items-center text-center gap-4">
-                      <div className={`rounded-full p-1 bg-gradient-to-br ${tab.color} ${
-                        tab.level === 0 ? 'w-24 h-24' : 'w-16 h-16'
-                      }`}>
-                        <img
-                          src={`${import.meta.env.BASE_URL}${node.image}`}
-                          alt={node.name}
-                          className="w-full h-full object-cover rounded-full"
-                        />
+                {(() => {
+                  const seenImages = new Set<string>();
+                  return nodesByLevel[tab.level]?.map((node) => {
+                    const showImg = (() => { if (seenImages.has(node.image)) return false; seenImages.add(node.image); return true; })();
+                    return (
+                      <div
+                        key={node.id}
+                        className={`bg-gradient-to-br from-[#0F172A] to-slate-900 rounded-xl shadow-xl border border-[#25a366]/30 overflow-hidden hover:scale-105 transition-transform ${
+                          tab.level === 0 ? 'p-8' : 'p-5'
+                        }`}
+                      >
+                        <div className="flex flex-col items-center text-center gap-4">
+                          <div className={`rounded-full p-1 bg-gradient-to-br ${tab.color} ${
+                            tab.level === 0 ? 'w-24 h-24' : 'w-16 h-16'
+                          }`}>
+                            <Avatar image={node.image} name={node.name} showImage={showImg} />
+                          </div>
+                          <div>
+                            <h3 className={`text-white font-bold mb-2 ${tab.level === 0 ? 'text-lg' : 'text-sm'}`}>
+                              {node.name}
+                            </h3>
+                            <p className="text-[#25a366] text-xs">{node.position}</p>
+                            <p className="text-gray-400 text-xs mt-1">{node.department}</p>
+                          </div>
+                        </div>
                       </div>
-                      <div>
-                        <h3 className={`text-white font-bold mb-2 ${tab.level === 0 ? 'text-lg' : 'text-sm'}`}>
-                          {node.name}
-                        </h3>
-                        <p className="text-[#25a366] text-xs">{node.position}</p>
-                        <p className="text-gray-400 text-xs mt-1">{node.department}</p>
-                      </div>
-                    </div>
-                  </div>
-                ))}
+                    );
+                  });
+                })()}
               </div>
             </div>
           ))}
@@ -652,6 +695,9 @@ export default function OrganigramaVariants() {
 
   // Variante 7: Timeline Horizontal
   const Variant7Timeline = () => {
+    const seenL1 = new Set<string>();
+    const seenL2 = new Set<string>();
+
     return (
       <div className="max-w-6xl mx-auto">
         <div className="overflow-x-auto pb-4">
@@ -685,25 +731,25 @@ export default function OrganigramaVariants() {
             </div>
 
             {/* Nivel 1 */}
-            {orgData.filter(n => n.level === 1).map((node, _index) => (
-              <div key={node.id} className="flex flex-col items-center">
-                <div className="w-32 h-32 bg-gradient-to-br from-[#0F172A] to-slate-900 rounded-full p-4 border-2 border-[#25a366] shadow-lg flex items-center justify-center">
-                  <div className="text-center">
-                    <div className="w-12 h-12 mx-auto rounded-full p-0.5 bg-gradient-to-br from-[#1D7D4D] via-[#25a366] to-[#35AF6F] mb-1">
-                      <img
-                        src={`${import.meta.env.BASE_URL}${node.image}`}
-                        alt={node.name}
-                        className="w-full h-full object-cover rounded-full"
-                      />
+            {orgData.filter(n => n.level === 1).map((node, _index) => {
+              const showImg = !seenL1.has(node.image);
+              if (showImg) seenL1.add(node.image);
+              return (
+                <div key={node.id} className="flex flex-col items-center">
+                  <div className="w-32 h-32 bg-gradient-to-br from-[#0F172A] to-slate-900 rounded-full p-4 border-2 border-[#25a366] shadow-lg flex items-center justify-center">
+                    <div className="text-center">
+                      <div className="w-12 h-12 mx-auto rounded-full p-0.5 bg-gradient-to-br from-[#1D7D4D] via-[#25a366] to-[#35AF6F] mb-1">
+                        <Avatar image={node.image} name={node.name} showImage={showImg} />
+                      </div>
                     </div>
                   </div>
+                  <div className="mt-4 text-center max-w-[128px]">
+                    <h4 className="text-white font-bold text-xs mb-1">{node.name}</h4>
+                    <p className="text-[#25a366] text-xs">{node.department}</p>
+                  </div>
                 </div>
-                <div className="mt-4 text-center max-w-[128px]">
-                  <h4 className="text-white font-bold text-xs mb-1">{node.name}</h4>
-                  <p className="text-[#25a366] text-xs">{node.department}</p>
-                </div>
-              </div>
-            ))}
+              );
+            })}
 
             {/* Flecha */}
             <div className="flex items-center">
@@ -714,25 +760,25 @@ export default function OrganigramaVariants() {
             </div>
 
             {/* Nivel 2 */}
-            {orgData.filter(n => n.level === 2).map((node) => (
-              <div key={node.id} className="flex flex-col items-center">
-                <div className="w-28 h-28 bg-gradient-to-br from-[#0F172A] to-slate-900 rounded-full p-3 border-2 border-[#35AF6F] shadow-lg flex items-center justify-center">
-                  <div className="text-center">
-                    <div className="w-10 h-10 mx-auto rounded-full p-0.5 bg-gradient-to-br from-[#1D7D4D] via-[#25a366] to-[#35AF6F]">
-                      <img
-                        src={`${import.meta.env.BASE_URL}${node.image}`}
-                        alt={node.name}
-                        className="w-full h-full object-cover rounded-full"
-                      />
+            {orgData.filter(n => n.level === 2).map((node) => {
+              const showImg = !seenL2.has(node.image);
+              if (showImg) seenL2.add(node.image);
+              return (
+                <div key={node.id} className="flex flex-col items-center">
+                  <div className="w-28 h-28 bg-gradient-to-br from-[#0F172A] to-slate-900 rounded-full p-3 border-2 border-[#35AF6F] shadow-lg flex items-center justify-center">
+                    <div className="text-center">
+                      <div className="w-10 h-10 mx-auto rounded-full p-0.5 bg-gradient-to-br from-[#1D7D4D] via-[#25a366] to-[#35AF6F]">
+                        <Avatar image={node.image} name={node.name} showImage={showImg} />
+                      </div>
                     </div>
                   </div>
+                  <div className="mt-4 text-center max-w-[112px]">
+                    <h4 className="text-white font-bold text-xs mb-1">{node.name}</h4>
+                    <p className="text-[#25a366] text-xs">{node.department}</p>
+                  </div>
                 </div>
-                <div className="mt-4 text-center max-w-[112px]">
-                  <h4 className="text-white font-bold text-xs mb-1">{node.name}</h4>
-                  <p className="text-[#25a366] text-xs">{node.department}</p>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>
@@ -743,6 +789,8 @@ export default function OrganigramaVariants() {
   const Variant8Radial = () => {
     const level1Nodes = orgData.filter(n => n.level === 1);
     const level2Nodes = orgData.filter(n => n.level === 2);
+    const seenInner = new Set<string>();
+    const seenOuter = new Set<string>();
 
     return (
       <div className="relative w-full max-w-5xl mx-auto h-[800px] flex items-center justify-center">
@@ -771,7 +819,8 @@ export default function OrganigramaVariants() {
           const radius = 250;
           const x = Math.cos(angle) * radius;
           const y = Math.sin(angle) * radius;
-
+          const showImg = !seenInner.has(node.image);
+          if (showImg) seenInner.add(node.image);
           return (
             <div
               key={node.id}
@@ -795,11 +844,7 @@ export default function OrganigramaVariants() {
                 <div className="w-32 h-32 bg-gradient-to-br from-[#0F172A] to-slate-900 rounded-full p-4 border-2 border-[#25a366] shadow-xl flex items-center justify-center">
                   <div className="text-center">
                     <div className="w-14 h-14 mx-auto rounded-full p-0.5 bg-gradient-to-br from-[#1D7D4D] via-[#25a366] to-[#35AF6F] mb-1">
-                      <img
-                        src={`${import.meta.env.BASE_URL}${node.image}`}
-                        alt={node.name}
-                        className="w-full h-full object-cover rounded-full"
-                      />
+                      <Avatar image={node.image} name={node.name} showImage={showImg} />
                     </div>
                     <p className="text-white font-bold text-xs">{node.name.split(' ')[0]}</p>
                   </div>
@@ -815,7 +860,8 @@ export default function OrganigramaVariants() {
           const radius = 400;
           const x = Math.cos(angle) * radius;
           const y = Math.sin(angle) * radius;
-
+          const showImg = !seenOuter.has(node.image);
+          if (showImg) seenOuter.add(node.image);
           return (
             <div
               key={node.id}
@@ -839,11 +885,7 @@ export default function OrganigramaVariants() {
                 <div className="w-28 h-28 bg-gradient-to-br from-[#0F172A] to-slate-900 rounded-full p-3 border-2 border-[#35AF6F] shadow-lg flex items-center justify-center hover:scale-110 transition-transform">
                   <div className="text-center">
                     <div className="w-12 h-12 mx-auto rounded-full p-0.5 bg-gradient-to-br from-[#1D7D4D] via-[#25a366] to-[#35AF6F] mb-1">
-                      <img
-                        src={`${import.meta.env.BASE_URL}${node.image}`}
-                        alt={node.name}
-                        className="w-full h-full object-cover rounded-full"
-                      />
+                      <Avatar image={node.image} name={node.name} showImage={showImg} />
                     </div>
                     <p className="text-white font-bold text-xs">{node.name.includes('TIC') ? 'TIC' : node.name.split(' ')[2]}</p>
                   </div>

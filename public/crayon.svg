@@ -1,11 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="256" height="256" role="img" aria-label="crayon">
   <title>Crayon</title>
-  <g transform="rotate(-30 32 32)">
-    <rect x="8" y="26" width="40" height="12" rx="2" ry="2" fill="#FFB84D" />
-    <path d="M6 34 L18 26 L22 30 L10 38 Z" fill="#E08A00" />
-    <rect x="44" y="26" width="6" height="12" rx="1" ry="1" fill="#D94F4F" />
-    <circle cx="10" cy="32" r="3" fill="#fff" opacity="0.14" />
-    <rect x="14" y="28" width="28" height="8" rx="1" ry="1" fill="none" stroke="#B35F00" stroke-width="1" opacity="0.28"/>
-  </g>
+  
 </svg>

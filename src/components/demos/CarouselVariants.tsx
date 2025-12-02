@@ -212,7 +212,7 @@ export default function CarouselVariants() {
             <div
               key={noticia.id}
               className="w-[340px] flex-shrink-0 group cursor-pointer"
-              onMouseEnter={() => setHoveredIndex(index)}
+              onMouseEnter={() => setHoveredIndex(_index)}
               onMouseLeave={() => setHoveredIndex(null)}
             >
               <div className="relative bg-gradient-to-br from-slate-800 via-slate-900 to-[#0F172A] rounded-2xl shadow-2xl overflow-hidden border border-[#25a366]/40 transition-all duration-500 hover:scale-105 hover:shadow-[#25a366]/20 hover:shadow-2xl hover:border-[#25a366]/80">

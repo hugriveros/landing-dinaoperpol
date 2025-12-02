@@ -1,28 +1,29 @@
 import AnimeOrganigrama from './demos/AnimeOrganigrama';
+import { ShieldCheckIcon, ChartBarIcon, UsersIcon, LightBulbIcon, ArchiveBoxIcon, ShoppingCartIcon, CurrencyDollarIcon, ComputerDesktopIcon } from '@heroicons/react/24/solid';
 
 export default function QuienesSomos() {
   const objetivos = [
     {
       id: 1,
-      icon: "🛡️",
+      icon: <ShieldCheckIcon className="w-10 h-10 text-white" aria-hidden />,
       titulo: "Seguridad Ciudadana",
       descripcion: "Garantizar la protección y seguridad de todos los ciudadanos mediante operaciones coordinadas y eficientes."
     },
     {
       id: 2,
-      icon: "📊",
+      icon: <ChartBarIcon className="w-10 h-10 text-white" aria-hidden />,
       titulo: "Gestión Técnica",
       descripcion: "Implementar sistemas modernos de gestión para optimizar recursos y procesos operacionales."
     },
     {
       id: 3,
-      icon: "🤝",
+      icon: <UsersIcon className="w-10 h-10 text-white" aria-hidden />,
       titulo: "Coordinación Nacional",
       descripcion: "Articular y sincronizar operaciones policiales en todo el territorio nacional."
     },
     {
       id: 4,
-      icon: "💡",
+      icon: <LightBulbIcon className="w-10 h-10 text-white" aria-hidden />,
       titulo: "Innovación",
       descripcion: "Incorporar tecnología y mejores prácticas para modernizar las operaciones policiales."
     }
@@ -51,7 +52,7 @@ export default function QuienesSomos() {
               className="bg-white p-10 rounded-2xl text-center transition-all duration-300 hover:-translate-y-2 shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-2px_rgba(0,0,0,0.1)] hover:shadow-[0_20px_25px_-5px_rgba(0,0,0,0.1),0_8px_10px_-6px_rgba(0,0,0,0.1)]"
             >
               {/* Icono */}
-              <div className="w-[70px] h-[70px] bg-linear-to-br from-primary-green to-secondary-green rounded-2xl flex items-center justify-center text-4xl mx-auto mb-6">
+              <div className="w-[70px] h-[70px] bg-linear-to-br from-primary-green to-secondary-green rounded-2xl flex items-center justify-center mx-auto mb-6">
                 {objetivo.icon}
               </div>
               
@@ -67,8 +68,8 @@ export default function QuienesSomos() {
             </div>
           ))}
         </div>
-
-        {/* Sección de logros */}
+        {/* Grid de logros 
+       
         <div className="mt-24 bg-dark-bg rounded-3xl p-12 md:p-16">
           <div className="text-center mb-12">
             <div className="text-accent-green font-semibold text-sm uppercase tracking-[2px] mb-2">
@@ -82,7 +83,7 @@ export default function QuienesSomos() {
             </p>
           </div>
 
-          {/* Grid de logros */}
+          
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             <div className="text-center p-8 bg-white/5 rounded-2xl border border-white/10 transition-all duration-300 hover:bg-white/10 hover:scale-105">
               <div className="text-6xl font-extrabold bg-linear-to-r from-accent-green to-secondary-green bg-clip-text text-transparent mb-4">
@@ -123,7 +124,7 @@ export default function QuienesSomos() {
 
           
         </div>
-
+*/}
         {/* Sección de Servicios */}
         <div className="mt-24">
           <div className="text-center mb-12">
@@ -140,8 +141,8 @@ export default function QuienesSomos() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
             <div className="bg-white p-8 rounded-2xl border border-gray-100 hover:border-secondary-green/30 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-              <div className="w-14 h-14 bg-linear-to-br from-primary-green to-secondary-green rounded-xl flex items-center justify-center text-2xl mb-4">
-                📦
+              <div className="w-14 h-14 bg-linear-to-br from-primary-green to-secondary-green rounded-xl flex items-center justify-center mb-4">
+                <ArchiveBoxIcon className="w-6 h-6 text-white" aria-hidden />
               </div>
               <h3 className="text-lg font-bold text-text-dark mb-2">Logística</h3>
               <p className="text-sm text-text-light leading-relaxed">
@@ -150,8 +151,8 @@ export default function QuienesSomos() {
             </div>
 
             <div className="bg-white p-8 rounded-2xl border border-gray-100 hover:border-secondary-green/30 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-              <div className="w-14 h-14 bg-linear-to-br from-primary-green to-secondary-green rounded-xl flex items-center justify-center text-2xl mb-4">
-                🛒
+              <div className="w-14 h-14 bg-linear-to-br from-primary-green to-secondary-green rounded-xl flex items-center justify-center mb-4">
+                <ShoppingCartIcon className="w-6 h-6 text-white" aria-hidden />
               </div>
               <h3 className="text-lg font-bold text-text-dark mb-2">Compras Públicas</h3>
               <p className="text-sm text-text-light leading-relaxed">
@@ -160,8 +161,8 @@ export default function QuienesSomos() {
             </div>
 
             <div className="bg-white p-8 rounded-2xl border border-gray-100 hover:border-secondary-green/30 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-              <div className="w-14 h-14 bg-linear-to-br from-primary-green to-secondary-green rounded-xl flex items-center justify-center text-2xl mb-4">
-                💰
+              <div className="w-14 h-14 bg-linear-to-br from-primary-green to-secondary-green rounded-xl flex items-center justify-center mb-4">
+                <CurrencyDollarIcon className="w-6 h-6 text-white" aria-hidden />
               </div>
               <h3 className="text-lg font-bold text-text-dark mb-2">Finanzas</h3>
               <p className="text-sm text-text-light leading-relaxed">
@@ -170,8 +171,8 @@ export default function QuienesSomos() {
             </div>
 
             <div className="bg-white p-8 rounded-2xl border border-gray-100 hover:border-secondary-green/30 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-              <div className="w-14 h-14 bg-linear-to-br from-primary-green to-secondary-green rounded-xl flex items-center justify-center text-2xl mb-4">
-                💻
+              <div className="w-14 h-14 bg-linear-to-br from-primary-green to-secondary-green rounded-xl flex items-center justify-center mb-4">
+                <ComputerDesktopIcon className="w-6 h-6 text-white" aria-hidden />
               </div>
               <h3 className="text-lg font-bold text-text-dark mb-2">Tecnología</h3>
               <p className="text-sm text-text-light leading-relaxed">
