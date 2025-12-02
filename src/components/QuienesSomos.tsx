@@ -51,7 +51,7 @@ export default function QuienesSomos() {
               className="bg-white p-10 rounded-2xl text-center transition-all duration-300 hover:-translate-y-2 shadow-[0_4px_6px_-1px_rgba(0,0,0,0.1),0_2px_4px_-2px_rgba(0,0,0,0.1)] hover:shadow-[0_20px_25px_-5px_rgba(0,0,0,0.1),0_8px_10px_-6px_rgba(0,0,0,0.1)]"
             >
               {/* Icono */}
-              <div className="w-[70px] h-[70px] bg-gradient-to-br from-primary-green to-secondary-green rounded-2xl flex items-center justify-center text-4xl mx-auto mb-6">
+              <div className="w-[70px] h-[70px] bg-linear-to-br from-primary-green to-secondary-green rounded-2xl flex items-center justify-center text-4xl mx-auto mb-6">
                 {objetivo.icon}
               </div>
               
@@ -85,7 +85,7 @@ export default function QuienesSomos() {
           {/* Grid de logros */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
             <div className="text-center p-8 bg-white/5 rounded-2xl border border-white/10 transition-all duration-300 hover:bg-white/10 hover:scale-105">
-              <div className="text-6xl font-extrabold bg-gradient-to-r from-accent-green to-[#00f5a0] bg-clip-text text-transparent mb-4">
+              <div className="text-6xl font-extrabold bg-linear-to-r from-accent-green to-secondary-green bg-clip-text text-transparent mb-4">
                 95%
               </div>
               <h3 className="text-lg font-semibold text-white mb-2">
@@ -97,7 +97,7 @@ export default function QuienesSomos() {
             </div>
 
             <div className="text-center p-8 bg-white/5 rounded-2xl border border-white/10 transition-all duration-300 hover:bg-white/10 hover:scale-105">
-              <div className="text-6xl font-extrabold bg-gradient-to-r from-accent-green to-[#00f5a0] bg-clip-text text-transparent mb-4">
+              <div className="text-6xl font-extrabold bg-linear-to-r from-accent-green to-secondary-green bg-clip-text text-transparent mb-4">
                 100%
               </div>
               <h3 className="text-lg font-semibold text-white mb-2">
@@ -109,7 +109,7 @@ export default function QuienesSomos() {
             </div>
 
             <div className="text-center p-8 bg-white/5 rounded-2xl border border-white/10 transition-all duration-300 hover:bg-white/10 hover:scale-105">
-              <div className="text-6xl font-extrabold bg-gradient-to-r from-accent-green to-[#00f5a0] bg-clip-text text-transparent mb-4">
+              <div className="text-6xl font-extrabold bg-linear-to-r from-accent-green to-secondary-green bg-clip-text text-transparent mb-4">
                 24/7
               </div>
               <h3 className="text-lg font-semibold text-white mb-2">
@@ -139,8 +139,8 @@ export default function QuienesSomos() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div className="bg-white p-8 rounded-2xl border border-gray-100 hover:border-[#25a366]/30 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-              <div className="w-14 h-14 bg-gradient-to-br from-[#1D7D4D] to-[#25a366] rounded-xl flex items-center justify-center text-2xl mb-4">
+            <div className="bg-white p-8 rounded-2xl border border-gray-100 hover:border-secondary-green/30 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+              <div className="w-14 h-14 bg-linear-to-br from-primary-green to-secondary-green rounded-xl flex items-center justify-center text-2xl mb-4">
                 📦
               </div>
               <h3 className="text-lg font-bold text-text-dark mb-2">Logística</h3>
@@ -149,8 +149,8 @@ export default function QuienesSomos() {
               </p>
             </div>
 
-            <div className="bg-white p-8 rounded-2xl border border-gray-100 hover:border-[#25a366]/30 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-              <div className="w-14 h-14 bg-gradient-to-br from-[#1D7D4D] to-[#25a366] rounded-xl flex items-center justify-center text-2xl mb-4">
+            <div className="bg-white p-8 rounded-2xl border border-gray-100 hover:border-secondary-green/30 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+              <div className="w-14 h-14 bg-linear-to-br from-primary-green to-secondary-green rounded-xl flex items-center justify-center text-2xl mb-4">
                 🛒
               </div>
               <h3 className="text-lg font-bold text-text-dark mb-2">Compras Públicas</h3>
@@ -159,8 +159,8 @@ export default function QuienesSomos() {
               </p>
             </div>
 
-            <div className="bg-white p-8 rounded-2xl border border-gray-100 hover:border-[#25a366]/30 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-              <div className="w-14 h-14 bg-gradient-to-br from-[#1D7D4D] to-[#25a366] rounded-xl flex items-center justify-center text-2xl mb-4">
+            <div className="bg-white p-8 rounded-2xl border border-gray-100 hover:border-secondary-green/30 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+              <div className="w-14 h-14 bg-linear-to-br from-primary-green to-secondary-green rounded-xl flex items-center justify-center text-2xl mb-4">
                 💰
               </div>
               <h3 className="text-lg font-bold text-text-dark mb-2">Finanzas</h3>
@@ -169,8 +169,8 @@ export default function QuienesSomos() {
               </p>
             </div>
 
-            <div className="bg-white p-8 rounded-2xl border border-gray-100 hover:border-[#25a366]/30 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
-              <div className="w-14 h-14 bg-gradient-to-br from-[#1D7D4D] to-[#25a366] rounded-xl flex items-center justify-center text-2xl mb-4">
+            <div className="bg-white p-8 rounded-2xl border border-gray-100 hover:border-secondary-green/30 hover:shadow-xl transition-all duration-300 hover:-translate-y-1">
+              <div className="w-14 h-14 bg-linear-to-br from-primary-green to-secondary-green rounded-xl flex items-center justify-center text-2xl mb-4">
                 💻
               </div>
               <h3 className="text-lg font-bold text-text-dark mb-2">Tecnología</h3>

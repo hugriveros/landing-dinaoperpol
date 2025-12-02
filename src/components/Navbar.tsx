@@ -9,26 +9,27 @@ export default function Navbar() {
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
-      
-      // Detectar si pasamos la sección de inicio
+
+      // Detectar si pasamos la sección de inicio (para mostrar logo)
       const heroSection = document.getElementById('inicio');
       if (heroSection) {
         const heroBottom = heroSection.offsetTop + heroSection.offsetHeight - 100;
         setShowLogo(window.scrollY > heroBottom);
       }
-
-      // Detectar sección activa
-      const sections = ['inicio', 'quienes-somos', 'noticias', 'contacto'];
-      for (const sectionId of sections) {
-        const section = document.getElementById(sectionId);
-        if (section) {
-          const rect = section.getBoundingClientRect();
-          if (rect.top <= 100 && rect.bottom >= 100) {
-            setActiveSection(sectionId);
-            break;
-          }
+      // Detectar sección activa usando offsets y altura del nav (más determinista)
+      const navEl = document.querySelector('nav');
+      const navHeight = navEl ? Math.round(navEl.getBoundingClientRect().height) : 80;
+      const sectionIds = ['inicio', 'quienes-somos', 'noticias', 'footer'];
+      let currentActive = 'inicio';
+      for (const id of sectionIds) {
+        const el = document.getElementById(id);
+        if (!el) continue;
+        const top = el.offsetTop - navHeight - 16; // pequeño margen
+        if (window.scrollY >= top) {
+          currentActive = id;
         }
       }
+      setActiveSection(currentActive);
     };
 
     handleScroll(); // Ejecutar al montar
@@ -36,10 +37,16 @@ export default function Navbar() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Nota: la detección de sección activa se realiza en el listener de scroll
+
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
+      // Calcular offset por el nav fijo para que la sección no quede oculta debajo del navbar
+      const navEl = document.querySelector('nav');
+      const navHeight = navEl ? navEl.getBoundingClientRect().height : 80;
+      const targetY = element.getBoundingClientRect().top + window.scrollY - navHeight - 8;
+      window.scrollTo({ top: targetY, behavior: 'smooth' });
       setIsOpen(false);
     }
   };
@@ -93,7 +100,7 @@ export default function Navbar() {
             </div>
             
             <h1 className="text-2xl font-extrabold tracking-tight bg-gradient-to-r from-primary-green to-secondary-green bg-clip-text text-transparent">
-              DIRNAOPERPOL
+              DGEA
             </h1>
           </div>
 
@@ -111,14 +118,14 @@ export default function Navbar() {
               }`}></span>
             </button>
             <button
-              onClick={() => scrollToSection('contacto')}
+                onClick={() => scrollToSection('footer')}
               className={`font-medium text-[0.95rem] transition-all duration-300 relative group ${
-                activeSection === 'contacto' ? 'text-primary-green' : 'text-text-dark hover:text-primary-green'
+                activeSection === 'footer' ? 'text-primary-green' : 'text-text-dark hover:text-primary-green'
               }`}
             >
               Contacto
               <span className={`absolute bottom-[-5px] left-0 h-0.5 bg-secondary-green transition-all duration-300 ${
-                activeSection === 'contacto' ? 'w-full' : 'w-0 group-hover:w-full'
+                activeSection === 'footer' ? 'w-full' : 'w-0 group-hover:w-full'
               }`}></span>
             </button>
           </div>
@@ -160,7 +167,7 @@ export default function Navbar() {
               ¿Quiénes somos?
             </button>
             <button
-              onClick={() => scrollToSection('contacto')}
+                onClick={() => scrollToSection('footer')}
               className="block w-full text-left px-3 py-2 text-text-dark hover:bg-gray-50 hover:text-primary-green rounded-md font-medium transition-all"
             >
               Contacto

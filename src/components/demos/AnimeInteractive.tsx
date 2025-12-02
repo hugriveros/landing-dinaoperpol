@@ -53,7 +53,7 @@ export default function AnimeInteractive() {
   };
 
   return (
-    <section className="p-6 bg-gradient-to-br from-red-50 to-pink-50 rounded-lg shadow-md">
+    <section className="p-6 bg-linear-to-br from-red-50 to-pink-50 rounded-lg shadow-md">
       <h3 className="text-xl font-bold mb-4 text-gray-800">Animaciones Interactivas</h3>
       
       <div className="grid grid-cols-3 gap-6">
@@ -91,7 +91,7 @@ export default function AnimeInteractive() {
             draggable
             onDragStart={handleDragStart}
             onDragEnd={handleDragEnd}
-            className="cursor-move bg-gradient-to-br from-blue-400 to-purple-500 w-24 h-24 rounded-lg flex items-center justify-center text-white font-bold shadow-lg"
+            className="cursor-move bg-linear-to-br from-blue-400 to-purple-500 w-24 h-24 rounded-lg flex items-center justify-center text-white font-bold shadow-lg"
           >
             Arrástra
           </div>

@@ -4,7 +4,7 @@ import { EyeIcon, ShieldCheckIcon } from '@heroicons/react/24/solid';
 
 export default function Director() {
   const sectionRef = useRef<HTMLDivElement>(null);
-  const [scrollProgress, setScrollProgress] = useState(0);
+  const [, setScrollProgress] = useState(0);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -58,8 +58,8 @@ export default function Director() {
                 General Inspector<br />
                 María Teresa Araya Jiménez
               </h2>
-               <div className="inline-block px-4 py-1.5 bg-[#1D7D4D]/10 rounded-full mb-4">
-                <p className="text-sm font-semibold text-[#1D7D4D] uppercase tracking-wide">
+               <div className="inline-block px-4 py-1.5 bg-primary-green/10 rounded-full mb-4">
+             <p className="text-sm font-semibold text-primary-green uppercase tracking-wide">
                   Director Nacional de Apoyo a las Operaciones Policiales
                 </p>
               </div>
@@ -71,7 +71,7 @@ export default function Director() {
               
               {/* Misión */}
               <div
-                className="group p-6 rounded-xl bg-white/60 border border-[#1D7D4D]/10 hover:border-[#1D7D4D]/30 transition-transform duration-300 transform hover:-translate-y-1 hover:shadow-2xl opacity-0"
+                    className="group p-6 rounded-xl bg-white/60 border border-primary-green/10 hover:border-primary-green/30 transition-transform duration-300 transform hover:-translate-y-1 hover:shadow-2xl opacity-0"
                 style={{ animation: 'fadeInUp 1s ease 0.4s forwards' }}
               >
                 <div className="flex items-start gap-4 mb-3">
@@ -91,7 +91,7 @@ export default function Director() {
 
               {/* Visión */}
               <div
-                className="group p-6 rounded-xl bg-white/60 border border-[#25a366]/10 hover:border-[#25a366]/30 transition-transform duration-300 transform hover:-translate-y-1 hover:shadow-2xl opacity-0"
+                    className="group p-6 rounded-xl bg-white/60 border border-secondary-green/10 hover:border-secondary-green/30 transition-transform duration-300 transform hover:-translate-y-1 hover:shadow-2xl opacity-0"
                 style={{ animation: 'fadeInUp 1s ease 0.5s forwards' }}
               >
                 <div className="flex items-start gap-4 mb-3">

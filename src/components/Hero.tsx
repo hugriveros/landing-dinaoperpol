@@ -2,7 +2,7 @@ import AnimatedLogo from './AnimatedLogo';
 
 export default function Hero() {
   return (
-    <section id="inicio" className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-700 pt-16 relative overflow-hidden">
+    <section id="inicio" className="min-h-screen bg-linear-to-br from-slate-900 via-slate-800 to-slate-700 pt-16 relative overflow-hidden">
       {/* Grid animado de fondo */}
       <div 
         className="absolute inset-0 opacity-20"

@@ -11,11 +11,12 @@ export default function AnimeMotionPath() {
     if (logoRef.current && svgRef.current) {
       const path = svgRef.current.querySelector('#motion-path-1') as SVGPathElement;
       if (path) {
+        const ap = (anime as any).path(path);
         anime({
           targets: logoRef.current,
-          translateX: anime.path(path).x,
-          translateY: anime.path(path).y,
-          rotate: anime.path(path).angle,
+          translateX: ap.x,
+          translateY: ap.y,
+          rotate: ap.angle,
           easing: 'linear',
           duration: 5000,
           loop: true,
@@ -27,11 +28,12 @@ export default function AnimeMotionPath() {
     if (directorRef.current && svgRef.current) {
       const path = svgRef.current.querySelector('#motion-path-2') as SVGPathElement;
       if (path) {
+        const ap = (anime as any).path(path);
         anime({
           targets: directorRef.current,
-          translateX: anime.path(path).x,
-          translateY: anime.path(path).y,
-          rotate: anime.path(path).angle,
+          translateX: ap.x,
+          translateY: ap.y,
+          rotate: ap.angle,
           scale: [
             { value: 1, duration: 0 },
             { value: 1.2, duration: 2500 },

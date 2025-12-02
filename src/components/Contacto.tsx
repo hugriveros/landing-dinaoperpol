@@ -23,7 +23,7 @@ export default function Contacto() {
   };
 
   return (
-    <section id="contacto" className="py-20 bg-gradient-to-b from-white via-gray-50 to-carabinero-green-50 relative overflow-hidden">
+    <section id="contacto" className="pt-60 pb-40 min-h-[120vh] h-screen scroll-mt-25 bg-linear-to-b from-white via-gray-50 to-carabinero-green-50 relative overflow-hidden">
       {/* Elementos decorativos */}
       <div className="absolute top-20 right-0 w-96 h-96 bg-carabinero-gold-200 rounded-full blur-3xl opacity-20"></div>
       
@@ -32,7 +32,7 @@ export default function Contacto() {
           <span className="inline-block px-4 py-1 bg-carabinero-green-100 text-carabinero-green-700 rounded-full text-sm font-semibold mb-4">
             CONTÁCTANOS
           </span>
-          <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-carabinero-green-800 to-carabinero-green-600 bg-clip-text text-transparent mb-4">
+          <h2 className="text-4xl md:text-5xl font-bold bg-linear-to-r from-carabinero-green-800 to-carabinero-green-600 bg-clip-text text-transparent mb-4">
             Contacto
           </h2>
           <p className="text-xl text-gray-600">Estamos aquí para servirte y protegerte</p>

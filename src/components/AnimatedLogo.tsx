@@ -31,7 +31,7 @@ export default function AnimatedLogo({ logoPath = `${import.meta.env.BASE_URL}lo
     });
 
     // Animación de partículas: todas salen desde el centro y regresan al centro
-    particlesRef.current.forEach((particle, index) => {
+    particlesRef.current.forEach((particle, _index) => {
       if (particle) {
         // Ángulo aleatorio para cada partícula
         const randomAngle = Math.random() * 360;
@@ -92,7 +92,7 @@ export default function AnimatedLogo({ logoPath = `${import.meta.env.BASE_URL}lo
           <div
             key={i}
             ref={el => { particlesRef.current[i] = el; }}
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-5 h-5 bg-gradient-to-br from-[#25a366] to-[#1D7D4D] rounded-full"
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-5 h-5 bg-linear-to-br from-secondary-green to-primary-green rounded-full"
             style={{ boxShadow: '0 0 20px #25a366' }}
           />
         ))}

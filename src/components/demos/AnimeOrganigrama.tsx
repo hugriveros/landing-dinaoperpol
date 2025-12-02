@@ -5,9 +5,6 @@ import {
   UserGroupIcon, 
   DocumentTextIcon, 
   BuildingOfficeIcon,
-  ClipboardDocumentListIcon,
-  ScaleIcon,
-  ChartBarIcon,
   ServerIcon,
   ShoppingCartIcon,
   CurrencyDollarIcon
@@ -204,7 +201,7 @@ const orgData: OrgNode[] = [
     name: 'Dirección de Logística',
     position: 'Director de Logística',
     department: 'Dirección de Logística',
-    image: 'hero_director.png',
+    image: 'hero_logistica.png',
     description: '"Dirigir y coordinar la gestión integral de recursos logísticos, administrar la cadena de suministro institucional, proveer bienes y servicios necesarios para el desempeño de la función policial y optimizar los procesos de almacenamiento y distribución a nivel nacional."',
     color: '#1D7D4D',
     level: 2,
@@ -226,7 +223,7 @@ const orgData: OrgNode[] = [
     name: 'Dirección de Finanzas',
     position: 'Director de Finanzas',
     department: 'Dirección de Finanzas',
-    image: 'hero_director.png',
+    image: 'hero_finanzas.png',
     description: '"Dirigir y administrar la gestión financiera, presupuestaria y contable institucional, coordinar la ejecución presupuestaria, controlar los recursos financieros y elaborar análisis económico-financieros para la toma de decisiones del Alto Mando."',
     color: '#2D9963',
     level: 2,
@@ -237,7 +234,7 @@ const orgData: OrgNode[] = [
     name: 'Dirección de Tecnologías de la Información y las Comunicaciones',
     position: 'Director de TIC',
     department: 'Dirección de TIC',
-    image: 'hero_director.png',
+    image: 'hero_tic.png',
     description: '"Dirigir y coordinar la gestión de infraestructura tecnológica institucional, administrar sistemas de información, garantizar la seguridad informática, proveer soluciones tecnológicas innovadoras y gestionar las comunicaciones digitales a nivel nacional."',
     color: '#35AF6F',
     level: 2,
@@ -382,7 +379,7 @@ export  function AnimeOrganigrama() {
             <div className="text-secondary-green font-semibold text-sm uppercase tracking-[2px] mb-2">
               ESTRUCTURA
             </div>
-            <h2 className="text-3xl md:text-4xl font-extrabold text-text-dark">
+            <h2 className="text-4xl md:text-5xl font-extrabold text-text-dark mb-4">
               Organigrama
             </h2>
             <p className="text-gray-600 max-w-[800px] mx-auto mt-3">
@@ -400,11 +397,11 @@ export  function AnimeOrganigrama() {
                 className="org-item cursor-pointer group"
                 onClick={(e) => handleExpand(node.id, e)}
               >
-                <div className="relative overflow-hidden bg-gradient-to-br from-[#0F172A] to-slate-900 rounded-2xl shadow-xl hover:shadow-2xl border-2 border-[#0F172A] hover:border-[#25a366]/40 transition-all duration-500 hover:-translate-y-2 w-96">
+                <div className="relative overflow-hidden bg-gradient-to-br from-[#0F172A] to-slate-900 rounded-2xl shadow-xl hover:shadow-2xl border-2 border-[#0F172A] hover:border-[#25a366]/40 transition-all duration-500 hover:-translate-y-2 w-full max-w-[500px]">
                   <div className="absolute inset-0 bg-gradient-to-br from-[#25a366]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  <div className="relative h-48 bg-gradient-to-br from-[#0F172A] to-slate-900 overflow-hidden">
+                  <div className="relative h-56 bg-gradient-to-br from-[#0F172A] to-slate-900 overflow-hidden">
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="w-32 h-32 rounded-full p-1 bg-gradient-to-br from-[#1D7D4D] via-[#25a366] to-[#35AF6F] shadow-lg">
+                      <div className="w-40 h-40 rounded-full p-1 bg-gradient-to-br from-[#1D7D4D] via-[#25a366] to-[#35AF6F] shadow-lg">
                         <img
                           src={`${import.meta.env.BASE_URL}${node.image}`}
                           alt={node.name}
@@ -413,8 +410,8 @@ export  function AnimeOrganigrama() {
                       </div>
                     </div>
                   </div>
-                  <div className="relative p-6">
-                    <h4 className="font-bold text-lg text-white leading-tight mb-2">{node.name}</h4>
+                  <div className="relative p-7">
+                    <h4 className="font-bold text-xl text-white leading-tight mb-2">{node.name}</h4>
                     <div className="flex items-center gap-2 text-sm text-[#25a366] font-medium">
                       <div className="w-1.5 h-1.5 rounded-full bg-[#25a366]" />
                       <span>{node.department}</span>
@@ -434,24 +431,17 @@ export  function AnimeOrganigrama() {
         {/* Nivel 1 - Gabinetes y Departamento (3 nodos) */}
         {nodesByLevel[1] && (
           <div className="relative">
-            {/* Línea vertical principal desde Nivel 0 */}
-            <div className="absolute left-1/2 -translate-x-1/2 -top-16 w-1 h-12 org-line-animated rounded-full" />
-            {/* Línea horizontal que conecta los 3 nodos del nivel 1 */}
-            <div className="absolute left-[16.67%] right-[16.67%] h-1 org-line-horizontal-animated rounded-full" style={{ top: '-4px' }} />
-            
-            <div className="grid grid-cols-3 gap-6 max-w-5xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 max-w-6xl mx-auto">
               {nodesByLevel[1].map((node) => (
                 <div key={node.id} className="relative">
-                  {/* Línea vertical desde línea horizontal hasta cada nodo */}
-                  <div className="absolute left-1/2 -translate-x-1/2 w-1 org-line-animated rounded-full" style={{ top: '-4px', height: '4px' }} />
                   
                   <div
                     className="org-item cursor-pointer group"
                     onClick={(e) => handleExpand(node.id, e)}
                   >
-                    <div className="relative overflow-hidden bg-gradient-to-br from-[#0F172A] to-slate-900 rounded-xl shadow-lg hover:shadow-xl border border-[#0F172A] hover:border-[#25a366]/40 transition-all duration-500 hover:-translate-y-1 w-full">
+                    <div className="relative overflow-hidden bg-gradient-to-br from-[#0F172A] to-slate-900 rounded-xl shadow-lg hover:shadow-xl border border-[#0F172A] hover:border-[#25a366]/40 transition-all duration-500 hover:-translate-y-1 h-[280px] flex flex-col">
                       <div className="absolute inset-0 bg-gradient-to-br from-[#25a366]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                      <div className="relative h-40 bg-gradient-to-br from-[#0F172A] to-slate-900 overflow-hidden">
+                      <div className="relative h-40 bg-gradient-to-br from-[#0F172A] to-slate-900 overflow-hidden flex-shrink-0">
                         <div className="absolute inset-0 flex items-center justify-center">
                           <div className="w-24 h-24 rounded-full p-1 bg-gradient-to-br from-[#1D7D4D] via-[#25a366] to-[#35AF6F] shadow-md">
                             <img
@@ -462,7 +452,7 @@ export  function AnimeOrganigrama() {
                           </div>
                         </div>
                       </div>
-                      <div className="relative p-4">
+                      <div className="relative p-4 flex-1 flex flex-col justify-center">
                         <h4 className="font-bold text-base text-white mb-2">{node.name}</h4>
                         <div className="text-xs text-[#25a366] flex items-center gap-2">
                           <div className="w-1 h-1 rounded-full bg-[#25a366]" />
@@ -485,36 +475,37 @@ export  function AnimeOrganigrama() {
         {/* Nivel 2 - Direcciones Principales (4 nodos) */}
         {nodesByLevel[2] && (
           <div className="relative">
-            {/* Línea vertical principal desde Nivel 0 */}
-            <div className="absolute left-1/2 -translate-x-1/2 -top-16 w-1 h-12 org-line-animated rounded-full" />
-            {/* Línea horizontal que conecta las 4 direcciones */}
-            <div className="absolute left-[12.5%] right-[12.5%] h-1 org-line-horizontal-animated rounded-full" style={{ top: '-4px' }} />
-            
-            <div className="grid grid-cols-4 gap-4 max-w-6xl mx-auto">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 max-w-6xl mx-auto">
               {nodesByLevel[2].map((node) => (
                 <div key={node.id} className="relative">
-                  {/* Línea vertical desde línea horizontal hasta cada dirección */}
-                  <div className="absolute left-1/2 -translate-x-1/2 w-1 org-line-animated rounded-full" style={{ top: '-4px', height: '4px' }} />
                   <div
-                    className="org-item cursor-pointer group h-full"
+                    className="org-item cursor-pointer group"
                     onClick={(e) => handleExpand(node.id, e)}
                   >
-                    <div className="relative overflow-hidden bg-gradient-to-br from-[#0F172A] to-slate-900 rounded-lg shadow-md hover:shadow-lg border border-[#0F172A] hover:border-[#25a366]/40 transition-all duration-500 hover:-translate-y-1 h-full">
+                    <div className="relative overflow-hidden bg-gradient-to-br from-[#0F172A] to-slate-900 rounded-lg shadow-md hover:shadow-lg border border-[#0F172A] hover:border-[#25a366]/40 transition-all duration-500 hover:-translate-y-1 h-[280px] flex flex-col">
                       <div className="absolute inset-0 bg-gradient-to-br from-[#25a366]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                      <div className="relative h-36 bg-gradient-to-br from-[#0F172A] to-slate-900 overflow-hidden">
+                      <div className="relative h-40 bg-gradient-to-br from-[#0F172A] to-slate-900 overflow-hidden flex-shrink-0">
                         <div className="absolute inset-0 flex items-center justify-center">
-                          <div className="w-20 h-20 rounded-full p-0.5 bg-gradient-to-br from-[#1D7D4D] via-[#25a366] to-[#35AF6F] shadow-sm">
+                          <div className="w-24 h-24 rounded-full p-1 bg-gradient-to-br from-[#1D7D4D] via-[#25a366] to-[#35AF6F] shadow-md">
                             <img
                               src={`${import.meta.env.BASE_URL}${node.image}`}
                               alt={node.name}
-                              className="w-full h-full object-cover rounded-full border-2 border-[#0F172A] group-hover:scale-110 transition-transform duration-300"
+                              className="w-full h-full object-cover rounded-full border-3 border-[#0F172A] group-hover:scale-110 transition-transform duration-300"
                             />
                           </div>
                         </div>
                       </div>
-                      <div className="relative p-3">
-                        <h4 className="font-semibold text-sm text-white mb-2 leading-tight">{node.name}</h4>
-                        <div className="text-xs text-[#25a366]">{node.department}</div>
+                      <div className="relative p-4 flex-1 flex flex-col justify-center">
+                        <h4 className="font-bold text-sm text-white mb-2 leading-tight">{node.name}</h4>
+                        <div className="text-xs text-[#25a366] flex items-center gap-2">
+                          <div className="w-1 h-1 rounded-full bg-[#25a366]" />
+                          <span>{node.department}</span>
+                        </div>
+                      </div>
+                      <div className="absolute top-3 right-3 w-7 h-7 rounded-lg bg-[#25a366]/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
+                        <svg className="w-3.5 h-3.5 text-[#25a366]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
                       </div>
                     </div>
                   </div>
@@ -608,7 +599,7 @@ export  function AnimeOrganigrama() {
                         style={{ animation: 'fadeInUp 1s ease forwards' }}
                       >
                         <OrganigramaParticles 
-                          imageSrc={`${import.meta.env.BASE_URL}hero_director.png`}
+                          imageSrc={`${import.meta.env.BASE_URL}${selectedNode.image}`}
                           altText={selectedNode.name}
                         />
                       </div>

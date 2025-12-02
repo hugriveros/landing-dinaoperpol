@@ -33,7 +33,7 @@ export default function Crayon() {
   }, []);
 
   return (
-    <section className="py-20 bg-gradient-to-b from-white to-gray-50">
+    <section className="py-20 bg-linear-to-b from-white to-gray-50">
       <div className="container mx-auto px-4">
         <div ref={crayonRef} className="flex justify-center items-center min-h-[500px]">
           <div className="relative w-[460px] h-[395px] flex items-center justify-center">

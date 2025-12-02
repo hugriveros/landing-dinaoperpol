@@ -265,7 +265,7 @@ function Variant3() {
       {[0, 1, 2, 3, 4].map((i) => (
         <div
           key={i}
-          ref={el => particlesRef.current[i] = el}
+          ref={el => { particlesRef.current[i] = el; }}
           className="absolute"
           style={{ width: '300px', height: '300px' }}
         >
@@ -400,7 +400,7 @@ function Variant5() {
       {Array.from({ length: 12 }).map((_, i) => (
         <div
           key={i}
-          ref={el => particlesRef.current[i] = el}
+          ref={el => { particlesRef.current[i] = el; }}
           className="absolute w-4 h-4 bg-gradient-to-br from-[#25a366] to-[#1D7D4D] rounded-full"
           style={{ boxShadow: '0 0 20px #25a366' }}
         />
@@ -467,7 +467,7 @@ function Variant6() {
       {Array.from({ length: 6 }).map((_, i) => (
         <div
           key={i}
-          ref={el => hexagonsRef.current[i] = el}
+          ref={el => { hexagonsRef.current[i] = el; }}
           className="absolute border-2 border-[#25a366]/30"
           style={{
             width: `${150 + i * 50}px`,
