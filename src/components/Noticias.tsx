@@ -7,6 +7,7 @@ interface Noticia {
   fecha: string;
   descripcion: string;
   icon: string;
+  image?: string;
   categoria: string;
 }
 
@@ -20,9 +21,13 @@ export default function Noticias() {
   const nextRef = useRef<any>(null);
   const progressIntervalRef = useRef<number | null>(null);
   const modalRef = useRef<HTMLDivElement>(null);
+  const closeBtnRef = useRef<HTMLButtonElement | null>(null);
+  const mediaRef = useRef<HTMLDivElement | null>(null);
+  const contentRef = useRef<HTMLDivElement | null>(null);
   const timelineRef = useRef<any>(null);
+  const progressRef = useRef<number>(0);
 
-  const STORY_DURATION = 10000; // 10 segundos por historia
+  const STORY_DURATION = 10000; // 10 segundos por historia (autoplay)
 
   const noticias: Noticia[] = [
     {
@@ -81,6 +86,10 @@ export default function Noticias() {
     // Si hay una animación en curso y NO es una acción forzada por el usuario, no interrumpimos
     if (timelineRef.current && !force) return;
 
+    const newIndex = direction === 'next'
+      ? (currentIndex + 1) % noticias.length
+      : (currentIndex - 1 + noticias.length) % noticias.length;
+
     // Si la acción es forzada por el usuario, abortamos/pausamos la timeline y restauramos estilos
     if (timelineRef.current && force) {
       try {
@@ -92,13 +101,19 @@ export default function Noticias() {
         if (nextRef.current) anime.set(nextRef.current, { opacity: 0, scale: 1, translateX: 0, zIndex: 10 });
       } catch {}
       setIsAnimating(false);
+      // Si es forzado, hacemos el cambio instantáneo (sin timeline) para respuesta inmediata
+      if (force) {
+        setCurrentIndex(newIndex);
+        setNextIndex(newIndex);
+        setProgress(0);
+        progressRef.current = 0;
+        // aseguramos que el detalle esté cerrado
+        setShowDetail(false);
+        return;
+      }
     }
 
     if (isAnimating && !force) return;
-
-    const newIndex = direction === 'next'
-      ? (currentIndex + 1) % noticias.length
-      : (currentIndex - 1 + noticias.length) % noticias.length;
 
     setNextIndex(newIndex);
     setIsAnimating(true);
@@ -133,6 +148,7 @@ export default function Noticias() {
             setCurrentIndex(newIndex);
             // resetear progreso una vez que la nueva historia está visible para evitar salto visual
             setProgress(0);
+            progressRef.current = 0;
             setIsAnimating(false);
             try {
                   // Restaurar sombras y estilos
@@ -167,51 +183,26 @@ export default function Noticias() {
     });
   };
 
-  // Gestionar progreso de la barra
   useEffect(() => {
-    // El progreso sigue corriendo incluso durante la animación; solo se pausa si se abre el detalle
-    if (showDetail) {
-      if (progressIntervalRef.current) {
-        clearInterval(progressIntervalRef.current);
-        progressIntervalRef.current = null;
-      }
-      return;
-    }
+      if (!showDetail) return;
+      const previousOverflow = document.body.style.overflow;
+      document.body.style.overflow = 'hidden';
 
-    setProgress(0);
-    const startTime = Date.now();
+      const onKey = (e: KeyboardEvent) => {
+        if (e.key === 'Escape') handleCloseDetail();
+      };
 
-    progressIntervalRef.current = window.setInterval(() => {
-      const elapsed = Date.now() - startTime;
-      const newProgress = Math.min((elapsed / STORY_DURATION) * 100, 100);
-      setProgress(newProgress);
+      document.addEventListener('keydown', onKey);
 
-      if (newProgress >= 100) {
-        // Intentar avanzar; changeSlide ignorará si ya está animando
-        changeSlide('next');
-      }
-    }, 16);
-
-    return () => {
-      if (progressIntervalRef.current) {
-        clearInterval(progressIntervalRef.current);
-      }
-    };
-  }, [currentIndex, showDetail]);
-
-  // Cleanup defensivo del interval al desmontar el componente
-  useEffect(() => {
-    return () => {
-      if (progressIntervalRef.current) {
-        clearInterval(progressIntervalRef.current);
-        progressIntervalRef.current = null;
-      }
-    };
-  }, []);
+      return () => {
+        document.removeEventListener('keydown', onKey);
+        document.body.style.overflow = previousOverflow;
+      };
+    }, [showDetail]);
 
   const handleOpenDetail = () => {
     setShowDetail(true);
-    
+    // Pausar visualmente (el efecto de progreso limpiará el interval). Abrir modal con animación y mover foco al botón cerrar.
     setTimeout(() => {
       if (modalRef.current) {
         anime({
@@ -222,6 +213,8 @@ export default function Noticias() {
           easing: 'easeOutCubic'
         });
       }
+      // Mover foco al botón cerrar para accesibilidad
+      try { closeBtnRef.current?.focus(); } catch {}
     }, 0);
   };
 
@@ -249,6 +242,54 @@ export default function Noticias() {
   const handleNext = () => {
     changeSlide('next', { force: true });
   };
+
+  // Autoplay: controla el progreso y avanza la historia cuando llega al final
+  useEffect(() => {
+    const TICK = 100; // ms
+
+    const start = () => {
+      if (progressIntervalRef.current) return;
+      progressRef.current = 0;
+      setProgress(0);
+      // usar window.setInterval en navegador
+      progressIntervalRef.current = window.setInterval(() => {
+        progressRef.current += TICK;
+        const pct = Math.min(100, Math.round((progressRef.current / STORY_DURATION) * 100));
+        setProgress(pct);
+        if (progressRef.current >= STORY_DURATION) {
+          // avanzar y reiniciar
+          progressRef.current = 0;
+          setProgress(0);
+          changeSlide('next', { force: true });
+        }
+      }, TICK) as unknown as number;
+    };
+
+    const stop = () => {
+      if (progressIntervalRef.current) {
+        clearInterval(progressIntervalRef.current);
+        progressIntervalRef.current = null;
+      }
+    };
+
+    if (!showDetail) start();
+    else stop();
+
+    return () => stop();
+  }, [showDetail, currentIndex]);
+
+  // Cleanup global al desmontar: cancelar interval y pausar timeline si existe
+  useEffect(() => {
+    return () => {
+      if (progressIntervalRef.current) {
+        clearInterval(progressIntervalRef.current);
+        progressIntervalRef.current = null;
+      }
+      if (timelineRef.current && typeof timelineRef.current.pause === 'function') {
+        try { timelineRef.current.pause(); } catch {}
+      }
+    };
+  }, []);
 
   return (
     <section id="noticias" className="pt-36 pb-40  bg-linear-to-b from-white to-gray-50">
@@ -383,93 +424,65 @@ export default function Noticias() {
 
           {/* Modal de detalle pantalla completa */}
           {showDetail && (
-            <div className="fixed inset-0 bg-[#0F172A]/98 backdrop-blur-xl z-9999 flex items-center justify-center animate-fadeIn">
-              <div ref={modalRef} className="relative w-full h-full bg-linear-to-br from-slate-900 via-slate-950 to-black shadow-2xl overflow-hidden" style={{ opacity: 0 }}>
-                {/* Header con imagen de fondo */}
-                <div className="relative h-80 bg-linear-to-br from-primary-green via-secondary-green to-[#35AF6F] flex items-center justify-center overflow-hidden">
-                  <div className="absolute inset-0 bg-linear-to-b from-transparent via-black/40 to-black/80" />
-                  <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNjAiIGhlaWdodD0iNjAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGRlZnM+PHBhdHRlcm4gaWQ9ImdyaWQiIHdpZHRoPSI2MCIgaGVpZ2h0PSI2MCIgcGF0dGVyblVuaXRzPSJ1c2VyU3BhY2VPblVzZSI+PHBhdGggZD0iTSAxMCAwIEwgMCAwIDAgMTAiIGZpbGw9Im5vbmUiIHN0cm9rZT0id2hpdGUiIHN0cm9rZS1vcGFjaXR5PSIwLjA1IiBzdHJva2Utd2lkdGg9IjEiLz48L3BhdHRlcm4+PC9kZWZzPjxyZWN0IHdpZHRoPSIxMDAlIiBoZWlnaHQ9IjEwMCUiIGZpbGw9InVybCgjZ3JpZCkiLz48L3N2Zz4=')] opacity-30" />
-                  <span className="relative z-10 text-[200px] drop-shadow-2xl">{noticias[currentIndex].icon}</span>
-                  
-                  {/* Botón cerrar */}
-                  <button
-                    onClick={handleCloseDetail}
-                    className="absolute top-6 right-6 z-20 w-12 h-12 bg-black/40 hover:bg-black/60 backdrop-blur-md rounded-full flex items-center justify-center text-white transition-all hover:scale-110 border border-white/20"
-                  >
-                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
-                    </svg>
-                  </button>
-                </div>
+            <div role="dialog" aria-modal="true" aria-labelledby="noticias-modal-title" className="fixed inset-0 bg-slate-50/30 backdrop-blur-md z-50 flex items-center justify-center p-6">
+              <div ref={modalRef} className="relative w-full max-w-5xl mx-auto bg-white rounded-3xl shadow-lg overflow-hidden transform-gpu border border-slate-200" style={{ opacity: 0 }}>
+                {/* Close button (top-right, inside card) - light theme */}
+                <button
+                  ref={closeBtnRef}
+                  onClick={handleCloseDetail}
+                  aria-label="Cerrar detalle"
+                  className="absolute top-4 right-4 z-30 w-10 h-10 bg-white/90 hover:bg-white rounded-full flex items-center justify-center text-slate-700 transition-transform hover:scale-105 border border-slate-200 shadow-sm"
+                >
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M6 18L18 6M6 6l12 12" />
+                  </svg>
+                </button>
 
-                {/* Contenido scrollable */}
-                <div className="overflow-y-auto h-[calc(100vh-20rem)] p-8 md:p-12">
-                  {/* Meta información */}
-                  <div className="flex items-center gap-4 mb-6">
-                    <span className="inline-block px-4 py-2 bg-secondary-green/20 text-secondary-green rounded-full text-sm font-bold border border-secondary-green/30">
-                      {noticias[currentIndex].categoria}
-                    </span>
-                    <span className="text-white/60 text-sm flex items-center gap-2">
-                      <svg className="w-4 h-4 text-secondary-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                      </svg>
-                      {noticias[currentIndex].fecha}
-                    </span>
+                <div className="md:grid md:grid-cols-2">
+                  {/* Visual / Header (light) */}
+                  <div className="relative h-56 md:h-auto md:min-h-[320px] flex items-center justify-center bg-linear-to-br from-primary-green via-secondary-green to-[#35AF6F]">
+                      <div className="relative z-10 text-[96px] md:text-[120px] drop-shadow-sm text-white">{noticias[currentIndex].icon}</div>
+                      <div className="absolute -bottom-8 left-8 md:left-10 z-20">
+                        <span className="inline-block px-3 py-1.5 bg-white/10 text-white rounded-full text-xs font-semibold border border-white/12 shadow-sm">{noticias[currentIndex].categoria}</span>
+                      </div>
                   </div>
 
-                  {/* Título */}
-                  <h2 className="text-white font-bold text-4xl md:text-5xl mb-6 leading-tight">
-                    {noticias[currentIndex].titulo}
-                  </h2>
-
-                  {/* Descripción */}
-                  <p className="text-white/90 text-lg md:text-xl leading-relaxed mb-8">
-                    {noticias[currentIndex].descripcion}
-                  </p>
-
-                  <div className="space-y-6 pt-6 border-t border-white/10">
-                    <div className="flex items-start gap-4">
-                      <div className="w-12 h-12 shrink-0 bg-secondary-green/20 rounded-xl flex items-center justify-center border border-secondary-green/30">
-                        <svg className="w-6 h-6 text-secondary-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                      </div>
-                      <div className="flex-1">
-                        <h3 className="text-white font-bold text-lg mb-2">Detalles de la Noticia</h3>
-                        <p className="text-white/80 leading-relaxed">
-                          {noticias[currentIndex].descripcion} Esta noticia representa un hito importante en nuestro desarrollo institucional y 
-                          refleja el compromiso continuo con la excelencia operacional y el servicio a la comunidad.
-                        </p>
+                  {/* Content (light, modern) */}
+                  <div className="p-6 md:p-10 lg:p-12 bg-white text-slate-900">
+                    <div className="flex items-center justify-between mb-4">
+                      <div className="flex items-center gap-4">
+                        <span className="inline-block px-3 py-2 bg-secondary-green/10 text-secondary-green rounded-full text-sm font-bold border border-secondary-green/20">{noticias[currentIndex].categoria}</span>
+                        <span className="text-slate-500 text-sm">{noticias[currentIndex].fecha}</span>
                       </div>
                     </div>
 
-                    <div className="flex items-start gap-4">
-                      <div className="w-12 h-12 shrink-0 bg-secondary-green/20 rounded-xl flex items-center justify-center border border-secondary-green/30">
-                        <svg className="w-6 h-6 text-secondary-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
+                    <h2 id="noticias-modal-title" className="text-slate-900 font-extrabold text-3xl md:text-4xl mb-4 leading-tight">{noticias[currentIndex].titulo}</h2>
+
+                    <p className="text-slate-700 text-base md:text-lg leading-relaxed mb-6">{noticias[currentIndex].descripcion}</p>
+
+                    <div className="space-y-6 pt-4 border-t border-slate-100 mt-6">
+                      <div className="flex items-start gap-4">
+                          <div className="w-12 h-12 shrink-0 rounded-xl flex items-center justify-center bg-linear-to-br from-primary-green via-secondary-green to-[#35AF6F] shadow-sm">
+                            <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                          </div>
+                        <div className="flex-1">
+                          <h3 className="text-slate-900 font-bold text-lg mb-2">Detalles de la Noticia</h3>
+                          <p className="text-slate-700 leading-relaxed">{noticias[currentIndex].descripcion} Esta noticia representa un hito importante en nuestro desarrollo institucional y refleja el compromiso continuo con la excelencia operacional y el servicio a la comunidad.</p>
+                        </div>
                       </div>
-                      <div className="flex-1">
-                        <h3 className="text-white font-bold text-lg mb-2">Impacto Institucional</h3>
-                        <p className="text-white/80 leading-relaxed">
-                          Esta iniciativa fortalece nuestra capacidad operativa y mejora la eficiencia en los procesos clave de la institución,
-                          beneficiando directamente a todo el personal y a la ciudadanía que servimos.
-                        </p>
+
+                      <div className="flex items-start gap-4">
+                        <div className="w-12 h-12 shrink-0 rounded-xl flex items-center justify-center bg-linear-to-br from-primary-green via-secondary-green to-[#35AF6F] shadow-sm">
+                          <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+                        </div>
+                        <div className="flex-1">
+                          <h3 className="text-slate-900 font-bold text-lg mb-2">Impacto Institucional</h3>
+                          <p className="text-slate-700 leading-relaxed">Esta iniciativa fortalece nuestra capacidad operativa y mejora la eficiencia en los procesos clave de la institución, beneficiando directamente a todo el personal y a la ciudadanía que servimos.</p>
+                        </div>
                       </div>
                     </div>
-                  </div>
 
-                  {/* Botón CTA */}
-                  <div className="mt-10 flex gap-4">
-                    <button className="flex-1 py-4 bg-linear-to-r from-primary-green to-secondary-green text-white font-bold text-lg rounded-xl hover:shadow-2xl hover:shadow-secondary-green/40 transition-all hover:scale-[1.02]">
-                      Leer Artículo Completo
-                    </button>
-                    <button 
-                      onClick={handleCloseDetail}
-                      className="px-8 py-4 bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white font-bold text-lg rounded-xl border border-white/20 transition-all hover:scale-[1.02]"
-                    >
-                      Cerrar
-                    </button>
+                    {/* Footer buttons removed per request; only close X remains */}
                   </div>
                 </div>
               </div>
