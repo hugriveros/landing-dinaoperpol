@@ -75,8 +75,8 @@ export default function Director() {
                 style={{ animation: 'fadeInUp 1s ease 0.4s forwards' }}
               >
                 <div className="flex items-start gap-4 mb-3">
-                  <div className="flex-shrink-0">
-                    <div className="w-12 h-12 rounded-lg flex items-center justify-center text-white text-xl bg-gradient-to-br from-[#1D7D4D] to-[#25a366] shadow-md">
+                  <div className="shrink-0">
+                    <div className="w-12 h-12 rounded-lg flex items-center justify-center text-white text-xl bg-linear-to-br from-primary-green to-secondary-green shadow-md">
                       <ShieldCheckIcon className="w-6 h-6" aria-hidden="true" />
                     </div>
                   </div>
@@ -95,8 +95,8 @@ export default function Director() {
                 style={{ animation: 'fadeInUp 1s ease 0.5s forwards' }}
               >
                 <div className="flex items-start gap-4 mb-3">
-                  <div className="flex-shrink-0">
-                    <div className="w-12 h-12 rounded-lg flex items-center justify-center text-white text-xl bg-gradient-to-br from-[#25a366] to-[#1D7D4D] shadow-md">
+                  <div className="shrink-0">
+                    <div className="w-12 h-12 rounded-lg flex items-center justify-center text-white text-xl bg-linear-to-br from-secondary-green to-primary-green shadow-md">
                       <EyeIcon className="w-6 h-6" aria-hidden="true" />
                     </div>
                   </div>

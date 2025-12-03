@@ -82,7 +82,7 @@ export default function AnimatedLogo({ logoPath = `${import.meta.env.BASE_URL}lo
       {/* Glow de fondo */}
       <div 
         ref={glowRef}
-        className="absolute w-[500px] h-[500px] rounded-full bg-[#25a366]/20 blur-3xl"
+        className="absolute w-[500px] h-[500px] rounded-full bg-secondary-green/20 blur-3xl"
       />
 
       {/* Contenedor del logo */}

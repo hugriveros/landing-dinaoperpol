@@ -69,7 +69,7 @@ export default function AnimeTimeline() {
   };
 
   return (
-    <section className="p-6 bg-gradient-to-br from-green-50 to-teal-50 rounded-lg shadow-md">
+    <section className="p-6 bg-linear-to-br from-green-50 to-teal-50 rounded-lg shadow-md">
       <h3 className="text-xl font-bold mb-4 text-gray-800">Timeline Compleja con Control</h3>
       
       <div ref={containerRef} className="relative h-64 mb-4 bg-white rounded-lg p-6 overflow-hidden">

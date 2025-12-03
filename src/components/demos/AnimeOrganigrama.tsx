@@ -120,7 +120,7 @@ function OrganigramaParticles({ imageSrc, altText }: { imageSrc: string; altText
         <img
           src={imageSrc}
           alt={altText}
-          className="absolute top-[45%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[26rem] h-auto z-10"
+          className="absolute top-[45%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-104 h-auto z-10"
           style={{
             WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 97%, rgba(0,0,0,0.8) 99%, rgba(0,0,0,0) 100%)',
             maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 95%, rgba(0,0,0,0.3) 98%, rgba(0,0,0,0) 100%)',
@@ -397,11 +397,11 @@ export  function AnimeOrganigrama() {
                 className="org-item cursor-pointer group"
                 onClick={(e) => handleExpand(node.id, e)}
               >
-                <div className="relative overflow-hidden bg-gradient-to-br from-[#0F172A] to-slate-900 rounded-2xl shadow-xl hover:shadow-2xl border-2 border-[#0F172A] hover:border-[#25a366]/40 transition-all duration-500 hover:-translate-y-2 w-full max-w-[500px]">
-                  <div className="absolute inset-0 bg-gradient-to-br from-[#25a366]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  <div className="relative h-56 bg-gradient-to-br from-[#0F172A] to-slate-900 overflow-hidden">
+                <div className="relative overflow-hidden bg-linear-to-br from-[#0F172A] to-slate-900 rounded-2xl shadow-xl hover:shadow-2xl border-2 border-[#0F172A] hover:border-secondary-green/40 transition-all duration-500 hover:-translate-y-2 w-full max-w-[500px]">
+                  <div className="absolute inset-0 bg-linear-to-br from-secondary-green/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <div className="relative h-56 bg-linear-to-br from-[#0F172A] to-slate-900 overflow-hidden">
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="w-40 h-40 rounded-full p-1 bg-gradient-to-br from-[#1D7D4D] via-[#25a366] to-[#35AF6F] shadow-lg">
+                      <div className="w-40 h-40 rounded-full p-1 bg-linear-to-br from-primary-green via-secondary-green to-[#35AF6F] shadow-lg">
                         <img
                           src={`${import.meta.env.BASE_URL}${node.image}`}
                           alt={node.name}
@@ -412,13 +412,13 @@ export  function AnimeOrganigrama() {
                   </div>
                   <div className="relative p-7">
                     <h4 className="font-bold text-xl text-white leading-tight mb-2">{node.name}</h4>
-                    <div className="flex items-center gap-2 text-sm text-[#25a366] font-medium">
-                      <div className="w-1.5 h-1.5 rounded-full bg-[#25a366]" />
+                    <div className="flex items-center gap-2 text-sm text-secondary-green font-medium">
+                      <div className="w-1.5 h-1.5 rounded-full bg-secondary-green" />
                       <span>{node.department}</span>
                     </div>
                   </div>
-                  <div className="absolute top-4 right-4 w-8 h-8 rounded-lg bg-[#25a366]/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:scale-110">
-                    <svg className="w-4 h-4 text-[#25a366]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <div className="absolute top-4 right-4 w-8 h-8 rounded-lg bg-secondary-green/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:scale-110">
+                    <svg className="w-4 h-4 text-secondary-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
                     </svg>
                   </div>
@@ -439,11 +439,11 @@ export  function AnimeOrganigrama() {
                     className="org-item cursor-pointer group"
                     onClick={(e) => handleExpand(node.id, e)}
                   >
-                    <div className="relative overflow-hidden bg-gradient-to-br from-[#0F172A] to-slate-900 rounded-xl shadow-lg hover:shadow-xl border border-[#0F172A] hover:border-[#25a366]/40 transition-all duration-500 hover:-translate-y-1 h-[280px] flex flex-col">
-                      <div className="absolute inset-0 bg-gradient-to-br from-[#25a366]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                      <div className="relative h-40 bg-gradient-to-br from-[#0F172A] to-slate-900 overflow-hidden flex-shrink-0">
+                    <div className="relative overflow-hidden bg-linear-to-br from-[#0F172A] to-slate-900 rounded-xl shadow-lg hover:shadow-xl border border-[#0F172A] hover:border-secondary-green/40 transition-all duration-500 hover:-translate-y-1 h-[280px] flex flex-col">
+                      <div className="absolute inset-0 bg-linear-to-br from-secondary-green/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                      <div className="relative h-40 bg-linear-to-br from-[#0F172A] to-slate-900 overflow-hidden shrink-0">
                         <div className="absolute inset-0 flex items-center justify-center">
-                          <div className="w-24 h-24 rounded-full p-1 bg-gradient-to-br from-[#1D7D4D] via-[#25a366] to-[#35AF6F] shadow-md">
+                          <div className="w-24 h-24 rounded-full p-1 bg-linear-to-br from-primary-green via-secondary-green to-[#35AF6F] shadow-md">
                             <img
                               src={`${import.meta.env.BASE_URL}${node.image}`}
                               alt={node.name}
@@ -454,13 +454,13 @@ export  function AnimeOrganigrama() {
                       </div>
                       <div className="relative p-4 flex-1 flex flex-col justify-center">
                         <h4 className="font-bold text-base text-white mb-2">{node.name}</h4>
-                        <div className="text-xs text-[#25a366] flex items-center gap-2">
-                          <div className="w-1 h-1 rounded-full bg-[#25a366]" />
+                        <div className="text-xs text-secondary-green flex items-center gap-2">
+                          <div className="w-1 h-1 rounded-full bg-secondary-green" />
                           <span>{node.department}</span>
                         </div>
                       </div>
-                      <div className="absolute top-3 right-3 w-7 h-7 rounded-lg bg-[#25a366]/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
-                        <svg className="w-3.5 h-3.5 text-[#25a366]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <div className="absolute top-3 right-3 w-7 h-7 rounded-lg bg-secondary-green/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
+                        <svg className="w-3.5 h-3.5 text-secondary-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                         </svg>
                       </div>
@@ -482,11 +482,11 @@ export  function AnimeOrganigrama() {
                     className="org-item cursor-pointer group"
                     onClick={(e) => handleExpand(node.id, e)}
                   >
-                    <div className="relative overflow-hidden bg-gradient-to-br from-[#0F172A] to-slate-900 rounded-lg shadow-md hover:shadow-lg border border-[#0F172A] hover:border-[#25a366]/40 transition-all duration-500 hover:-translate-y-1 h-[280px] flex flex-col">
-                      <div className="absolute inset-0 bg-gradient-to-br from-[#25a366]/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                      <div className="relative h-40 bg-gradient-to-br from-[#0F172A] to-slate-900 overflow-hidden flex-shrink-0">
+                    <div className="relative overflow-hidden bg-linear-to-br from-[#0F172A] to-slate-900 rounded-lg shadow-md hover:shadow-lg border border-[#0F172A] hover:border-secondary-green/40 transition-all duration-500 hover:-translate-y-1 h-[280px] flex flex-col">
+                      <div className="absolute inset-0 bg-linear-to-br from-secondary-green/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                      <div className="relative h-40 bg-linear-to-br from-[#0F172A] to-slate-900 overflow-hidden shrink-0">
                         <div className="absolute inset-0 flex items-center justify-center">
-                          <div className="w-24 h-24 rounded-full p-1 bg-gradient-to-br from-[#1D7D4D] via-[#25a366] to-[#35AF6F] shadow-md">
+                          <div className="w-24 h-24 rounded-full p-1 bg-linear-to-br from-primary-green via-secondary-green to-[#35AF6F] shadow-md">
                             <img
                               src={`${import.meta.env.BASE_URL}${node.image}`}
                               alt={node.name}
@@ -497,13 +497,13 @@ export  function AnimeOrganigrama() {
                       </div>
                       <div className="relative p-4 flex-1 flex flex-col justify-center">
                         <h4 className="font-bold text-sm text-white mb-2 leading-tight">{node.name}</h4>
-                        <div className="text-xs text-[#25a366] flex items-center gap-2">
-                          <div className="w-1 h-1 rounded-full bg-[#25a366]" />
+                        <div className="text-xs text-secondary-green flex items-center gap-2">
+                          <div className="w-1 h-1 rounded-full bg-secondary-green" />
                           <span>{node.department}</span>
                         </div>
                       </div>
-                      <div className="absolute top-3 right-3 w-7 h-7 rounded-lg bg-[#25a366]/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
-                        <svg className="w-3.5 h-3.5 text-[#25a366]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <div className="absolute top-3 right-3 w-7 h-7 rounded-lg bg-secondary-green/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300">
+                        <svg className="w-3.5 h-3.5 text-secondary-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                         </svg>
                       </div>
@@ -518,20 +518,20 @@ export  function AnimeOrganigrama() {
         {/* Nivel 3 - Oculto (nodos movidos a nivel 2) */}
         {false && nodesByLevel[3] && (
           <div className="relative">
-            <div className="absolute left-1/2 -top-12 w-0.5 h-12 bg-[#1D7D4D]" />
+            <div className="absolute left-1/2 -top-12 w-0.5 h-12 bg-primary-green" />
             
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-6">
               {nodesByLevel[3].map((node) => (
                 <div key={node.id} className="relative">
-                  <div className="absolute left-1/2 -top-12 w-0.5 h-12 bg-[#1D7D4D]" />
+                  <div className="absolute left-1/2 -top-12 w-0.5 h-12 bg-primary-green" />
                   
                   <div
                     className="org-item cursor-pointer group"
                     onClick={(e) => handleExpand(node.id, e)}
                   >
                     <div className="relative overflow-hidden bg-white rounded-xl shadow-lg hover:shadow-xl border border-gray-200 transition-all duration-500 hover:-translate-y-2">
-                      <div className="absolute inset-0 bg-gradient-to-br from-[#1D7D4D]/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                      <div className="relative h-40 bg-gradient-to-br from-[#1D7D4D]/6 to-white overflow-hidden">
+                      <div className="absolute inset-0 bg-linear-to-br from-primary-green/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                      <div className="relative h-40 bg-linear-to-br from-primary-green/6 to-white overflow-hidden">
                         <div className="absolute inset-0 flex items-center justify-center">
                           <img
                             src={`${import.meta.env.BASE_URL}${node.image}`}
@@ -573,7 +573,7 @@ export  function AnimeOrganigrama() {
           />
           <div
             ref={expandedRef}
-            className="fixed z-50 bg-gradient-to-br from-white via-gray-50 to-emerald-50 shadow-2xl overflow-hidden"
+            className="fixed z-50 bg-linear-to-br from-white via-gray-50 to-emerald-50 shadow-2xl overflow-hidden"
             style={{ opacity: 0 }}
           >
             {selectedNode && (
@@ -615,8 +615,8 @@ export  function AnimeOrganigrama() {
                           <h2 className="text-4xl lg:text-5xl font-extrabold text-slate-900 mb-3 leading-tight">
                             {selectedNode.name}
                           </h2>
-                          <div className="inline-block px-4 py-1.5 bg-[#1D7D4D]/10 rounded-full mb-4">
-                            <p className="text-sm font-semibold text-[#1D7D4D] uppercase tracking-wide">
+                          <div className="inline-block px-4 py-1.5 bg-primary-green/10 rounded-full mb-4">
+                            <p className="text-sm font-semibold text-primary-green uppercase tracking-wide">
                               {selectedNode.position}
                             </p>
                           </div>
@@ -624,12 +624,12 @@ export  function AnimeOrganigrama() {
 
                         {/* Descripción */}
                         <div 
-                          className="group p-6 rounded-xl bg-white/60 border border-[#1D7D4D]/10 hover:border-[#1D7D4D]/30 transition-transform duration-300 transform hover:-translate-y-1 hover:shadow-2xl opacity-0"
+                          className="group p-6 rounded-xl bg-white/60 border border-primary-green/10 hover:border-primary-green/30 transition-transform duration-300 transform hover:-translate-y-1 hover:shadow-2xl opacity-0"
                           style={{ animation: 'fadeInUp 1s ease 0.4s forwards' }}
                         >
                           <div className="flex items-start gap-4">
-                            <div className="flex-shrink-0">
-                              <div className="w-12 h-12 rounded-lg flex items-center justify-center text-white bg-gradient-to-br from-[#1D7D4D] to-[#25a366] shadow-md">
+                            <div className="shrink-0">
+                              <div className="w-12 h-12 rounded-lg flex items-center justify-center text-white bg-linear-to-br from-primary-green to-secondary-green shadow-md">
                                 <DocumentTextIcon className="w-6 h-6" />
                               </div>
                             </div>
@@ -645,12 +645,12 @@ export  function AnimeOrganigrama() {
                         {/* Información adicional según el nivel */}
                         {selectedNode.level === 0 && (
                           <div 
-                            className="group p-6 rounded-xl bg-white/60 border border-[#25a366]/10 hover:border-[#25a366]/30 transition-transform duration-300 transform hover:-translate-y-1 hover:shadow-2xl opacity-0"
+                            className="group p-6 rounded-xl bg-white/60 border border-secondary-green/10 hover:border-secondary-green/30 transition-transform duration-300 transform hover:-translate-y-1 hover:shadow-2xl opacity-0"
                             style={{ animation: 'fadeInUp 1s ease 0.5s forwards' }}
                           >
                             <div className="flex items-start gap-4">
-                              <div className="flex-shrink-0">
-                                <div className="w-12 h-12 rounded-lg flex items-center justify-center text-white bg-gradient-to-br from-[#25a366] to-[#1D7D4D] shadow-md">
+                              <div className="shrink-0">
+                                <div className="w-12 h-12 rounded-lg flex items-center justify-center text-white bg-linear-to-br from-secondary-green to-primary-green shadow-md">
                                   <UserGroupIcon className="w-6 h-6" />
                                 </div>
                               </div>
@@ -658,19 +658,19 @@ export  function AnimeOrganigrama() {
                                 <h3 className="text-xl font-bold text-slate-900 mb-3">Áreas de Gestión</h3>
                                 <div className="grid grid-cols-2 gap-3">
                                   <div className="flex items-center gap-2 text-slate-700 text-sm">
-                                    <div className="w-2 h-2 rounded-full bg-[#1D7D4D]"></div>
+                                    <div className="w-2 h-2 rounded-full bg-primary-green"></div>
                                     <span>Finanzas</span>
                                   </div>
                                   <div className="flex items-center gap-2 text-slate-700 text-sm">
-                                    <div className="w-2 h-2 rounded-full bg-[#25a366]"></div>
+                                    <div className="w-2 h-2 rounded-full bg-secondary-green"></div>
                                     <span>Logística</span>
                                   </div>
                                   <div className="flex items-center gap-2 text-slate-700 text-sm">
-                                    <div className="w-2 h-2 rounded-full bg-[#1D7D4D]"></div>
+                                    <div className="w-2 h-2 rounded-full bg-primary-green"></div>
                                     <span>Tecnología</span>
                                   </div>
                                   <div className="flex items-center gap-2 text-slate-700 text-sm">
-                                    <div className="w-2 h-2 rounded-full bg-[#25a366]"></div>
+                                    <div className="w-2 h-2 rounded-full bg-secondary-green"></div>
                                     <span>Compras Públicas</span>
                                   </div>
                                 </div>
@@ -681,27 +681,27 @@ export  function AnimeOrganigrama() {
 
                         {selectedNode.level === 1 && selectedNode.id === 1 && (
                           <div 
-                            className="group p-6 rounded-xl bg-white/60 border border-[#25a366]/10 hover:border-[#25a366]/30 transition-transform duration-300 transform hover:-translate-y-1 hover:shadow-2xl opacity-0"
+                            className="group p-6 rounded-xl bg-white/60 border border-secondary-green/10 hover:border-secondary-green/30 transition-transform duration-300 transform hover:-translate-y-1 hover:shadow-2xl opacity-0"
                             style={{ animation: 'fadeInUp 1s ease 0.5s forwards' }}
                           >
                             <div className="flex items-start gap-4">
-                              <div className="flex-shrink-0">
-                                <div className="w-12 h-12 rounded-lg flex items-center justify-center text-white bg-gradient-to-br from-[#25a366] to-[#1D7D4D] shadow-md">
+                              <div className="shrink-0">
+                                <div className="w-12 h-12 rounded-lg flex items-center justify-center text-white bg-linear-to-br from-secondary-green to-primary-green shadow-md">
                                   <UserGroupIcon className="w-6 h-6" />
                                 </div>
                               </div>
                               <div className="flex-1">
                                 <h3 className="text-xl font-bold text-slate-900 mb-3">Secciones del Gabinete</h3>
                                 <div className="space-y-3">
-                                  <div className="flex items-center gap-3 p-3 rounded-lg bg-gradient-to-r from-[#1D7D4D]/5 to-transparent">
-                                    <div className="w-2 h-2 rounded-full bg-[#1D7D4D]"></div>
+                                  <div className="flex items-center gap-3 p-3 rounded-lg bg-linear-to-r from-primary-green/5 to-transparent">
+                                    <div className="w-2 h-2 rounded-full bg-primary-green"></div>
                                     <span className="text-slate-700 font-medium">Ayudantía</span>
                                   </div>
-                                  <div className="flex items-center gap-3 p-3 rounded-lg bg-gradient-to-r from-[#25a366]/5 to-transparent">
-                                    <div className="w-2 h-2 rounded-full bg-[#25a366]"></div>
+                                  <div className="flex items-center gap-3 p-3 rounded-lg bg-linear-to-r from-secondary-green/5 to-transparent">
+                                    <div className="w-2 h-2 rounded-full bg-secondary-green"></div>
                                     <span className="text-slate-700 font-medium">Oficina de Partes</span>
                                   </div>
-                                  <div className="flex items-center gap-3 p-3 rounded-lg bg-gradient-to-r from-[#35AF6F]/5 to-transparent">
+                                  <div className="flex items-center gap-3 p-3 rounded-lg bg-linear-to-r from-[#35AF6F]/5 to-transparent">
                                     <div className="w-2 h-2 rounded-full bg-[#35AF6F]"></div>
                                     <span className="text-slate-700 font-medium">Asesoría Jurídica</span>
                                   </div>
@@ -713,12 +713,12 @@ export  function AnimeOrganigrama() {
 
                         {selectedNode.level === 1 && selectedNode.id !== 1 && (
                           <div 
-                            className="group p-6 rounded-xl bg-white/60 border border-[#25a366]/10 hover:border-[#25a366]/30 transition-transform duration-300 transform hover:-translate-y-1 hover:shadow-2xl opacity-0"
+                            className="group p-6 rounded-xl bg-white/60 border border-secondary-green/10 hover:border-secondary-green/30 transition-transform duration-300 transform hover:-translate-y-1 hover:shadow-2xl opacity-0"
                             style={{ animation: 'fadeInUp 1s ease 0.5s forwards' }}
                           >
                             <div className="flex items-start gap-4">
-                              <div className="flex-shrink-0">
-                                <div className="w-12 h-12 rounded-lg flex items-center justify-center text-white bg-gradient-to-br from-[#25a366] to-[#1D7D4D] shadow-md">
+                              <div className="shrink-0">
+                                <div className="w-12 h-12 rounded-lg flex items-center justify-center text-white bg-linear-to-br from-secondary-green to-primary-green shadow-md">
                                   <ShieldCheckIcon className="w-6 h-6" />
                                 </div>
                               </div>
@@ -734,12 +734,12 @@ export  function AnimeOrganigrama() {
 
                         {selectedNode.level === 2 && (
                           <div 
-                            className="group p-6 rounded-xl bg-white/60 border border-[#25a366]/10 hover:border-[#25a366]/30 transition-transform duration-300 transform hover:-translate-y-1 hover:shadow-2xl opacity-0"
+                            className="group p-6 rounded-xl bg-white/60 border border-secondary-green/10 hover:border-secondary-green/30 transition-transform duration-300 transform hover:-translate-y-1 hover:shadow-2xl opacity-0"
                             style={{ animation: 'fadeInUp 1s ease 0.5s forwards' }}
                           >
                             <div className="flex items-start gap-4">
-                              <div className="flex-shrink-0">
-                                <div className="w-12 h-12 rounded-lg flex items-center justify-center text-white bg-gradient-to-br from-[#25a366] to-[#1D7D4D] shadow-md">
+                              <div className="shrink-0">
+                                <div className="w-12 h-12 rounded-lg flex items-center justify-center text-white bg-linear-to-br from-secondary-green to-primary-green shadow-md">
                                   {selectedNode.id === 4 && <BuildingOfficeIcon className="w-6 h-6" />}
                                   {selectedNode.id === 5 && <ShoppingCartIcon className="w-6 h-6" />}
                                   {selectedNode.id === 6 && <CurrencyDollarIcon className="w-6 h-6" />}
