@@ -1,46 +1,103 @@
 import { useEffect, useRef, useState } from 'react';
+import anime from 'animejs';
 import DirectorParticles from './DirectorParticles';
 import { EyeIcon, ShieldCheckIcon } from '@heroicons/react/24/solid';
 
-export default function Director() {
-  const sectionRef = useRef<HTMLDivElement>(null);
-  const [, setScrollProgress] = useState(0);
+// Reutilizamos el hook de IntersectionObserver para consistencia
+const useIntersectionObserver = (options: IntersectionObserverInit = {}) => {
+  const elementRef = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (sectionRef.current) {
-        const rect = sectionRef.current.getBoundingClientRect();
-        const windowHeight = window.innerHeight;
-        
-        // Cuando la sección entra en viewport, empezar a animar
-        // scrollProgress va de 0 (arriba del viewport) a 1 (completamente visible)
-        if (rect.top < windowHeight && rect.bottom > 0) {
-          const visibleHeight = Math.min(rect.bottom, windowHeight) - Math.max(rect.top, 0);
-          const progress = Math.min(1, visibleHeight / windowHeight);
-          setScrollProgress(progress);
-        } else if (rect.top >= windowHeight) {
-          setScrollProgress(0);
-        } else if (rect.bottom <= 0) {
-          setScrollProgress(1);
-        }
-      }
-    };
+    const observer = new IntersectionObserver(([entry]) => {
+      setIsVisible(entry.isIntersecting);
+    }, { threshold: 0, ...options });
 
-    window.addEventListener('scroll', handleScroll);
-    handleScroll(); // Inicial
-    
-    return () => window.removeEventListener('scroll', handleScroll);
+    if (elementRef.current) {
+      observer.observe(elementRef.current);
+    }
+    return () => observer.disconnect();
   }, []);
 
+  return [elementRef, isVisible] as const;
+};
+
+export default function Director() {
+  // Control maestro de la sección
+  const [sectionRef, sectionVisible] = useIntersectionObserver({ threshold: 0 });
+  
+  // Refs para animaciones
+  const photoRef = useRef(null);
+  const titleRef = useRef(null);
+  const cardsContainerRef = useRef(null);
+  
+  // Estados para evitar re-animaciones internas
+  const [animated, setAnimated] = useState(false);
+
+  // Efecto de Animación Principal
+  useEffect(() => {
+    // 1. Si salimos completamente -> RESET
+    if (!sectionVisible) {
+      setAnimated(false);
+      
+      // Reset estilos inmediatamente
+      anime.set(photoRef.current, { opacity: 0, translateX: -50 });
+      anime.set(titleRef.current, { opacity: 0, translateY: 30 });
+      if (cardsContainerRef.current) {
+        // @ts-ignore
+        anime.set(cardsContainerRef.current.children, { opacity: 0, translateY: 30 });
+      }
+    } 
+    // 2. Si entramos y no se ha animado -> ANIMAR
+    else if (sectionVisible && !animated) {
+      setAnimated(true);
+
+      // Línea de tiempo para coordinar todo
+      const tl = anime.timeline({
+        easing: 'easeOutExpo',
+      });
+
+      tl
+      // A. Foto del Director (Desde la izquierda)
+      .add({
+        targets: photoRef.current,
+        opacity: [0, 1],
+        translateX: [-50, 0],
+        duration: 1200,
+        delay: 200 // Pequeña pausa al inicio
+      })
+      // B. Título y Cargo (Desde abajo)
+      .add({
+        targets: titleRef.current,
+        opacity: [0, 1],
+        translateY: [30, 0],
+        duration: 1000
+      }, '-=800') // Empezar 800ms antes de que termine la foto
+      // C. Cards Misión/Visión (Stagger/Cascada)
+      .add({
+        targets: cardsContainerRef.current?.children, // Hijos del grid
+        opacity: [0, 1],
+        translateY: [30, 0],
+        delay: anime.stagger(200), // 200ms entre cada tarjeta
+        duration: 1000,
+        easing: 'spring(1, 80, 10, 0)' // Mismo efecto rebote que la sección anterior
+      }, '-=600');
+    }
+  }, [sectionVisible, animated]);
+
   return (
-    <section id="quienes-somos" ref={sectionRef} className="py-24 bg-white relative overflow-hidden scroll-mt-24">
+    <section 
+      id="director" 
+      ref={sectionRef} // Ref para el observer maestro
+      className="py-24 bg-white relative overflow-hidden scroll-mt-24"
+    >
       <div className="max-w-[1400px] mx-auto px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 items-center">
           
           {/* Columna izquierda: Foto del Director (2/5) */}
           <div 
+            ref={photoRef}
             className="lg:col-span-2 flex justify-center opacity-0 relative min-h-[600px]"
-            style={{ animation: 'fadeInUp 1s ease forwards' }}
           >
             <DirectorParticles />
           </div>
@@ -49,34 +106,26 @@ export default function Director() {
           <div className="lg:col-span-3 space-y-10">
             
             {/* Nombre y cargo */}
-            <div 
-              className="opacity-0"
-              style={{ animation: 'fadeInUp 1s ease 0.2s forwards' }}
-            >
-             
+            <div ref={titleRef} className="opacity-0">
               <h2 className="text-4xl lg:text-5xl font-extrabold text-slate-900 mb-3 leading-tight">
                 General Inspector<br />
                 María Teresa Araya Jiménez
               </h2>
                <div className="inline-block px-4 py-1.5 bg-primary-green/10 rounded-full mb-4">
-             <p className="text-sm font-semibold text-primary-green uppercase tracking-wide">
+                <p className="text-sm font-semibold text-primary-green uppercase tracking-wide">
                   Director Nacional de Apoyo a las Operaciones Policiales
                 </p>
               </div>
-             
             </div>
 
             {/* Misión y Visión en cards */}
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div ref={cardsContainerRef} className="grid grid-cols-1 md:grid-cols-2 gap-6">
               
               {/* Misión */}
-              <div
-                    className="group p-6 rounded-xl bg-white/60 border border-primary-green/10 hover:border-primary-green/30 transition-transform duration-300 transform hover:-translate-y-1 hover:shadow-2xl opacity-0"
-                style={{ animation: 'fadeInUp 1s ease 0.4s forwards' }}
-              >
+              <div className="group p-6 rounded-xl bg-white/60 border border-primary-green/10 hover:border-primary-green/30 transition-transform duration-300 transform hover:-translate-y-1 hover:shadow-2xl opacity-0">
                 <div className="flex items-start gap-4 mb-3">
                   <div className="shrink-0">
-                    <div className="w-12 h-12 rounded-lg flex items-center justify-center text-white text-xl bg-linear-to-br from-primary-green to-secondary-green shadow-md">
+                    <div className="w-12 h-12 rounded-lg flex items-center justify-center text-white text-xl bg-gradient-to-br from-primary-green to-secondary-green shadow-md group-hover:scale-110 transition-transform duration-300">
                       <ShieldCheckIcon className="w-6 h-6" aria-hidden="true" />
                     </div>
                   </div>
@@ -90,13 +139,10 @@ export default function Director() {
               </div>
 
               {/* Visión */}
-              <div
-                    className="group p-6 rounded-xl bg-white/60 border border-secondary-green/10 hover:border-secondary-green/30 transition-transform duration-300 transform hover:-translate-y-1 hover:shadow-2xl opacity-0"
-                style={{ animation: 'fadeInUp 1s ease 0.5s forwards' }}
-              >
+              <div className="group p-6 rounded-xl bg-white/60 border border-secondary-green/10 hover:border-secondary-green/30 transition-transform duration-300 transform hover:-translate-y-1 hover:shadow-2xl opacity-0">
                 <div className="flex items-start gap-4 mb-3">
                   <div className="shrink-0">
-                    <div className="w-12 h-12 rounded-lg flex items-center justify-center text-white text-xl bg-linear-to-br from-secondary-green to-primary-green shadow-md">
+                    <div className="w-12 h-12 rounded-lg flex items-center justify-center text-white text-xl bg-gradient-to-br from-secondary-green to-primary-green shadow-md group-hover:scale-110 transition-transform duration-300">
                       <EyeIcon className="w-6 h-6" aria-hidden="true" />
                     </div>
                   </div>
@@ -109,9 +155,6 @@ export default function Director() {
                 </div>
               </div>
             </div>
-
-        
-
           </div>
 
         </div>

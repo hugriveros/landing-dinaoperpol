@@ -1,5 +1,25 @@
 import React, { useState, useRef, useEffect } from 'react';
 import anime from 'animejs';
+
+// Hook personalizado de visibilidad
+const useIntersectionObserver = (options: IntersectionObserverInit = {}) => {
+  const elementRef = useRef(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(([entry]) => {
+      setIsVisible(entry.isIntersecting);
+    }, { threshold: 0, ...options });
+
+    if (elementRef.current) {
+      observer.observe(elementRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
+
+  return [elementRef, isVisible] as const;
+};
 import { 
   ShieldCheckIcon, 
   UserGroupIcon, 
@@ -248,118 +268,58 @@ export  function AnimeOrganigrama() {
   const expandedRef = useRef<HTMLDivElement>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
 
+  // Estados y refs para animaciones
+  const [sectionRef, sectionVisible] = useIntersectionObserver({ threshold: 0 });
+  const [animatedHeader, setAnimatedHeader] = useState(false);
+  const [animatedGrid, setAnimatedGrid] = useState(false);
+  const [headerRef, headerVisible] = useIntersectionObserver({ threshold: 0.2 });
+  const [gridContainerRef, gridContainerVisible] = useIntersectionObserver({ threshold: 0.1 });
+  const headerTitleRef = useRef(null);
+
+  // Animación del header
   useEffect(() => {
-    if (!gridRef.current) return;
+    if (!sectionVisible) {
+      anime.set(headerTitleRef.current, { opacity: 0, translateY: 30 });
+      setAnimatedHeader(false);
+    } else if (headerVisible && !animatedHeader) {
+      setAnimatedHeader(true);
+      anime({
+        targets: headerTitleRef.current,
+        translateY: [30, 0],
+        opacity: [0, 1],
+        easing: 'easeOutExpo',
+        duration: 1000,
+        delay: 100
+      });
+    }
+  }, [headerVisible, sectionVisible, animatedHeader]);
 
-    const items = gridRef.current.querySelectorAll('.org-item');
+  // Animación del grid
+  useEffect(() => {
+    if (!sectionVisible) {
+      if(gridRef.current) anime.set(gridRef.current.querySelectorAll('.org-item'), { opacity: 0, scale: 0, translateY: 50 });
+      setAnimatedGrid(false);
+    } else if (gridContainerVisible && !animatedGrid && gridRef.current) {
+      setAnimatedGrid(true);
+      const items = gridRef.current.querySelectorAll('.org-item');
+      anime({
+        targets: items,
+        scale: [0, 1],
+        opacity: [0, 1],
+        translateY: [50, 0],
+        delay: anime.stagger(100, { from: 'center' }),
+        duration: 800,
+        easing: 'easeOutElastic(1, .6)',
+      });
+    }
+  }, [gridContainerVisible, sectionVisible, animatedGrid]);
 
-    // Animación de entrada con stagger
-    anime({
-      targets: items,
-      scale: [0, 1],
-      opacity: [0, 1],
-      translateY: [50, 0],
-      delay: anime.stagger(100, { from: 'center' }),
-      duration: 800,
-      easing: 'easeOutElastic(1, .6)',
-    });
-  }, []);
-
-  const handleExpand = (nodeId: number, event: React.MouseEvent<HTMLDivElement>) => {
-    const clickedElement = event.currentTarget;
-    const rect = clickedElement.getBoundingClientRect();
-
+  const handleExpand = (nodeId: number) => {
     setExpandedNode(nodeId);
-
-    // Animar overlay con efecto de fade y blur
-    setTimeout(() => {
-      if (overlayRef.current) {
-        anime({
-          targets: overlayRef.current,
-          opacity: [0, 1],
-          duration: 500,
-          easing: 'easeOutCubic',
-        });
-      }
-
-      // Animar expansión del card con efecto más dramático
-      if (expandedRef.current) {
-        // Posicionar el elemento expandido en la posición del click
-        expandedRef.current.style.position = 'fixed';
-        expandedRef.current.style.top = `${rect.top}px`;
-        expandedRef.current.style.left = `${rect.left}px`;
-        expandedRef.current.style.width = `${rect.width}px`;
-        expandedRef.current.style.height = `${rect.height}px`;
-        expandedRef.current.style.opacity = '1';
-        expandedRef.current.style.borderRadius = '1rem';
-
-        // Animar a pantalla completa con escala y rotación sutil
-        anime({
-          targets: expandedRef.current,
-          top: 0,
-          left: 0,
-          width: '100vw',
-          height: '100vh',
-          borderRadius: '0px',
-          duration: 700,
-          easing: 'easeInOutQuart',
-        });
-
-        // Animar contenido interno con stagger
-        const content = expandedRef.current.querySelector('.expanded-content');
-        if (content) {
-          const children = content.querySelectorAll('.animate-item');
-          anime({
-            targets: children,
-            opacity: [0, 1],
-            translateY: [40, 0],
-            delay: anime.stagger(80, { start: 400 }),
-            duration: 600,
-            easing: 'easeOutCubic',
-          });
-        }
-      }
-    }, 10);
   };
 
   const handleCollapse = () => {
-    // Animar contenido primero
-    if (expandedRef.current) {
-      const content = expandedRef.current.querySelector('.expanded-content');
-      if (content) {
-        anime({
-          targets: content,
-          opacity: [1, 0],
-          translateY: [0, -20],
-          duration: 300,
-          easing: 'easeInCubic',
-        });
-      }
-
-      // Animar card con efecto de implosión
-      anime({
-        targets: expandedRef.current,
-        scale: [1, 0.95],
-        opacity: [1, 0],
-        duration: 400,
-        delay: 200,
-        easing: 'easeInQuart',
-        complete: () => {
-          setExpandedNode(null);
-        },
-      });
-    }
-
-    // Animar overlay
-    if (overlayRef.current) {
-      anime({
-        targets: overlayRef.current,
-        opacity: [1, 0],
-        duration: 400,
-        delay: 200,
-        easing: 'easeInCubic',
-      });
-    }
+    setExpandedNode(null);
   };
 
   const selectedNode = orgData.find(node => node.id === expandedNode);
@@ -374,8 +334,9 @@ export  function AnimeOrganigrama() {
   return (
     <>
       <style>{lineAnimationStyles}</style>
-      <section className="p-8 ">
-                  <div className="text-center mb-10">
+      <section ref={sectionRef} className="p-8 ">
+        <div ref={headerRef} className="text-center mb-10">
+          <div ref={headerTitleRef} className="opacity-0">
             <div className="text-secondary-green font-semibold text-sm uppercase tracking-[2px] mb-2">
               ESTRUCTURA
             </div>
@@ -386,7 +347,9 @@ export  function AnimeOrganigrama() {
               Representación de la estructura jerárquica de la Dirección y sus unidades.
             </p>
           </div>
+        </div>
       
+      <div ref={gridContainerRef}>
       <div ref={gridRef} className="space-y-12 max-w-7xl mx-auto">
         {/* Nivel 0 - Dirección Nacional */}
         {nodesByLevel[0] && (
@@ -395,7 +358,7 @@ export  function AnimeOrganigrama() {
               <div
                 key={node.id}
                 className="org-item cursor-pointer group"
-                onClick={(e) => handleExpand(node.id, e)}
+                onClick={() => handleExpand(node.id)}
               >
                 <div className="relative overflow-hidden bg-linear-to-br from-[#0F172A] to-slate-900 rounded-2xl shadow-xl hover:shadow-2xl border-2 border-[#0F172A] hover:border-secondary-green/40 transition-all duration-500 hover:-translate-y-2 w-full max-w-[500px]">
                   <div className="absolute inset-0 bg-linear-to-br from-secondary-green/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -437,7 +400,7 @@ export  function AnimeOrganigrama() {
                   
                   <div
                     className="org-item cursor-pointer group"
-                    onClick={(e) => handleExpand(node.id, e)}
+                    onClick={() => handleExpand(node.id)}
                   >
                     <div className="relative overflow-hidden bg-linear-to-br from-[#0F172A] to-slate-900 rounded-xl shadow-lg hover:shadow-xl border border-[#0F172A] hover:border-secondary-green/40 transition-all duration-500 hover:-translate-y-1 h-[280px] flex flex-col">
                       <div className="absolute inset-0 bg-linear-to-br from-secondary-green/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -480,7 +443,7 @@ export  function AnimeOrganigrama() {
                 <div key={node.id} className="relative">
                   <div
                     className="org-item cursor-pointer group"
-                    onClick={(e) => handleExpand(node.id, e)}
+                    onClick={() => handleExpand(node.id)}
                   >
                     <div className="relative overflow-hidden bg-linear-to-br from-[#0F172A] to-slate-900 rounded-lg shadow-md hover:shadow-lg border border-[#0F172A] hover:border-secondary-green/40 transition-all duration-500 hover:-translate-y-1 h-[280px] flex flex-col">
                       <div className="absolute inset-0 bg-linear-to-br from-secondary-green/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -527,7 +490,7 @@ export  function AnimeOrganigrama() {
                   
                   <div
                     className="org-item cursor-pointer group"
-                    onClick={(e) => handleExpand(node.id, e)}
+                    onClick={() => handleExpand(node.id)}
                   >
                     <div className="relative overflow-hidden bg-white rounded-xl shadow-lg hover:shadow-xl border border-gray-200 transition-all duration-500 hover:-translate-y-2">
                       <div className="absolute inset-0 bg-linear-to-br from-primary-green/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -560,6 +523,7 @@ export  function AnimeOrganigrama() {
           </div>
         )}
       </div>
+      </div>
       </section>
 
       {/* Overlay y vista expandida */}
@@ -567,35 +531,42 @@ export  function AnimeOrganigrama() {
         <>
           <div
             ref={overlayRef}
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40"
-            style={{ opacity: 0 }}
+            className="fixed inset-0 bg-slate-50/30 backdrop-blur-md z-40"
+            style={{ animation: 'fadeIn 300ms ease-out' }}
             onClick={handleCollapse}
           />
           <div
             ref={expandedRef}
-            className="fixed z-50 bg-linear-to-br from-white via-gray-50 to-emerald-50 shadow-2xl overflow-hidden"
-            style={{ opacity: 0 }}
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="organigrama-modal-title"
+            className="fixed inset-0 z-50 flex items-center justify-center p-6"
+            style={{ animation: 'fadeIn 300ms ease-out' }}
           >
+            <div className="relative w-full max-w-5xl mx-auto bg-white rounded-3xl shadow-2xl overflow-hidden border border-slate-200"
+              style={{ animation: 'slideUp 300ms ease-out' }}
+            >
             {selectedNode && (
-              <div className="expanded-content h-full overflow-y-auto bg-white">
+              <div className="expanded-content h-full overflow-y-auto">
                 {/* Botón cerrar */}
                 <button
                   onClick={handleCollapse}
-                  className="fixed top-6 right-6 w-12 h-12 rounded-full bg-white/90 backdrop-blur-sm hover:bg-white shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center group hover:rotate-90 z-50"
+                  aria-label="Cerrar detalle"
+                  className="absolute top-4 right-4 z-30 w-10 h-10 bg-white/90 hover:bg-white rounded-full flex items-center justify-center text-slate-700 transition-transform hover:scale-105 border border-slate-200 shadow-sm"
                 >
-                  <svg className="w-6 h-6 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </button>
 
                 {/* Sección estilo Director */}
-                <section className="py-24 bg-white relative overflow-hidden">
-                  <div className="max-w-[1400px] mx-auto px-8 relative z-10">
-                    <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 items-center">
+                <section className="py-16 bg-linear-to-br from-gray-50 to-white relative overflow-hidden">
+                  <div className="max-w-[1200px] mx-auto px-8 relative z-10">
+                    <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 items-center">
                       
                       {/* Columna izquierda: Foto del Director (2/5) */}
                       <div 
-                        className="lg:col-span-2 flex justify-center opacity-0 relative min-h-[600px]"
+                        className="lg:col-span-2 flex justify-center opacity-0 relative min-h-[500px]"
                         style={{ animation: 'fadeInUp 1s ease forwards' }}
                       >
                         <OrganigramaParticles 
@@ -605,18 +576,18 @@ export  function AnimeOrganigrama() {
                       </div>
 
                       {/* Columna derecha: Información (3/5) */}
-                      <div className="lg:col-span-3 space-y-10">
+                      <div className="lg:col-span-3 space-y-6">
                         
                         {/* Nombre y cargo */}
                         <div 
                           className="opacity-0"
                           style={{ animation: 'fadeInUp 1s ease 0.2s forwards' }}
                         >
-                          <h2 className="text-4xl lg:text-5xl font-extrabold text-slate-900 mb-3 leading-tight">
+                          <h2 id="organigrama-modal-title" className="text-3xl lg:text-4xl font-extrabold text-slate-900 mb-2 leading-tight">
                             {selectedNode.name}
                           </h2>
-                          <div className="inline-block px-4 py-1.5 bg-primary-green/10 rounded-full mb-4">
-                            <p className="text-sm font-semibold text-primary-green uppercase tracking-wide">
+                          <div className="inline-block px-4 py-1.5 bg-primary-green/10 rounded-full">
+                            <p className="text-xs font-semibold text-primary-green uppercase tracking-wide">
                               {selectedNode.position}
                             </p>
                           </div>
@@ -624,8 +595,8 @@ export  function AnimeOrganigrama() {
 
                         {/* Descripción */}
                         <div 
-                          className="group p-6 rounded-xl bg-white/60 border border-primary-green/10 hover:border-primary-green/30 transition-transform duration-300 transform hover:-translate-y-1 hover:shadow-2xl opacity-0"
-                          style={{ animation: 'fadeInUp 1s ease 0.4s forwards' }}
+                          className="p-6 rounded-xl bg-white border border-gray-200 shadow-md hover:shadow-lg transition-all duration-300 opacity-0"
+                          style={{ animation: 'fadeInUp 1s ease 0.3s forwards' }}
                         >
                           <div className="flex items-start gap-4">
                             <div className="shrink-0">
@@ -634,7 +605,7 @@ export  function AnimeOrganigrama() {
                               </div>
                             </div>
                             <div className="flex-1">
-                              <h3 className="text-xl font-bold text-slate-900 mb-2">Descripción</h3>
+                              <h3 className="text-lg font-bold text-slate-900 mb-2">Alta Repartición</h3>
                               <p className="text-slate-600 leading-relaxed text-sm">
                                 {selectedNode.description}
                               </p>
@@ -645,18 +616,18 @@ export  function AnimeOrganigrama() {
                         {/* Información adicional según el nivel */}
                         {selectedNode.level === 0 && (
                           <div 
-                            className="group p-6 rounded-xl bg-white/60 border border-secondary-green/10 hover:border-secondary-green/30 transition-transform duration-300 transform hover:-translate-y-1 hover:shadow-2xl opacity-0"
-                            style={{ animation: 'fadeInUp 1s ease 0.5s forwards' }}
+                            className="p-6 rounded-xl bg-white border border-gray-200 shadow-md hover:shadow-lg transition-all duration-300 opacity-0"
+                            style={{ animation: 'fadeInUp 1s ease 0.4s forwards' }}
                           >
                             <div className="flex items-start gap-4">
                               <div className="shrink-0">
                                 <div className="w-12 h-12 rounded-lg flex items-center justify-center text-white bg-linear-to-br from-secondary-green to-primary-green shadow-md">
                                   <UserGroupIcon className="w-6 h-6" />
-                                </div>
                               </div>
-                              <div className="flex-1">
-                                <h3 className="text-xl font-bold text-slate-900 mb-3">Áreas de Gestión</h3>
-                                <div className="grid grid-cols-2 gap-3">
+                            </div>
+                            <div className="flex-1">
+                              <h3 className="text-lg font-bold text-slate-900 mb-3">Áreas de Gestión</h3>
+                              <div className="grid grid-cols-2 gap-2">
                                   <div className="flex items-center gap-2 text-slate-700 text-sm">
                                     <div className="w-2 h-2 rounded-full bg-primary-green"></div>
                                     <span>Finanzas</span>
@@ -681,18 +652,18 @@ export  function AnimeOrganigrama() {
 
                         {selectedNode.level === 1 && selectedNode.id === 1 && (
                           <div 
-                            className="group p-6 rounded-xl bg-white/60 border border-secondary-green/10 hover:border-secondary-green/30 transition-transform duration-300 transform hover:-translate-y-1 hover:shadow-2xl opacity-0"
-                            style={{ animation: 'fadeInUp 1s ease 0.5s forwards' }}
+                            className="p-6 rounded-xl bg-white border border-gray-200 shadow-md hover:shadow-lg transition-all duration-300 opacity-0"
+                            style={{ animation: 'fadeInUp 1s ease 0.4s forwards' }}
                           >
                             <div className="flex items-start gap-4">
                               <div className="shrink-0">
                                 <div className="w-12 h-12 rounded-lg flex items-center justify-center text-white bg-linear-to-br from-secondary-green to-primary-green shadow-md">
                                   <UserGroupIcon className="w-6 h-6" />
-                                </div>
                               </div>
-                              <div className="flex-1">
-                                <h3 className="text-xl font-bold text-slate-900 mb-3">Secciones del Gabinete</h3>
-                                <div className="space-y-3">
+                            </div>
+                            <div className="flex-1">
+                              <h3 className="text-lg font-bold text-slate-900 mb-3">Secciones del Gabinete</h3>
+                              <div className="space-y-2">
                                   <div className="flex items-center gap-3 p-3 rounded-lg bg-linear-to-r from-primary-green/5 to-transparent">
                                     <div className="w-2 h-2 rounded-full bg-primary-green"></div>
                                     <span className="text-slate-700 font-medium">Ayudantía</span>
@@ -713,8 +684,8 @@ export  function AnimeOrganigrama() {
 
                         {selectedNode.level === 1 && selectedNode.id !== 1 && (
                           <div 
-                            className="group p-6 rounded-xl bg-white/60 border border-secondary-green/10 hover:border-secondary-green/30 transition-transform duration-300 transform hover:-translate-y-1 hover:shadow-2xl opacity-0"
-                            style={{ animation: 'fadeInUp 1s ease 0.5s forwards' }}
+                            className="p-6 rounded-xl bg-white border border-gray-200 shadow-md hover:shadow-lg transition-all duration-300 opacity-0"
+                            style={{ animation: 'fadeInUp 1s ease 0.4s forwards' }}
                           >
                             <div className="flex items-start gap-4">
                               <div className="shrink-0">
@@ -734,8 +705,8 @@ export  function AnimeOrganigrama() {
 
                         {selectedNode.level === 2 && (
                           <div 
-                            className="group p-6 rounded-xl bg-white/60 border border-secondary-green/10 hover:border-secondary-green/30 transition-transform duration-300 transform hover:-translate-y-1 hover:shadow-2xl opacity-0"
-                            style={{ animation: 'fadeInUp 1s ease 0.5s forwards' }}
+                            className="p-6 rounded-xl bg-white border border-gray-200 shadow-md hover:shadow-lg transition-all duration-300 opacity-0"
+                            style={{ animation: 'fadeInUp 1s ease 0.4s forwards' }}
                           >
                             <div className="flex items-start gap-4">
                               <div className="shrink-0">
@@ -763,8 +734,34 @@ export  function AnimeOrganigrama() {
                 </section>
               </div>
             )}
+            </div>
           </div>
         </>
+      )}
+
+      {/* Estilos CSS para animaciones del modal */}
+      {expandedNode !== null && (
+        <style>{`
+          @keyframes fadeIn {
+            from {
+              opacity: 0;
+            }
+            to {
+              opacity: 1;
+            }
+          }
+
+          @keyframes slideUp {
+            from {
+              opacity: 0;
+              transform: translateY(20px) scale(0.95);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0) scale(1);
+            }
+          }
+        `}</style>
       )}
     </>
   );
