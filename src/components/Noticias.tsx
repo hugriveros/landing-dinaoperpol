@@ -361,14 +361,14 @@ export default function Noticias() {
               role="dialog" 
               aria-modal="true" 
               aria-labelledby="noticias-modal-title" 
-              className="fixed inset-0 bg-slate-50/30 backdrop-blur-md z-999 flex items-center justify-center p-6"
+              className="fixed inset-0 bg-slate-50/30 backdrop-blur-md z-999 flex items-center justify-center p-4 md:p-6"
               style={{
                 animation: 'fadeIn 300ms ease-out'
               }}
             >
               <div 
                 ref={modalRef} 
-                className="relative w-full max-w-5xl mx-auto bg-white rounded-3xl shadow-2xl overflow-hidden border border-slate-200"
+                className="relative w-full max-w-5xl mx-auto bg-white rounded-2xl md:rounded-3xl shadow-2xl overflow-hidden border border-slate-200 max-h-[90vh] overflow-y-auto"
                 style={{
                   animation: 'slideUp 300ms ease-out'
                 }}
@@ -398,21 +398,21 @@ export default function Noticias() {
                   </div>
 
                   {/* Contenido */}
-                  <div className="p-6 md:p-10 lg:p-12 bg-white text-slate-900">
+                  <div className="p-4 md:p-10 lg:p-12 bg-white text-slate-900">
                     <div className="flex items-center justify-between mb-4">
-                      <div className="flex items-center gap-4">
-                        <span className="inline-block px-3 py-2 bg-secondary-green/10 text-secondary-green rounded-full text-sm font-bold border border-secondary-green/20">
+                      <div className="flex items-center gap-2 md:gap-4">
+                        <span className="inline-block px-3 py-2 bg-secondary-green/10 text-secondary-green rounded-full text-xs md:text-sm font-bold border border-secondary-green/20">
                           {noticias[currentIndex].categoria}
                         </span>
-                        <span className="text-slate-500 text-sm">{noticias[currentIndex].fecha}</span>
+                        <span className="text-slate-500 text-xs md:text-sm hidden sm:block">{noticias[currentIndex].fecha}</span>
                       </div>
                     </div>
 
-                    <h2 id="noticias-modal-title" className="text-slate-900 font-extrabold text-3xl md:text-4xl mb-4 leading-tight">
+                    <h2 id="noticias-modal-title" className="text-slate-900 font-extrabold text-2xl md:text-3xl lg:text-4xl mb-4 leading-tight">
                       {noticias[currentIndex].titulo}
                     </h2>
 
-                    <p className="text-slate-700 text-base md:text-lg leading-relaxed mb-6">
+                    <p className="text-slate-700 text-sm md:text-base lg:text-lg leading-relaxed mb-4 md:mb-6">
                       {noticias[currentIndex].descripcion}
                     </p>
 

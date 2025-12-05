@@ -540,10 +540,10 @@ export  function AnimeOrganigrama() {
             role="dialog"
             aria-modal="true"
             aria-labelledby="organigrama-modal-title"
-            className="fixed inset-0 z-999 flex items-center justify-center p-6"
+            className="fixed inset-0 z-999 flex items-center justify-center p-4 md:p-6"
             style={{ animation: 'fadeIn 300ms ease-out' }}
           >
-            <div className="relative w-full max-w-5xl mx-auto bg-white rounded-3xl shadow-2xl overflow-hidden border border-slate-200"
+            <div className="relative w-full max-w-5xl mx-auto bg-white rounded-2xl md:rounded-3xl shadow-2xl overflow-y-auto max-h-[90vh] border border-slate-200"
               style={{ animation: 'slideUp 300ms ease-out' }}
             >
             {selectedNode && (
@@ -560,13 +560,13 @@ export  function AnimeOrganigrama() {
                 </button>
 
                 {/* Sección estilo Director */}
-                <section className="py-16 bg-linear-to-br from-gray-50 to-white relative overflow-hidden">
-                  <div className="max-w-[1200px] mx-auto px-8 relative z-10">
-                    <div className="grid grid-cols-1 lg:grid-cols-5 gap-8 items-center">
+                <section className="py-8 md:py-16 bg-linear-to-br from-gray-50 to-white relative overflow-hidden">
+                  <div className="max-w-[1200px] mx-auto px-4 md:px-8 relative z-10">
+                    <div className="grid grid-cols-1 lg:grid-cols-5 gap-4 md:gap-8 items-center">
                       
                       {/* Columna izquierda: Foto del Director (2/5) */}
                       <div 
-                        className="lg:col-span-2 flex justify-center opacity-0 relative min-h-[500px]"
+                        className="lg:col-span-2 flex justify-center opacity-0 relative min-h-[300px] md:min-h-[500px]"
                         style={{ animation: 'fadeInUp 1s ease forwards' }}
                       >
                         <OrganigramaParticles 
@@ -583,7 +583,7 @@ export  function AnimeOrganigrama() {
                           className="opacity-0"
                           style={{ animation: 'fadeInUp 1s ease 0.2s forwards' }}
                         >
-                          <h2 id="organigrama-modal-title" className="text-3xl lg:text-4xl font-extrabold text-slate-900 mb-2 leading-tight">
+                          <h2 id="organigrama-modal-title" className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-slate-900 mb-2 leading-tight">
                             {selectedNode.name}
                           </h2>
                           <div className="inline-block px-4 py-1.5 bg-primary-green/10 rounded-full">
