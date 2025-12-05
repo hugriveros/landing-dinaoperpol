@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import anime from 'animejs';
 
 // Hook personalizado de visibilidad
@@ -335,7 +336,7 @@ export  function AnimeOrganigrama() {
     <>
       <style>{lineAnimationStyles}</style>
       <section ref={sectionRef} className="p-8 ">
-        <div ref={headerRef} className="text-center mb-10">
+        <div ref={headerRef} className="text-center mb-24">
           <div ref={headerTitleRef} className="opacity-0">
             <div className="text-secondary-green font-semibold text-sm uppercase tracking-[2px] mb-2">
               ESTRUCTURA
@@ -397,7 +398,6 @@ export  function AnimeOrganigrama() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 max-w-6xl mx-auto">
               {nodesByLevel[1].map((node) => (
                 <div key={node.id} className="relative">
-                  
                   <div
                     className="org-item cursor-pointer group"
                     onClick={() => handleExpand(node.id)}
@@ -526,12 +526,12 @@ export  function AnimeOrganigrama() {
       </div>
       </section>
 
-      {/* Overlay y vista expandida */}
-      {expandedNode !== null && (
+      {/* Overlay y vista expandida - usando portal para escapar del overflow-hidden */}
+      {expandedNode !== null && typeof document !== 'undefined' && createPortal(
         <>
           <div
             ref={overlayRef}
-            className="fixed inset-0 bg-slate-50/30 backdrop-blur-md z-40"
+            className="fixed inset-0 bg-slate-50/30 backdrop-blur-md z-999"
             style={{ animation: 'fadeIn 300ms ease-out' }}
             onClick={handleCollapse}
           />
@@ -540,7 +540,7 @@ export  function AnimeOrganigrama() {
             role="dialog"
             aria-modal="true"
             aria-labelledby="organigrama-modal-title"
-            className="fixed inset-0 z-50 flex items-center justify-center p-6"
+            className="fixed inset-0 z-999 flex items-center justify-center p-6"
             style={{ animation: 'fadeIn 300ms ease-out' }}
           >
             <div className="relative w-full max-w-5xl mx-auto bg-white rounded-3xl shadow-2xl overflow-hidden border border-slate-200"
@@ -552,7 +552,7 @@ export  function AnimeOrganigrama() {
                 <button
                   onClick={handleCollapse}
                   aria-label="Cerrar detalle"
-                  className="absolute top-4 right-4 z-30 w-10 h-10 bg-white/90 hover:bg-white rounded-full flex items-center justify-center text-slate-700 transition-transform hover:scale-105 border border-slate-200 shadow-sm"
+                  className="absolute top-4 right-4 z-50 w-10 h-10 bg-white/90 hover:bg-white rounded-full flex items-center justify-center text-slate-700 transition-transform hover:scale-105 border border-slate-200 shadow-sm"
                 >
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M6 18L18 6M6 6l12 12" />
@@ -736,32 +736,31 @@ export  function AnimeOrganigrama() {
             )}
             </div>
           </div>
-        </>
-      )}
 
-      {/* Estilos CSS para animaciones del modal */}
-      {expandedNode !== null && (
-        <style>{`
-          @keyframes fadeIn {
-            from {
-              opacity: 0;
+          {/* Estilos CSS para animaciones del modal */}
+          <style>{`
+            @keyframes fadeIn {
+              from {
+                opacity: 0;
+              }
+              to {
+                opacity: 1;
+              }
             }
-            to {
-              opacity: 1;
-            }
-          }
 
-          @keyframes slideUp {
-            from {
-              opacity: 0;
-              transform: translateY(20px) scale(0.95);
+            @keyframes slideUp {
+              from {
+                opacity: 0;
+                transform: translateY(20px) scale(0.95);
+              }
+              to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+              }
             }
-            to {
-              opacity: 1;
-              transform: translateY(0) scale(1);
-            }
-          }
-        `}</style>
+          `}</style>
+        </>,
+        document.body
       )}
     </>
   );

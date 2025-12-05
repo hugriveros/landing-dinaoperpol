@@ -162,16 +162,14 @@ export default function QuienesSomos() {
     // REFERENCIA PRINCIPAL DE LA SECCIÓN PARA EL RESET
     <section ref={sectionRef} id="quienes-somos" className="py-24 bg-light-bg overflow-hidden relative">
       <div className="max-w-[1400px] mx-auto px-8 relative z-10">
-        
         {/* --- SECCIÓN 1: OBJETIVOS --- */}
-        <div ref={header1Ref} className="text-center mb-16">
+        <div ref={header1Ref} className="text-center mb-32">
             <div ref={title1Ref} className="opacity-0">
                 <div className="text-secondary-green font-semibold text-sm uppercase tracking-[2px] mb-2">NUESTRA MISIÓN</div>
-                <h2 className="text-4xl md:text-5xl font-extrabold text-text-dark mb-4">Objetivos de la Dirección</h2>
+                <h2 className="text-4xl md:text-5xl font-extrabold text-text-dark ">Objetivos de la Dirección</h2>
             </div>
         </div>
-
-        <div ref={grid1Ref}>
+        <div ref={grid1Ref} >
             <div ref={grid1ItemsRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {objetivos.map((objetivo) => (
                 <div key={objetivo.id} className="opacity-0 bg-white p-8 rounded-2xl text-center border border-gray-100 hover:border-secondary-green/30 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-2 group">
@@ -184,10 +182,9 @@ export default function QuienesSomos() {
             ))}
             </div>
         </div>
-
         {/* --- SECCIÓN 2: SERVICIOS --- */}
-        <div className="mt-24">
-            <div ref={header2Ref} className="text-center mb-12 relative">
+        <div className="mt-46">
+            <div ref={header2Ref} className="text-center mb-32 relative">
                  <div ref={title2Ref} className="opacity-0">
                     <div className="text-secondary-green font-semibold text-sm uppercase tracking-[2px] mb-2">NUESTROS SERVICIOS</div>
                     <h2 className="text-4xl md:text-5xl font-extrabold text-text-dark mb-4 relative inline-block">Áreas de Gestión</h2>
@@ -211,12 +208,9 @@ export default function QuienesSomos() {
                 </div>
             </div>
         </div>
-
         {/* --- ORGANIGRAMA --- */}
-        <div className="mt-24">
-            
-                 <AnimeOrganigrama />
-           
+        <div className="mt-34">
+          <AnimeOrganigrama />
         </div>
 
       </div>

@@ -29,7 +29,6 @@ export default function DirectorParticles() {
       particle.className = 'particle absolute';
       particle.style.left = '50%';
       particle.style.top = '50%';
-      
       // Alternar entre círculo y SVG personalizado
       if (i % 2 === 0) {
         // Círculo
@@ -40,7 +39,6 @@ export default function DirectorParticles() {
         particle.className += ' w-5 h-5';
         particle.innerHTML = customSVG;
       }
-      
       container.appendChild(particle);
     }
 
@@ -88,7 +86,6 @@ export default function DirectorParticles() {
             maskSize: '100% 100%'
           }}
         />
-        
         {/* Sistema de partículas detrás de la imagen */}
         <div ref={containerRef} className="absolute inset-0 flex items-center justify-center" />
       </div>

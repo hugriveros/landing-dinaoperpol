@@ -52,7 +52,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${
+    <nav className={`fixed top-0 w-full z-40 transition-all duration-300 ${
       scrolled ? 'py-2 shadow-lg' : 'py-4 shadow-md'
     }`} style={{ 
       background: 'rgba(255, 255, 255, 0.98)',

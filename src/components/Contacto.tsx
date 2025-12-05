@@ -26,7 +26,6 @@ export default function Contacto() {
     <section id="contacto" className="pt-60 pb-40 min-h-[120vh] h-screen scroll-mt-25 bg-linear-to-b from-white via-gray-50 to-carabinero-green-50 relative overflow-hidden">
       {/* Elementos decorativos */}
       <div className="absolute top-20 right-0 w-96 h-96 bg-carabinero-gold-200 rounded-full blur-3xl opacity-20"></div>
-      
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center mb-16">
           <span className="inline-block px-4 py-1 bg-carabinero-green-100 text-carabinero-green-700 rounded-full text-sm font-semibold mb-4">
@@ -75,7 +74,7 @@ export default function Contacto() {
               </div>
             </div>
 
-            <div className="mt-8 bg-gradient-to-br from-carabinero-green-700 to-carabinero-green-800 p-6 rounded-xl shadow-xl">
+            <div className="mt-8 bg-linear-to-br from-carabinero-green-700 to-carabinero-green-800 p-6 rounded-xl shadow-xl">
               <h4 className="font-semibold text-carabinero-gold-300 mb-4">Síguenos en Redes Sociales</h4>
               <div className="flex space-x-4">
                 <a href="#" className="bg-white/10 backdrop-blur-sm p-3 rounded-lg hover:bg-white/20 transition-all hover:scale-110 transform">
@@ -159,7 +158,7 @@ export default function Contacto() {
               </div>
               <button
                 type="submit"
-                className="w-full bg-gradient-to-r from-carabinero-green-700 to-carabinero-green-800 text-white py-4 rounded-lg font-bold hover:from-carabinero-green-600 hover:to-carabinero-green-700 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 transform"
+                className="w-full bg-linear-to-r from-carabinero-green-700 to-carabinero-green-800 text-white py-4 rounded-lg font-bold hover:from-carabinero-green-600 hover:to-carabinero-green-700 transition-all duration-300 shadow-lg hover:shadow-xl hover:scale-105 transform"
               >
                 Enviar Mensaje
               </button>

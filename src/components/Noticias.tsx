@@ -238,10 +238,10 @@ export default function Noticias() {
   }, []);
 
   return (
-    <section ref={sectionRef} id="noticias" className="pt-36 pb-40 bg-gradient-to-b from-white to-gray-50">
-      <div className="max-w-[1400px] mx-auto px-8">
+    <section ref={sectionRef} id="noticias" className="pt-36 pb-40 bg-linear-to-b from-white to-gray-50">
+      <div className="max-w-[1400px] mx-auto px-8 mb-6">
         {/* Header */}
-        <div ref={headerRef} className="text-center mb-16">
+        <div ref={headerRef} className="text-center mb-10">
           <div ref={headerTitleRef} className="opacity-0">
             <div className="text-secondary-green font-semibold text-sm uppercase tracking-[2px] mb-2">
               ACTUALIZACIONES
@@ -298,8 +298,8 @@ export default function Noticias() {
             >
               {/* Fondo con gradiente e icon */}
               <div className="absolute inset-0 flex items-center justify-center overflow-hidden">
-                <div className="absolute inset-0 bg-gradient-to-br from-primary-green via-secondary-green to-[#35AF6F] z-0" />
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/40 to-black/80 z-10" />
+                <div className="absolute inset-0 bg-linear-to-br from-primary-green via-secondary-green to-[#35AF6F] z-0" />
+                <div className="absolute inset-0 bg-linear-to-b from-transparent via-black/40 to-black/80 z-10" />
                 <span className="relative z-20 text-[120px] md:text-[180px] drop-shadow-2xl opacity-85">
                   {noticias[currentIndex].icon}
                 </span>
@@ -361,7 +361,7 @@ export default function Noticias() {
               role="dialog" 
               aria-modal="true" 
               aria-labelledby="noticias-modal-title" 
-              className="fixed inset-0 bg-slate-50/30 backdrop-blur-md z-50 flex items-center justify-center p-6"
+              className="fixed inset-0 bg-slate-50/30 backdrop-blur-md z-999 flex items-center justify-center p-6"
               style={{
                 animation: 'fadeIn 300ms ease-out'
               }}
@@ -377,7 +377,7 @@ export default function Noticias() {
                   ref={closeBtnRef}
                   onClick={handleCloseDetail}
                   aria-label="Cerrar detalle"
-                  className="absolute top-4 right-4 z-30 w-10 h-10 bg-white/90 hover:bg-white rounded-full flex items-center justify-center text-slate-700 transition-transform hover:scale-105 border border-slate-200 shadow-sm"
+                  className="absolute top-4 right-4 z-50 w-10 h-10 bg-white/90 hover:bg-white rounded-full flex items-center justify-center text-slate-700 transition-transform hover:scale-105 border border-slate-200 shadow-sm"
                 >
                   <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M6 18L18 6M6 6l12 12" />
@@ -386,7 +386,7 @@ export default function Noticias() {
 
                 <div className="md:grid md:grid-cols-2">
                   {/* Visual */}
-                  <div className="relative h-56 md:h-auto md:min-h-[320px] flex items-center justify-center bg-gradient-to-br from-primary-green via-secondary-green to-[#35AF6F]">
+                  <div className="relative h-56 md:h-auto md:min-h-80 flex items-center justify-center bg-linear-to-br from-primary-green via-secondary-green to-[#35AF6F]">
                     <div className="relative z-10 text-[96px] md:text-[120px] drop-shadow-sm text-white">
                       {noticias[currentIndex].icon}
                     </div>
@@ -418,7 +418,7 @@ export default function Noticias() {
 
                     <div className="space-y-6 pt-4 border-t border-slate-100 mt-6">
                       <div className="flex items-start gap-4">
-                        <div className="w-12 h-12 shrink-0 rounded-xl flex items-center justify-center bg-gradient-to-br from-primary-green via-secondary-green to-[#35AF6F] shadow-sm">
+                        <div className="w-12 h-12 shrink-0 rounded-xl flex items-center justify-center bg-linear-to-br from-primary-green via-secondary-green to-[#35AF6F] shadow-sm">
                           <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
                           </svg>
@@ -432,7 +432,7 @@ export default function Noticias() {
                       </div>
 
                       <div className="flex items-start gap-4">
-                        <div className="w-12 h-12 shrink-0 rounded-xl flex items-center justify-center bg-gradient-to-br from-primary-green via-secondary-green to-[#35AF6F] shadow-sm">
+                        <div className="w-12 h-12 shrink-0 rounded-xl flex items-center justify-center bg-linear-to-br from-primary-green via-secondary-green to-[#35AF6F] shadow-sm">
                           <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                           </svg>

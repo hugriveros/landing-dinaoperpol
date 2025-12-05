@@ -25,12 +25,10 @@ const useIntersectionObserver = (options: IntersectionObserverInit = {}) => {
 export default function Director() {
   // Control maestro de la sección
   const [sectionRef, sectionVisible] = useIntersectionObserver({ threshold: 0 });
-  
   // Refs para animaciones
-  const photoRef = useRef(null);
-  const titleRef = useRef(null);
-  const cardsContainerRef = useRef(null);
-  
+  const photoRef = useRef<HTMLDivElement>(null);
+  const titleRef = useRef<HTMLDivElement>(null);
+  const cardsContainerRef = useRef<HTMLDivElement>(null);
   // Estados para evitar re-animaciones internas
   const [animated, setAnimated] = useState(false);
 
@@ -39,7 +37,6 @@ export default function Director() {
     // 1. Si salimos completamente -> RESET
     if (!sectionVisible) {
       setAnimated(false);
-      
       // Reset estilos inmediatamente
       anime.set(photoRef.current, { opacity: 0, translateX: -50 });
       anime.set(titleRef.current, { opacity: 0, translateY: 30 });
@@ -47,7 +44,7 @@ export default function Director() {
         // @ts-ignore
         anime.set(cardsContainerRef.current.children, { opacity: 0, translateY: 30 });
       }
-    } 
+    }
     // 2. Si entramos y no se ha animado -> ANIMAR
     else if (sectionVisible && !animated) {
       setAnimated(true);
@@ -74,8 +71,8 @@ export default function Director() {
         duration: 1000
       }, '-=800') // Empezar 800ms antes de que termine la foto
       // C. Cards Misión/Visión (Stagger/Cascada)
-      .add({
-        targets: cardsContainerRef.current?.children, // Hijos del grid
+      .add({ 
+        targets: cardsContainerRef.current ? Array.from(cardsContainerRef.current.children) : [], // Hijos del grid
         opacity: [0, 1],
         translateY: [30, 0],
         delay: anime.stagger(200), // 200ms entre cada tarjeta
@@ -86,16 +83,15 @@ export default function Director() {
   }, [sectionVisible, animated]);
 
   return (
-    <section 
-      id="director" 
+    <section
+      id="director"
       ref={sectionRef} // Ref para el observer maestro
       className="py-24 bg-white relative overflow-hidden scroll-mt-24"
     >
       <div className="max-w-[1400px] mx-auto px-8 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-5 gap-12 items-center">
-          
           {/* Columna izquierda: Foto del Director (2/5) */}
-          <div 
+          <div
             ref={photoRef}
             className="lg:col-span-2 flex justify-center opacity-0 relative min-h-[600px]"
           >
@@ -104,14 +100,14 @@ export default function Director() {
 
           {/* Columna derecha: Información (3/5) */}
           <div className="lg:col-span-3 space-y-10">
-            
+
             {/* Nombre y cargo */}
             <div ref={titleRef} className="opacity-0">
               <h2 className="text-4xl lg:text-5xl font-extrabold text-slate-900 mb-3 leading-tight">
                 General Inspector<br />
                 María Teresa Araya Jiménez
               </h2>
-               <div className="inline-block px-4 py-1.5 bg-primary-green/10 rounded-full mb-4">
+                <div className="inline-block px-4 py-1.5 bg-primary-green/10 rounded-full mb-4">
                 <p className="text-sm font-semibold text-primary-green uppercase tracking-wide">
                   Director Nacional de Apoyo a las Operaciones Policiales
                 </p>
@@ -120,7 +116,6 @@ export default function Director() {
 
             {/* Misión y Visión en cards */}
             <div ref={cardsContainerRef} className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              
               {/* Misión */}
               <div className="group p-6 rounded-xl bg-white/60 border border-primary-green/10 hover:border-primary-green/30 transition-transform duration-300 transform hover:-translate-y-1 hover:shadow-2xl opacity-0">
                 <div className="flex items-start gap-4 mb-3">
