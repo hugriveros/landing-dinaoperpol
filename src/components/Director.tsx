@@ -71,7 +71,7 @@ export default function Director() {
         duration: 1000
       }, '-=800') // Empezar 800ms antes de que termine la foto
       // C. Cards Misión/Visión (Stagger/Cascada)
-      .add({ 
+      .add({
         targets: cardsContainerRef.current ? Array.from(cardsContainerRef.current.children) : [], // Hijos del grid
         opacity: [0, 1],
         translateY: [30, 0],

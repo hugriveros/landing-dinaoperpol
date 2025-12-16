@@ -19,14 +19,13 @@ export default function Footer() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                     </svg>
                   </div>
-                  <h3 className="text-2xl font-bold text-white">DINAOPERPOL</h3>
+                  <h3 className="text-2xl font-bold text-white">DGEA</h3>
                 </div>
                 <p className="text-gray-300 leading-relaxed text-sm mb-6">
                   Dirección Nacional de Apoyo a las Operaciones Policiales. Comprometidos con la seguridad, 
                   el orden público y el bienestar de todos los ciudadanos a través de operaciones 
                   coordinadas y eficientes.
                 </p>
-                
                 {/* Redes sociales con heroicons */}
                 <div className="space-y-3 mb-6">
                   <h4 className="text-sm font-semibold text-gray-400 uppercase tracking-wider">Síguenos</h4>
@@ -38,7 +37,6 @@ export default function Footer() {
                     >
                       <svg className="w-5 h-5 text-gray-300 group-hover:text-white transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.5c2.07 0 2.32.01 3.14.05.78.04 1.31.17 1.62.28.41.16.7.35 1.01.66.31.31.5.6.66 1.01.11.31.24.84.28 1.62.04.82.05 1.07.05 3.14s-.01 2.32-.05 3.14c-.04.78-.17 1.31-.28 1.62-.16.41-.35.7-.66 1.01-.31.31-.6.5-1.01.66-.31.11-.84.24-1.62.28-.82.04-1.07.05-3.14.05s-2.32-.01-3.14-.05c-.78-.04-1.31-.17-1.62-.28-.41-.16-.7-.35-1.01-.66-.31-.31-.5-.6-.66-1.01-.11-.31-.24-.84-.28-1.62-.04-.82-.05-1.07-.05-3.14s.01-2.32.05-3.14c.04-.78.17-1.31.28-1.62.16-.41.35-.7.66-1.01.31-.31.6-.5 1.01-.66.31-.11.84-.24 1.62-.28.82-.04 1.07-.05 3.14-.05M12 3c-2.11 0-2.37.01-3.2.05-.82.04-1.38.18-1.87.38-.51.2-.94.47-1.37.9-.43.43-.7.86-.9 1.37-.2.49-.34 1.05-.38 1.87C3.01 9.63 3 9.89 3 12s.01 2.37.05 3.2c.04.82.18 1.38.38 1.87.2.51.47.94.9 1.37.43.43.86.7 1.37.9.49.2 1.05.34 1.87.38.83.04 1.09.05 3.2.05s2.37-.01 3.2-.05c.82-.04 1.38-.18 1.87-.38.51-.2.94-.47 1.37-.9.43-.43.7-.86.9-1.37.2-.49.34-1.05.38-1.87.04-.83.05-1.09.05-3.2s-.01-2.37-.05-3.2c-.04-.82-.18-1.38-.38-1.87-.2-.51-.47-.94-.9-1.37-.43-.43-.86-.7-1.37-.9-.49-.2-1.05-.34-1.87-.38C14.37 3.01 14.11 3 12 3z" />
-                      
                       </svg>
                     </a>
                     <a
@@ -234,7 +232,7 @@ export default function Footer() {
                       <svg className="w-5 h-5 text-secondary-green flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
                       </svg>
-                      <span>Lunes a Viernes: 08:30 - 17:30 hrs</span>
+                      <span>Lunes a Viernes: 08:30 - 18:30 hrs</span>
                     </div>
                   </address>
                 </div>
@@ -267,7 +265,7 @@ export default function Footer() {
           <div className="max-w-[1400px] mx-auto px-8 py-8">
             <div className="flex flex-col md:flex-row justify-between items-center gap-6">
               <p className="text-gray-400 text-sm text-center md:text-left">
-                &copy; 2025 DINAOPERPOL - Dirección Nacional de Apoyo a las Operaciones Policiales.
+                &copy; 2025 DGEA - Dirección Nacional de Apoyo a las Operaciones Policiales.
                 Todos los derechos reservados.
               </p>
               <div className="flex flex-wrap justify-center gap-6 text-sm">

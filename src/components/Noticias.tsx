@@ -50,12 +50,22 @@ export default function Noticias() {
   const headerTitleRef = useRef(null);
   const carouselContainerRef = useRef(null);
 
+  // Estados para el carrusel horizontal
+  const [offset, setOffset] = useState(0);
+  const [, setHoveredIndex] = useState<number | null>(null);
+  const horizontalCarouselRef = useRef<HTMLDivElement>(null);
+  const [animatedHorizontalHeader, setAnimatedHorizontalHeader] = useState(false);
+  const [animatedHorizontalCarousel, setAnimatedHorizontalCarousel] = useState(false);
+  const [horizontalHeaderRef, horizontalHeaderVisible] = useIntersectionObserver({ threshold: 0.2 });
+  const [horizontalCarouselContainerRef, horizontalCarouselVisible] = useIntersectionObserver({ threshold: 0.1 });
+  const horizontalHeaderTitleRef = useRef(null);
+
   const STORY_DURATION = 10000; // 10 segundos por historia
 
   const noticias: Noticia[] = [
     {
       id: 1,
-      titulo: "Implementación de Nuevo Sistema SAP",
+      titulo: "Implementación del Sistema SAP",
       fecha: "21 de Noviembre, 2025",
       descripcion: "La Dirección implementa sistema ERP SAP para optimizar la gestión operacional y mejorar la eficiencia en todos los procesos.",
       icon: "📰",
@@ -174,6 +184,42 @@ export default function Noticias() {
     }
   }, [carouselVisible, sectionVisible, animatedCarousel]);
 
+  // Animación del header horizontal
+  useEffect(() => {
+    if (!sectionVisible) {
+      anime.set(horizontalHeaderTitleRef.current, { opacity: 0, translateY: 30 });
+      setAnimatedHorizontalHeader(false);
+    } else if (horizontalHeaderVisible && !animatedHorizontalHeader) {
+      setAnimatedHorizontalHeader(true);
+      anime({
+        targets: horizontalHeaderTitleRef.current,
+        translateY: [30, 0],
+        opacity: [0, 1],
+        easing: 'easeOutExpo',
+        duration: 1000,
+        delay: 100
+      });
+    }
+  }, [horizontalHeaderVisible, sectionVisible, animatedHorizontalHeader]);
+
+  // Animación del carrusel horizontal
+  useEffect(() => {
+    if (!sectionVisible) {
+      anime.set(horizontalCarouselRef.current, { opacity: 0, translateX: -50 });
+      setAnimatedHorizontalCarousel(false);
+    } else if (horizontalCarouselVisible && !animatedHorizontalCarousel) {
+      setAnimatedHorizontalCarousel(true);
+      anime({
+        targets: horizontalCarouselRef.current,
+        translateX: [-50, 0],
+        opacity: [0, 1],
+        duration: 1000,
+        easing: 'easeOutExpo',
+        delay: 200
+      });
+    }
+  }, [horizontalCarouselVisible, sectionVisible, animatedHorizontalCarousel]);
+
   // Control del modal
   useEffect(() => {
     if (!showDetail) return;
@@ -247,7 +293,7 @@ export default function Noticias() {
               ACTUALIZACIONES
             </div>
             <h2 className="text-4xl md:text-5xl font-extrabold text-text-dark mb-4">
-              Noticias Destacadas
+              Historias Destacadas
             </h2>
             <p className="text-lg md:text-xl text-text-light max-w-[700px] mx-auto leading-relaxed">
               Mantente informado sobre nuestras últimas operaciones, logros y actualizaciones institucionales.
@@ -357,17 +403,17 @@ export default function Noticias() {
 
         {/* Modal de detalle */}
         {showDetail && (
-            <div 
-              role="dialog" 
-              aria-modal="true" 
-              aria-labelledby="noticias-modal-title" 
+            <div
+              role="dialog"
+              aria-modal="true"
+              aria-labelledby="noticias-modal-title"
               className="fixed inset-0 bg-slate-50/30 backdrop-blur-md z-999 flex items-center justify-center p-4 md:p-6"
               style={{
                 animation: 'fadeIn 300ms ease-out'
               }}
             >
-              <div 
-                ref={modalRef} 
+              <div
+                ref={modalRef}
                 className="relative w-full max-w-5xl mx-auto bg-white rounded-2xl md:rounded-3xl shadow-2xl overflow-hidden border border-slate-200 max-h-[90vh] overflow-y-auto"
                 style={{
                   animation: 'slideUp 300ms ease-out'
@@ -473,7 +519,122 @@ export default function Noticias() {
             }
           }
         `}</style>
+
+        {/* Nueva Sección: Noticias Destacadas con Carrusel Horizontal */}
       </div>
+      
+      {/* Contenedor full-width fuera del max-w */}
+      <div className="mt-32 w-full px-5">
+        <div className="max-w-[1400px] mx-auto px-8">
+          <div ref={horizontalHeaderRef} className="text-center mb-12">
+            <div ref={horizontalHeaderTitleRef} className="opacity-0">
+              <div className="text-secondary-green font-semibold text-sm uppercase tracking-[2px] mb-2">
+                MÁS INFORMACIÓN
+              </div>
+              <h2 className="text-4xl md:text-5xl font-extrabold text-text-dark mb-4">
+                Noticias Destacadas
+              </h2>
+              <p className="text-lg md:text-xl text-text-light max-w-[700px] mx-auto leading-relaxed">
+                Explora todas nuestras publicaciones y mantente al día con las novedades institucionales.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div ref={horizontalCarouselContainerRef} className="relative h-[520px] overflow-hidden w-full">
+          <div 
+            ref={horizontalCarouselRef}
+            className="flex gap-6 absolute left-0 top-8 px-8"
+          >
+              {noticias.map((noticia, index) => (
+                <div
+                  key={noticia.id}
+                  className="w-[340px] flex-shrink-0 group cursor-pointer"
+                  onMouseEnter={() => setHoveredIndex(index)}
+                  onMouseLeave={() => setHoveredIndex(null)}
+                  onClick={() => {
+                    setCurrentIndex(index);
+                    handleOpenDetail();
+                  }}
+                >
+                  <div className="relative bg-gradient-to-br from-slate-800 via-slate-900 to-[#0F172A] rounded-2xl  overflow-hidden border border-[#25a366]/40 transition-all duration-500 hover:scale-105 hover:shadow-[#25a366]/20 hover:shadow-2xl hover:border-[#25a366]/80">
+                    <div className="absolute inset-0 bg-gradient-to-br from-[#25a366]/0 to-[#1D7D4D]/0 group-hover:from-[#25a366]/10 group-hover:to-[#1D7D4D]/10 transition-all duration-500" />
+                    <div className="h-[170px] bg-gradient-to-br from-[#1D7D4D] via-[#25a366] to-[#35AF6F] flex items-center justify-center text-6xl relative overflow-hidden">
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
+                      <div className="absolute inset-0 bg-[#25a366]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                      <span className="relative z-10 transition-transform duration-500 group-hover:scale-110">{noticia.icon}</span>
+                    </div>
+                    <div className="p-6 relative">
+                      <div className="flex items-center justify-between mb-3">
+                        <span className="inline-block px-3 py-1.5  text-[#25a366] rounded-full text-xs font-bold">
+                          {noticia.categoria}
+                        </span>
+                        <span className="text-gray-500 text-xs">{noticia.fecha}</span>
+                      </div>
+                      <h3 className="text-white font-bold text-base mb-3 leading-tight group-hover:text-[#25a366] transition-colors">{noticia.titulo}</h3>
+                      <p className="text-gray-300 text-sm leading-relaxed">{noticia.descripcion}</p>
+                      <div className="mt-4 flex items-center text-[#25a366] text-sm font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
+                        Leer más
+                        <svg className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                        </svg>
+                      </div>
+                    </div>
+                    <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-[#1D7D4D] via-[#25a366] to-[#35AF6F] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            <button
+              onClick={() => {
+                const cardWidth = 340;
+                const gap = 24;
+                const scrollAmount = cardWidth + gap;
+                const newOffset = Math.min(offset + scrollAmount, 0);
+                setOffset(newOffset);
+                if (horizontalCarouselRef.current) {
+                  anime({
+                    targets: horizontalCarouselRef.current,
+                    translateX: newOffset,
+                    duration: 700,
+                    easing: 'easeInOutCubic'
+                  });
+                }
+              }}
+              className="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 bg-linear-to-br from-primary-green to-secondary-green hover:from-secondary-green hover:to-[#35AF6F] backdrop-blur-sm rounded-full flex items-center justify-center text-white shadow-2xl transition-all duration-300 hover:scale-110"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+            <button
+              onClick={() => {
+                const cardWidth = 340;
+                const gap = 24;
+                const scrollAmount = cardWidth + gap;
+                const containerWidth = horizontalCarouselContainerRef.current?.offsetWidth || window.innerWidth;
+                const totalWidth = noticias.length * (cardWidth + gap);
+                const maxOffset = -(totalWidth - containerWidth + 32); // +32 para padding
+                const newOffset = Math.max(offset - scrollAmount, maxOffset);
+                setOffset(newOffset);
+                if (horizontalCarouselRef.current) {
+                  anime({
+                    targets: horizontalCarouselRef.current,
+                    translateX: newOffset,
+                    duration: 700,
+                    easing: 'easeInOutCubic'
+                  });
+                }
+              }}
+              className="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 bg-linear-to-br from-primary-green to-secondary-green hover:from-secondary-green hover:to-[#35AF6F] backdrop-blur-sm rounded-full flex items-center justify-center text-white shadow-2xl transition-all duration-300 hover:scale-110"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+          </div>
+        </div>
     </section>
   );
 }

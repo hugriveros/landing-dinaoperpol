@@ -54,7 +54,7 @@ export default function Navbar() {
   return (
     <nav className={`fixed top-0 w-full z-40 transition-all duration-300 ${
       scrolled ? 'py-2 shadow-lg' : 'py-4 shadow-md'
-    }`} style={{ 
+    }`} style={{
       background: 'rgba(255, 255, 255, 0.98)',
       backdropFilter: 'blur(10px)'
     }}>
@@ -92,13 +92,12 @@ export default function Navbar() {
             <div className={`transition-all duration-500 overflow-hidden ${
               showLogo ? 'w-12 opacity-100' : 'w-0 opacity-0'
             }`}>
-              <img 
+              <img
                 src={`${import.meta.env.BASE_URL}logo_carabineros.svg`} 
                 alt="DIRNAOPERPOL"
                 className="w-12 h-12 object-contain transition-transform duration-300 hover:scale-110"
               />
             </div>
-            
             <h1 className="text-2xl font-extrabold tracking-tight bg-gradient-to-r from-primary-green to-secondary-green bg-clip-text text-transparent">
               DGEA
             </h1>
@@ -158,20 +157,8 @@ export default function Navbar() {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden bg-white border-t shadow-lg">
+        <div className="md:hidden ">
           <div className="px-2 pt-2 pb-3 space-y-1">
-            <button
-              onClick={() => scrollToSection('quienes-somos')}
-              className="block w-full text-left px-3 py-2 text-text-dark hover:bg-gray-50 hover:text-primary-green rounded-md font-medium transition-all"
-            >
-              ¿Quiénes somos?
-            </button>
-            <button
-                onClick={() => scrollToSection('footer')}
-              className="block w-full text-left px-3 py-2 text-text-dark hover:bg-gray-50 hover:text-primary-green rounded-md font-medium transition-all"
-            >
-              Contacto
-            </button>
             <button
               onClick={() => scrollToSection('inicio')}
               className="block w-full text-left px-3 py-2 text-text-dark hover:bg-gray-50 hover:text-primary-green rounded-md font-medium transition-all"
@@ -179,10 +166,23 @@ export default function Navbar() {
               Inicio
             </button>
             <button
+              onClick={() => scrollToSection('quienes-somos')}
+              className="block w-full text-left px-3 py-2 text-text-dark hover:bg-gray-50 hover:text-primary-green rounded-md font-medium transition-all"
+            >
+              ¿Quiénes somos?
+            </button>
+            
+            <button
               onClick={() => scrollToSection('noticias')}
               className="block w-full text-left px-3 py-2 text-text-dark hover:bg-gray-50 hover:text-primary-green rounded-md font-medium transition-all"
             >
               Noticias
+            </button>
+            <button
+                onClick={() => scrollToSection('footer')}
+              className="block w-full text-left px-3 py-2 text-text-dark hover:bg-gray-50 hover:text-primary-green rounded-md font-medium transition-all"
+            >
+              Contacto
             </button>
           </div>
         </div>

@@ -80,7 +80,7 @@ export default function AnimatedLogo({ logoPath = `${import.meta.env.BASE_URL}lo
   return (
     <div className="relative flex items-center justify-center opacity-0" style={{ animation: 'fadeInUp 1s ease 0.6s forwards' }}>
       {/* Glow de fondo */}
-      <div 
+      <div
         ref={glowRef}
         className="absolute w-[500px] h-[500px] rounded-full bg-secondary-green/20 blur-3xl"
       />
@@ -99,7 +99,7 @@ export default function AnimatedLogo({ logoPath = `${import.meta.env.BASE_URL}lo
 
         {/* Logo central */}
         <div ref={logoRef} className="absolute inset-0 flex items-center justify-center">
-          <img 
+          <img
             src={logoPath}
             alt="Logo DIRNAOPERPOL"
             className="w-full h-full object-contain"

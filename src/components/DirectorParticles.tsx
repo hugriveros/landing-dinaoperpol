@@ -75,7 +75,8 @@ export default function DirectorParticles() {
         {/* Imagen hero_director */}
         <img
           src={`${import.meta.env.BASE_URL}hero_director.png`}
-          alt="Director"
+          alt="General Inspector María Teresa Araya Jiménez - Director Nacional DINAOPERPOL"
+          loading="lazy"
           className="absolute top-[45%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-104 h-auto z-10"
           style={{
             WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 97%, rgba(0,0,0,0.8) 99%, rgba(0,0,0,0) 100%)',

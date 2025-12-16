@@ -2,16 +2,76 @@
 import "../styles/tailwind.css";
 
 const base = import.meta.env.BASE_URL;
+
+// SEO Configuration
+const siteTitle = "DINAOPERPOL - Dirección Nacional de Apoyo a las Operaciones Policiales";
+const siteDescription = "Coordinamos y ejecutamos las operaciones policiales a nivel nacional, garantizando la seguridad ciudadana y el orden público. Gestión estratégica de recursos logísticos, tecnológicos, financieros y de compras públicas.";
+const siteUrl = "https://hugriveros.github.io/landing-dinaoperpol/";
+const ogImage = `${siteUrl}hero_director.png`;
 ---
 
 <!doctype html>
 <html lang="es" class="scroll-smooth">
 	<head>
 		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<link rel="icon" type="image/svg+xml" href={`${base}logo_carabineros.svg`} />
 		<meta name="generator" content={Astro.generator} />
-		<title>DGEA</title>
+		
+		<!-- SEO Meta Tags -->
+		<title>{siteTitle}</title>
+		<meta name="description" content={siteDescription} />
+		<meta name="keywords" content="DINAOPERPOL, Carabineros de Chile, Operaciones Policiales, Seguridad Ciudadana, Logística Policial, Gestión Estratégica, Compras Públicas, Finanzas Institucionales, TIC Policial" />
+		<meta name="author" content="DINAOPERPOL - Carabineros de Chile" />
+		<link rel="canonical" href={siteUrl} />
+		
+		<!-- Open Graph / Facebook -->
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content={siteUrl} />
+		<meta property="og:title" content={siteTitle} />
+		<meta property="og:description" content={siteDescription} />
+		<meta property="og:image" content={ogImage} />
+		<meta property="og:image:width" content="1200" />
+		<meta property="og:image:height" content="630" />
+		<meta property="og:locale" content="es_CL" />
+		<meta property="og:site_name" content="DINAOPERPOL" />
+		
+		<!-- Twitter Card -->
+		<meta name="twitter:card" content="summary_large_image" />
+		<meta name="twitter:url" content={siteUrl} />
+		<meta name="twitter:title" content={siteTitle} />
+		<meta name="twitter:description" content={siteDescription} />
+		<meta name="twitter:image" content={ogImage} />
+		
+		<!-- Schema.org JSON-LD -->
+		<script type="application/ld+json" set:html={JSON.stringify({
+			"@context": "https://schema.org",
+			"@type": "GovernmentOrganization",
+			"name": "Dirección Nacional de Apoyo a las Operaciones Policiales",
+			"alternateName": "DINAOPERPOL",
+			"url": siteUrl,
+			"logo": `${siteUrl}logo_carabineros.svg`,
+			"description": siteDescription,
+			"parentOrganization": {
+				"@type": "GovernmentOrganization",
+				"name": "Carabineros de Chile"
+			},
+			"address": {
+				"@type": "PostalAddress",
+				"addressCountry": "CL",
+				"addressLocality": "Santiago"
+			},
+			"contactPoint": {
+				"@type": "ContactPoint",
+				"contactType": "Atención Ciudadana",
+				"availableLanguage": "Spanish"
+			},
+			"sameAs": [
+				"https://www.instagram.com/carabinerosdechile/",
+				"https://www.facebook.com/CarabinerosdeChile/",
+				"https://twitter.com/Carabdechile"
+			]
+		})} />
 
 		<!-- Partytown: offload third-party scripts to a web worker -->
 		<script define:vars={{ base }}>
