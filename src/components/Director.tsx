@@ -103,10 +103,16 @@ export default function Director() {
 
             {/* Nombre y cargo */}
             <div ref={titleRef} className="opacity-0">
-              <h2 className="text-4xl lg:text-5xl font-extrabold text-slate-900 mb-3 leading-tight">
+              <div className="text-secondary-green font-bold text-xl md:text-2xl uppercase tracking-[2px] mb-4">
+                ¿QUIÉNES SOMOS?
+              </div>
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-slate-900 mb-6 leading-tight">
+                Dirección Nacional de Gestión Estratégica de Abastecimiento
+              </h2>
+              <h3 className="text-2xl lg:text-3xl font-bold text-slate-700 mb-3 leading-tight">
                 General Inspector<br />
                 María Teresa Araya Jiménez
-              </h2>
+              </h3>
                 <div className="inline-block px-4 py-1.5 bg-primary-green/10 rounded-full mb-4">
                 <p className="text-sm font-semibold text-primary-green uppercase tracking-wide">
                   Director Nacional de Apoyo a las Operaciones Policiales

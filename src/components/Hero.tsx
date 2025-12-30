@@ -51,9 +51,23 @@ export default function Hero() {
 
   return (
     <section id="inicio" className="min-h-screen bg-linear-to-br from-slate-900 via-slate-800 to-slate-700 pt-16 relative overflow-hidden">
-      {/* Grid animado de fondo (Mantenemos CSS para loop infinito eficiente) */}
+      {/* Video de fondo */}
+      <video
+        autoPlay
+        loop
+        muted
+        playsInline
+        className="absolute inset-0 w-full h-full object-cover"
+      >
+        <source src={`${import.meta.env.BASE_URL}INICIO.mov`} type="video/mp4" />
+      </video>
+
+      {/* Filtro oscuro sobre el video */}
+      <div className="absolute inset-0 bg-black/60"></div>
+
+      {/* Grid animado de fondo (sobre el video) */}
       <div
-        className="absolute inset-0 opacity-20"
+        className="absolute inset-0 opacity-10"
         style={{
           backgroundImage: `
             linear-gradient(rgba(0, 168, 98, 0.05) 1px, transparent 1px),
@@ -66,7 +80,7 @@ export default function Hero() {
 
       {/* Gradientes radiales de fondo */}
       <div
-        className="absolute inset-0"
+        className="absolute inset-0 opacity-30"
         style={{
           background: `
             radial-gradient(circle at 20% 50%, rgba(0, 135, 81, 0.15) 0%, transparent 50%),

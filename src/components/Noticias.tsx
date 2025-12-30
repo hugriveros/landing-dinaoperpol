@@ -400,6 +400,24 @@ export default function Noticias() {
     };
   }, []);
 
+  // Escuchar evento personalizado para abrir proyecto específico
+  useEffect(() => {
+    const handleOpenProyecto = (event: Event) => {
+      const customEvent = event as CustomEvent<{ id: number }>;
+      const proyectoId = customEvent.detail.id;
+      const proyecto = proyectos.find(p => p.id === proyectoId);
+      if (proyecto) {
+        handleOpenProyectoDetail(proyecto);
+      }
+    };
+
+    window.addEventListener('openProyecto', handleOpenProyecto);
+
+    return () => {
+      window.removeEventListener('openProyecto', handleOpenProyecto);
+    };
+  }, [proyectos]);
+
   return (
     <section ref={sectionRef} id="noticias" className="pt-36 pb-40 bg-linear-to-b from-white to-gray-50">
       <div className="max-w-[1400px] mx-auto px-8 mb-6">
@@ -669,7 +687,7 @@ export default function Noticias() {
       </div>
       
       {/* Contenedor full-width fuera del max-w */}
-      <div className="mt-32 w-full px-5">
+      <div id="noticias-proyectos" className="mt-32 w-full px-5">
         <div className="max-w-[1400px] mx-auto px-8">
           <div ref={horizontalHeaderRef} className="text-center mb-12">
             <div ref={horizontalHeaderTitleRef} className="opacity-0">
@@ -677,7 +695,7 @@ export default function Noticias() {
                 MÁS INFORMACIÓN
               </div>
               <h2 className="text-4xl md:text-5xl font-extrabold text-text-dark mb-4">
-                Noticias Destacadas
+                Noticias
               </h2>
               <p className="text-lg md:text-xl text-text-light max-w-[700px] mx-auto leading-relaxed">
                 Explora todas nuestras publicaciones y mantente al día con las novedades institucionales.
