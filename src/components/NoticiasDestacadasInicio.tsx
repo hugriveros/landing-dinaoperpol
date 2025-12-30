@@ -200,10 +200,7 @@ export default function NoticiasDestacadasInicio() {
                     </span>
                     <button
                       onClick={() => {
-                        window.location.hash = 'noticias-proyectos';
-                        setTimeout(() => {
-                          window.dispatchEvent(new CustomEvent('openProyecto', { detail: { id: noticia.id } }));
-                        }, 500);
+                        window.dispatchEvent(new CustomEvent('openProyecto', { detail: { id: noticia.id } }));
                       }}
                       className="inline-flex cursor-pointer items-center gap-2 px-4 py-2 bg-secondary-green hover:bg-primary-green rounded-full text-white text-sm font-bold transition-all hover:scale-105"
                     >
@@ -242,14 +239,11 @@ export default function NoticiasDestacadasInicio() {
                   </p>
                   <button
                     onClick={() => {
-                      window.location.hash = 'noticias-proyectos';
-                      setTimeout(() => {
-                        window.dispatchEvent(new CustomEvent('openProyecto', { detail: { id: noticia.id } }));
-                      }, 500);
+                      window.dispatchEvent(new CustomEvent('openProyecto', { detail: { id: noticia.id } }));
                     }}
                     className="inline-flex items-center gap-1 text-secondary-green hover:text-white text-xs font-bold transition-colors"
                   >
-                    Ver más
+                    Ver más Detalle
                     <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
@@ -291,14 +285,11 @@ export default function NoticiasDestacadasInicio() {
                   </span>
                   <button
                     onClick={() => {
-                      window.location.hash = 'noticias-proyectos';
-                      setTimeout(() => {
-                        window.dispatchEvent(new CustomEvent('openProyecto', { detail: { id: noticia.id } }));
-                      }, 500);
+                      window.dispatchEvent(new CustomEvent('openProyecto', { detail: { id: noticia.id } }));
                     }}
                     className="inline-flex items-center gap-1 text-secondary-green hover:text-primary-green text-xs font-bold transition-colors"
                   >
-                    Ver más
+                    Ver más Detalle
                     <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
                     </svg>
