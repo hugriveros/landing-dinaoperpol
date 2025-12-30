@@ -34,6 +34,8 @@ export default function QuienesSomos() {
   const [animatedGrid1, setAnimatedGrid1] = useState(false);
   const [animatedHeader2, setAnimatedHeader2] = useState(false);
   const [animatedGrid2, setAnimatedGrid2] = useState(false);
+  const [animatedHeaderDirecciones, setAnimatedHeaderDirecciones] = useState(false);
+  const [animatedGridDirecciones, setAnimatedGridDirecciones] = useState(false);
   const [animatedOrganigrama, setAnimatedOrganigrama] = useState(false);
 
   // --- REFS INDIVIDUALES ---
@@ -41,6 +43,8 @@ export default function QuienesSomos() {
   const [grid1Ref, grid1Visible] = useIntersectionObserver({ threshold: 0.1 });
   const [header2Ref, header2Visible] = useIntersectionObserver({ threshold: 0.2 });
   const [grid2Ref, grid2Visible] = useIntersectionObserver({ threshold: 0.1 });
+  const [headerDireccionesRef, headerDireccionesVisible] = useIntersectionObserver({ threshold: 0.2 });
+  const [gridDireccionesRef, gridDireccionesVisible] = useIntersectionObserver({ threshold: 0.1 });
   const [organigramaRef, organigramaVisible] = useIntersectionObserver({ threshold: 0.2 });
 
   // Refs DOM
@@ -48,6 +52,8 @@ export default function QuienesSomos() {
   const grid1ItemsRef = useRef<HTMLDivElement>(null);
   const title2Ref = useRef(null);
   const grid2ItemsRef = useRef<HTMLDivElement>(null);
+  const titleDireccionesRef = useRef(null);
+  const gridDireccionesItemsRef = useRef<HTMLDivElement>(null);
   const organigramaContainerRef = useRef(null);
 
   // --- LÓGICA DE ANIMACIÓN ---
@@ -127,7 +133,43 @@ export default function QuienesSomos() {
     }
   }, [grid2Visible, sectionVisible, animatedGrid2]);
 
-  // 5. Organigrama
+  // 5. Header Direcciones Dependientes
+  useEffect(() => {
+    if (!sectionVisible) {
+      anime.set(titleDireccionesRef.current, { opacity: 0, translateY: 10 });
+      setAnimatedHeaderDirecciones(false);
+    } else if (headerDireccionesVisible && !animatedHeaderDirecciones) {
+      setAnimatedHeaderDirecciones(true);
+      anime({
+        targets: titleDireccionesRef.current,
+        translateY: [20, 0],
+        opacity: [0, 1],
+        easing: 'easeOutQuad',
+        duration: 500,
+        delay: 0
+      });
+    }
+  }, [headerDireccionesVisible, sectionVisible, animatedHeaderDirecciones]);
+
+  // 6. Grid Direcciones Dependientes
+  useEffect(() => {
+    if (!sectionVisible) {
+      if(gridDireccionesItemsRef.current) anime.set(gridDireccionesItemsRef.current.children, { opacity: 0, translateY: 10 });
+      setAnimatedGridDirecciones(false);
+    } else if (gridDireccionesVisible && !animatedGridDirecciones && gridDireccionesItemsRef.current) {
+      setAnimatedGridDirecciones(true);
+      anime({
+        targets: gridDireccionesItemsRef.current.children,
+        translateY: [20, 0],
+        opacity: [0, 1],
+        delay: anime.stagger(80),
+        duration: 400,
+        easing: 'easeOutQuad'
+      });
+    }
+  }, [gridDireccionesVisible, sectionVisible, animatedGridDirecciones]);
+
+  // 7. Organigrama
   useEffect(() => {
     if (!sectionVisible) {
       anime.set(organigramaContainerRef.current, { opacity: 0 });
@@ -168,7 +210,7 @@ export default function QuienesSomos() {
       { id: 1, title: 'Dirección de Logística', desc: 'Gestión integral de recursos y cadena de suministro a nivel nacional.', icon: <ArchiveBoxIcon className="w-6 h-6 text-white"/> },
       { id: 2, title: 'Dirección de Compras Públicas', desc: 'Administración eficiente y transparente de procesos de adquisiciones.', icon: <ShoppingCartIcon className="w-6 h-6 text-white"/> },
       { id: 3, title: 'Dirección de Finanzas', desc: 'Planificación y control presupuestario para optimizar recursos.', icon: <CurrencyDollarIcon className="w-6 h-6 text-white"/> },
-      { id: 4, title: 'Dirección de Tecnologias de Información', desc: 'Infraestructura tecnológica y sistemas de información institucional.', icon: <ComputerDesktopIcon className="w-6 h-6 text-white"/> }
+      { id: 4, title: 'Dirección de Tecnologias de Información y las Comunicaciones', desc: 'Infraestructura tecnológica y sistemas de información institucional.', icon: <ComputerDesktopIcon className="w-6 h-6 text-white"/> }
   ];
 
   return (
@@ -179,7 +221,10 @@ export default function QuienesSomos() {
         <div ref={header1Ref} className="text-center mb-32">
             <div ref={title1Ref} className="opacity-0">
                 <div className="text-secondary-green font-semibold text-sm uppercase tracking-[2px] mb-2">NUESTRA MISIÓN</div>
-                <h2 className="text-4xl md:text-5xl font-extrabold text-text-dark ">Objetivos de la Dirección</h2>
+                <h2 className="text-4xl md:text-5xl font-extrabold text-text-dark mb-4">Objetivos de la Dirección</h2>
+                <p className="text-text-light max-w-2xl mx-auto">
+                  Garantizamos la gestión eficiente de recursos institucionales mediante coordinación estratégica y optimización operacional continua.
+                </p>
             </div>
         </div>
         <div ref={grid1Ref} >
@@ -196,7 +241,8 @@ export default function QuienesSomos() {
             </div>
         </div>
         {/* --- SECCIÓN 2: ÁREAS DE GESTIÓN --- */}
-        <div className="mt-46">
+      
+        {/* <div className="mt-46">
             <div ref={header2Ref} className="text-center mb-24 relative">
               <div ref={title2Ref} className="opacity-0">
                     <div className="text-secondary-green font-semibold text-sm uppercase tracking-[2px] mb-2">ESTRUCTURA ORGANIZACIONAL</div>
@@ -208,12 +254,12 @@ export default function QuienesSomos() {
             </div>
 
             {/* Timeline Layout Moderno */}
-            <div className="relative max-w-7xl mx-auto">
+            {/* <div className="relative max-w-7xl mx-auto"> */}
               {/* Línea vertical central - solo desktop */}
-              <div className="hidden lg:block absolute left-1/2 transform -translate-x-1/2 w-1 bg-linear-to-b from-slate-800 via-[#0F172A] to-slate-800 h-full opacity-20"></div>
+              {/* <div className="hidden lg:block absolute left-1/2 transform -translate-x-1/2 w-1 bg-linear-to-b from-slate-800 via-[#0F172A] to-slate-800 h-full opacity-20"></div> */}
 
               {/* 1. Gabinete - Izquierda */}
-              <div className="relative mb-24">
+              {/* <div className="relative mb-24">
                 <div className="lg:grid lg:grid-cols-2 lg:gap-12 items-center">
                   <div className="lg:text-right mb-8 lg:mb-0">
                     <div className="inline-block lg:float-right">
@@ -226,10 +272,10 @@ export default function QuienesSomos() {
                         Vincula la Dirección con las Altas Reparticiones y coordina el trabajo de las Direcciones dependientes.
                       </p>
                     </div>
-                  </div>
+                  </div> */}
                   
                   {/* Círculo central */}
-                  <div className="hidden lg:block absolute left-1/2 transform -translate-x-1/2 w-6 h-6 bg-secondary-green rounded-full border-4 border-white shadow-lg z-10"></div>
+                  {/* <div className="hidden lg:block absolute left-1/2 transform -translate-x-1/2 w-6 h-6 bg-secondary-green rounded-full border-4 border-white shadow-lg z-10"></div>
                   
                   <div className="grid grid-cols-1 gap-4">
                     {gabinete.map((item) => (
@@ -249,10 +295,10 @@ export default function QuienesSomos() {
                     ))}
                   </div>
                 </div>
-              </div>
+              </div> */}
 
               {/* 2. Gabinete Técnico - Derecha */}
-              <div className="relative mb-24" ref={grid2Ref}>
+              {/* <div className="relative mb-24" ref={grid2Ref}>
                 <div className="lg:grid lg:grid-cols-2 lg:gap-12 items-center">
                   <div className="lg:order-2 mb-8 lg:mb-0">
                     <div className="flex items-center justify-center lg:justify-start mb-4">
@@ -263,17 +309,17 @@ export default function QuienesSomos() {
                     <p className="text-text-light max-w-md mb-6">
                       Asesora técnicamente al Director en áreas logísticas, tecnológicas, compras públicas y finanzas mediante información estratégica.
                     </p>
-                  </div>
+                  </div> */}
                   
                   {/* Círculo central */}
-                  <div className="hidden lg:block absolute left-1/2 transform -translate-x-1/2 w-6 h-6 bg-secondary-green rounded-full border-4 border-white shadow-lg z-10"></div>
+                  {/* <div className="hidden lg:block absolute left-1/2 transform -translate-x-1/2 w-6 h-6 bg-secondary-green rounded-full border-4 border-white shadow-lg z-10"></div>
                   
                   <div className="lg:order-1 grid grid-cols-1 gap-4" ref={grid2ItemsRef}>
                     {gabineteTenico.map((area) => (
                       <div key={area.id} className="opacity-0 group">
-                        <div className="bg-linear-to-br from-white to-gray-50 p-6 rounded-xl border-2 border-gray-100 hover:border-secondary-green/40 shadow-md hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 relative overflow-hidden">
+                        <div className="bg-linear-to-br from-white to-gray-50 p-6 rounded-xl border-2 border-gray-100 hover:border-secondary-green/40 shadow-md hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 relative overflow-hidden"> */}
                           {/* Decoración de fondo */}
-                          <div className="absolute top-0 right-0 w-32 h-32 bg-secondary-green/5 rounded-full blur-3xl"></div>
+                          {/* <div className="absolute top-0 right-0 w-32 h-32 bg-secondary-green/5 rounded-full blur-3xl"></div>
                           
                           <div className="relative flex items-start gap-5">
                             <div className="w-16 h-16 bg-linear-to-br from-primary-green to-secondary-green rounded-xl flex items-center justify-center shrink-0 group-hover:scale-110 group-hover:rotate-6 transition-all duration-300 shadow-lg">
@@ -292,26 +338,26 @@ export default function QuienesSomos() {
                     ))}
                   </div>
                 </div>
-              </div>
+              </div> */}
 
               {/* 3. Gestión Técnica y Mejora Continua - Izquierda */}
-              <div className="relative mb-24">
+              {/* <div className="relative mb-24">
                 <div className="lg:grid lg:grid-cols-2 lg:gap-12 items-center">
                   <div className="lg:text-right mb-8 lg:mb-0">
                     <div className="inline-block lg:float-right">
                       <div className="flex items-center justify-center lg:justify-end mb-4">
                         <div className="bg-[#0F172A] px-8 py-3 rounded-2xl shadow-lg">
-                          <h3 className="text-xl md:text-2xl font-extrabold text-white">Gestión Técnica y Mejora Continua</h3>
+                          <h3 className="text-xl md:text-xl font-extrabold text-white">Departamento Gestión Técnica y Mejora Continua</h3>
                         </div>
                       </div>
                       <p className="text-text-light max-w-md lg:ml-auto mb-6">
                         Implementa sistemas de control de gestión basados en KPI's y Balanced Scorecard, promoviendo la innovación y eficiencia institucional.
                       </p>
                     </div>
-                  </div>
+                  </div> */}
                   
                   {/* Círculo central */}
-                  <div className="hidden lg:block absolute left-1/2 transform -translate-x-1/2 w-6 h-6 bg-secondary-green rounded-full border-4 border-white shadow-lg z-10"></div>
+                  {/* <div className="hidden lg:block absolute left-1/2 transform -translate-x-1/2 w-6 h-6 bg-secondary-green rounded-full border-4 border-white shadow-lg z-10"></div>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="bg-white p-5 rounded-xl border-2 border-gray-100 hover:border-secondary-green/30 shadow-sm hover:shadow-lg transition-all duration-200 group">
@@ -348,38 +394,43 @@ export default function QuienesSomos() {
                   </div>
                 </div>
               </div>
-            </div>
-
+            </div> */}
+        
             {/* Direcciones Dependientes */}
-            <div className="mt-24">
-              <div className="text-center mb-12">
-                <div className="text-secondary-green font-semibold text-sm uppercase tracking-[2px] mb-2">NUESTRAS</div>
-                <h3 className="text-4xl md:text-5xl font-extrabold text-text-dark mb-4 relative inline-block">Direcciones Dependientes</h3>
-                <p className="text-text-light max-w-2xl mx-auto">
-                  Altas Reparticiones especializadas que gestionan recursos financieros, logísticos, tecnológicos y de compras públicas.
-                </p>
+            <div className="mt-40">
+              <div ref={headerDireccionesRef} className="text-center mb-12">
+                <div ref={titleDireccionesRef} className="opacity-0">
+                  <div className="text-secondary-green font-semibold text-sm uppercase tracking-[2px] mb-2">NUESTRAS</div>
+                  <h3 className="text-4xl md:text-5xl font-extrabold text-text-dark mb-4">Direcciones Dependientes</h3>
+                  <p className="text-text-light max-w-2xl mx-auto">
+                    Altas Reparticiones especializadas que gestionan recursos financieros, logísticos, tecnológicos y de compras públicas.
+                  </p>
+                </div>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto">
+              <div ref={gridDireccionesRef}>
+                <div ref={gridDireccionesItemsRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                   {direcciones.map((dir) => (
-                      <div key={dir.id} className="bg-white p-7 rounded-xl text-center border border-gray-100 hover:border-secondary-green/30 shadow-md hover:shadow-xl transition-all duration-200 group">
-                          <div className="w-14 h-14 bg-linear-to-br from-primary-green to-secondary-green rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-200">
+                      <div key={dir.id} className="opacity-0 bg-white p-8 rounded-2xl text-center border border-gray-100 hover:border-secondary-green/30 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-2 group">
+                          <div className="w-14 h-14 bg-linear-to-br from-primary-green to-secondary-green rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
                               {dir.icon}
                           </div>
-                          <h4 className="text-base font-bold text-text-dark mb-2">{dir.title}</h4>
+                          <h4 className="text-lg font-bold text-text-dark mb-2">{dir.title}</h4>
                           <p className="text-sm text-text-light leading-relaxed">{dir.desc}</p>
                       </div>
                   ))}
+                </div>
               </div>
             </div>
 
-            {/* --- ORGANIGRAMA --- */}
-            <div ref={organigramaRef} className="mt-34">
-              <div ref={organigramaContainerRef} className="opacity-0">
+           
+           
+        {/* </div> */}
+        {/* --- ORGANIGRAMA --- */}
+          <div ref={organigramaRef} className="mt-34">
+            <div ref={organigramaContainerRef} className="opacity-0">
                 <AnimeOrganigrama />
-              </div>
             </div>
-        </div>
-
+          </div>
       </div>
     </section>
   );
