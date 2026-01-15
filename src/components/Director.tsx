@@ -106,10 +106,10 @@ export default function Director() {
               <div className="text-secondary-green font-bold text-xl md:text-2xl uppercase tracking-[2px] mb-4">
                 ¿QUIÉNES SOMOS?
               </div>
-              <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-slate-900 mb-6 leading-tight">
+              <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-text-dark mb-6 leading-tight">
                 Dirección Nacional de Gestión Estratégica de Abastecimiento
               </h2>
-              <h3 className="text-2xl lg:text-3xl font-bold text-slate-700 mb-3 leading-tight">
+              <h3 className="text-2xl lg:text-3xl font-bold text-text-dark mb-3 leading-tight">
                 General Inspector<br />
                 María Teresa Araya Jiménez
               </h3>

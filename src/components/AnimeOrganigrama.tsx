@@ -282,6 +282,12 @@ export  function AnimeOrganigrama() {
   }, [gridContainerVisible, sectionVisible, animatedGrid]);
 
   const handleExpand = (nodeId: number) => {
+    // Si es el nodo 0 (Dirección Nacional), navegar a la página de detalle
+    if (nodeId === 0) {
+      window.location.href = `${import.meta.env.BASE_URL}direccion-nacional`;
+      return;
+    }
+    // Para otros nodos, mostrar el modal como antes
     setExpandedNode(nodeId);
   };
 

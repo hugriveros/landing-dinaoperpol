@@ -241,7 +241,7 @@ export default function NoticiasDestacadasInicio() {
                     onClick={() => {
                       window.dispatchEvent(new CustomEvent('openProyecto', { detail: { id: noticia.id } }));
                     }}
-                    className="inline-flex items-center gap-1 text-secondary-green hover:text-white text-xs font-bold transition-colors"
+                    className="inline-flex cursor-pointer items-center gap-1 text-secondary-green hover:text-white text-xs font-bold transition-colors"
                   >
                     Ver más Detalle
                     <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -287,7 +287,7 @@ export default function NoticiasDestacadasInicio() {
                     onClick={() => {
                       window.dispatchEvent(new CustomEvent('openProyecto', { detail: { id: noticia.id } }));
                     }}
-                    className="inline-flex items-center gap-1 text-secondary-green hover:text-primary-green text-xs font-bold transition-colors"
+                    className="inline-flex cursor-pointer items-center gap-1 text-secondary-green hover:text-primary-green text-xs font-bold transition-colors"
                   >
                     Ver más Detalle
                     <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">

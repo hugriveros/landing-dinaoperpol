@@ -10,7 +10,7 @@ import AnimeMotionPath from './AnimeMotionPath';
 import AnimeTextEffects from './AnimeTextEffects';
 import AnimeParticles from './AnimeParticles';
 import AnimeMorphing from './AnimeMorphing';
-import AnimeOrganigrama from './AnimeOrganigrama';
+import AnimeOrganigrama from '../AnimeOrganigrama';
 
 export default function AnimeDemoSuite() {
   return (

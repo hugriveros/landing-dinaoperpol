@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import anime from 'animejs';
-import AnimeOrganigrama from './demos/AnimeOrganigrama';
-import { ShieldCheckIcon, ChartBarIcon, UsersIcon, LightBulbIcon, ArchiveBoxIcon, ShoppingCartIcon, CurrencyDollarIcon, ComputerDesktopIcon, DocumentTextIcon } from '@heroicons/react/24/solid';
+import AnimeOrganigrama from './AnimeOrganigrama';
+import { ShieldCheckIcon, ChartBarIcon, UsersIcon, LightBulbIcon, 
+  ArchiveBoxIcon, ShoppingCartIcon, CurrencyDollarIcon, ComputerDesktopIcon, 
+  DocumentTextIcon } from '@heroicons/react/24/solid';
 
 // Hook personalizado de visibilidad
 const useIntersectionObserver = (options: IntersectionObserverInit = {}) => {
