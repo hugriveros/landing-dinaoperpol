@@ -88,7 +88,7 @@ export default function DirectorParticles() {
           }}
         />
         {/* Sistema de partículas detrás de la imagen */}
-        <div ref={containerRef} className="absolute inset-0 flex items-center justify-center" />
+       
       </div>
     </div>
   );

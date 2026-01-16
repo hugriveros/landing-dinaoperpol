@@ -1,8 +1,81 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { ChevronLeftIcon } from '@heroicons/react/24/solid';
+import { ChevronLeftIcon, ShieldCheckIcon, ArchiveBoxIcon, ChartBarIcon, UserGroupIcon, InboxIcon, ScaleIcon, WrenchScrewdriverIcon, CircleStackIcon } from '@heroicons/react/24/solid';
+import AreasGabineteTecnico from '../components/AreasGabineteTecnico';
 
 const baseUrl = import.meta.env.BASE_URL;
+
+const seccionesGabinete = [
+	{ id: 1, title: 'Ayudantía', icon: UserGroupIcon, desc: 'Apoyo directo al Jefe de Gabinete en la coordinación de actividades y gestión de agenda institucional.' },
+	{ id: 2, title: 'Oficina de Partes', icon: InboxIcon, desc: 'Recepción, registro y distribución de documentación oficial y correspondencia institucional.' },
+	{ id: 3, title: 'Asesoría Jurídica', icon: ScaleIcon, desc: 'Asesoramiento legal, revisión de contratos y apoyo en procesos administrativos y judiciales.' }
+];
+
+const seccionesDepartamentoGestionTecnica = [
+	{ 
+		id: 1, 
+		title: 'Soporte Técnico y Mejora Continua', 
+		icon: WrenchScrewdriverIcon,
+		desc: 'Optimizamos la experiencia y el rendimiento en el ERP Institucional mediante soporte técnico especializado, capacitación constante y una gestión de mejora continua para garantizar la excelencia operativa.',
+	},
+	{ 
+		id: 2, 
+		title: 'Datos Maestros y Gestión Técnica', 
+		icon: CircleStackIcon,
+		desc: 'Garantizamos la integridad y excelencia del ERP Institucional mediante una gobernanza de datos rigurosa, optimizando flujos estratégicos y asegurando información confiable para la toma de decisiones.',
+	}
+];
+
+const areasGabineteTecnico = [
+	{ 
+		id: 1, 
+		title: 'Control y Gestión de Materias Estratégicas', 
+		nombreJefe: 'Cristian Rojas Castillo', 
+		fotoJefe: 'hero_estrategia.png', 
+		desc: 'Garantizamos la vanguardia y continuidad operativa institucional mediante el monitoreo estratégico y la supervisión técnica de proyectos tecnológicos, telecomunicaciones y equipamiento de alta especialización.',
+		responsabilidades: [
+		 
+		],
+		contactoAnexo: '2001'
+	},
+	{ 
+		id: 2, 
+		title: 'Control y Gestión de Cadena de Suministros', 
+		nombreJefe: 'Mauricio Avendaño Pinto', 
+		fotoJefe: 'hero_suministro.png', 
+		desc: 'Impulsamos la excelencia institucional mediante una gestión estratégica y eficiente de los recursos, integrando el control logístico, presupuestario y de proyectos para asegurar el cumplimiento riguroso de nuestra misión.',
+		responsabilidades: [
+			'Control y gestión en el levantamiento de necesidades de bienes y servicios',
+			'Seguimiento de Proyectos estratégicos Institucionales',
+			'Optimización de la Cadena de Suministro',
+			'Gestión del Plan Anual de Compras (PAC)',
+            'Convenios de Transferencia.'
+		],
+		contactoAnexo: '2002'
+	},
+	{ 
+		id: 3, 
+		title: 'Control y Gestión de Infraestructura', 
+		nombreJefe: 'Jorge Gonzalez Olea', 
+		fotoJefe: 'hero_estructura.png', 
+		desc: 'Garantizamos la excelencia en la infraestructura institucional mediante la supervisión técnica y presupuestaria de proyectos de construcción, mantenimiento y optimización de cuarteles a nivel nacional.',
+		responsabilidades: [
+ 
+		],
+		contactoAnexo: '2003'
+	},
+    { 
+		id: 4, 
+		title: 'Control y Gestión Financiero', 
+		nombreJefe: 'Cesar Salgado', 
+		fotoJefe: 'hero.png', 
+		desc: 'Brindamos asesoría financiera y presupuestaria estratégica a la alta dirección, coordinando el análisis y seguimiento de los procesos para garantizar una gestión de recursos eficiente, transparente y oportuna en apoyo a la función policial.',
+		responsabilidades: [
+ 
+		],
+		contactoAnexo: '2004'
+	}
+];
 ---
 
 <Layout>
@@ -80,7 +153,7 @@ const baseUrl = import.meta.env.BASE_URL;
 					<div class="animate-fade-in-up animation-delay-400 mt-12">
 						<div class="flex items-center gap-3 mb-8">
 							<div class="h-px flex-1 bg-gradient-to-r from-gray-100 via-gray-300 to-gray-500"></div>
-							<h3 class="text-2xl md:text-3xl font-bold text-slate-900">Departamentos de la Dirección</h3>
+							<h3 class="text-2xl md:text-3xl font-bold text-text-dark">Departamentos de la Dirección</h3>
 							<div class="h-px flex-1 bg-gradient-to-r from-gray-500 via-gray-300 to-gray-100"></div>
 						</div>
 					</div>
@@ -102,25 +175,28 @@ const baseUrl = import.meta.env.BASE_URL;
 									class="w-full h-full object-cover rounded-full border-2 border-white"
 								/>
 							</div>
-							<h4 class="text-xl font-bold text-slate-900 mb-1">Gabinete</h4>
+							<h4 class="text-xl font-bold text-text-dark mb-1">Gabinete</h4>
 							<p class="text-sm text-primary-green font-semibold">Jefe de Gabinete</p>
 						</div>
-						<p class="text-sm text-slate-700 mb-4 flex-grow text-center">Vincular a la Dirección Nacional con las Altas Reparticiones, coordinar el trabajo de las Direcciones dependientes, monitorear la gestión administrativa y supervisar el control de documentación.</p>
-						<div class="bg-gray-50 rounded-lg p-4">
-							<p class="text-xs font-semibold text-gray-700 mb-3 text-center">Secciones:</p>
-							<div class="space-y-2">
-								<div class="flex items-center gap-2 text-slate-700 text-sm">
-									<div class="w-1.5 h-1.5 rounded-full bg-primary-green"></div>
-									<span>Ayudantía</span>
-								</div>
-								<div class="flex items-center gap-2 text-slate-700 text-sm">
-									<div class="w-1.5 h-1.5 rounded-full bg-secondary-green"></div>
-									<span>Oficina de Partes</span>
-								</div>
-								<div class="flex items-center gap-2 text-slate-700 text-sm">
-									<div class="w-1.5 h-1.5 rounded-full bg-[#35AF6F]"></div>
-									<span>Asesoría Jurídica</span>
-								</div>
+						<p class="text-sm text-slate-700 text-center">Vincular a la Dirección Nacional con las Altas Reparticiones, coordinar el trabajo de las Direcciones dependientes, monitorear la gestión administrativa y supervisar el control de documentación.</p>
+						{/* Secciones del Gabinete */}
+						<div class="bg-gray-50 rounded-lg p-4 mt-6">
+							<p class="text-xs font-semibold text-gray-700 mb-4 text-center">Áreas:</p>
+							<div class="space-y-3">
+								{seccionesGabinete.map((seccion) => (
+									<div key={seccion.id} class="bg-white rounded-lg p-3 border border-gray-200">
+										<div class="flex items-start gap-3">
+											{/* Icono de la Sección */}
+											<div class="w-24 h-24 rounded-full bg-primary-green/10 border-2 border-primary-green/30 flex-shrink-0 flex items-center justify-center">
+												<seccion.icon className="w-12 h-12 text-primary-green" />
+											</div>
+											<div class="flex-1">
+												<h5 class="text-xs font-bold text-slate-900 leading-tight mb-1">{seccion.title}</h5>
+												<p class="text-xs text-slate-600 mb-2">{seccion.desc}</p>
+											</div>
+										</div>
+									</div>
+								))}
 							</div>
 						</div>
 					</div>
@@ -136,10 +212,15 @@ const baseUrl = import.meta.env.BASE_URL;
 									class="w-full h-full object-cover rounded-full border-2 border-white"
 								/>
 							</div>
-							<h4 class="text-xl font-bold text-slate-900 mb-1">Gabinete Técnico</h4>
+							<h4 class="text-xl font-bold text-text-dark mb-1">Gabinete Técnico</h4>
 							<p class="text-sm text-secondary-green font-semibold">Jefe de Gabinete Técnico</p>
 						</div>
-						<p class="text-sm text-slate-700 flex-grow text-center">Asesorar técnicamente al Director Nacional en las áreas logísticas, tecnológicas, compras públicas y finanzas, evaluando alternativas y proyectos de innovación, elaborando directivas y manuales de procesos.</p>
+						<p class="text-sm text-slate-700 text-center">Potenciamos la toma de decisiones estratégicas mediante asesoría técnica especializada en logística, finanzas y tecnología, evaluando proyectos de vanguardia que impulsan el desarrollo y la modernización institucional.</p>
+						
+						{/* Áreas del Gabinete Técnico */}
+						<div class="mt-6">
+							<AreasGabineteTecnico areas={areasGabineteTecnico} baseUrl={baseUrl} client:load />
+						</div>
 					</div>
 
 					{/* Departamento Gestión Técnica */}
@@ -147,16 +228,36 @@ const baseUrl = import.meta.env.BASE_URL;
 						<div class="flex flex-col items-center text-center mb-4">
 							<div class="w-48 h-48 rounded-full p-0.5 bg-gradient-to-br from-[#1D7D4D] to-primary-green shadow-lg mb-4">
 								<img
-									src={`${baseUrl}hero_director.png`}
+									src={`${baseUrl}hero.png`}
 									alt="Jefe de Departamento Gestión Técnica DINAOPERPOL"
 									loading="lazy"
 									class="w-full h-full object-cover rounded-full border-2 border-white"
 								/>
 							</div>
-							<h4 class="text-xl font-bold text-slate-900 mb-1">Departamento Gestión Técnica y Mejora Continua</h4>
+							<h4 class="text-xl font-bold text-text-dark mb-1">Departamento Gestión Técnica y Mejora Continua</h4>
 							<p class="text-sm text-primary-green font-semibold">Jefe de Departamento</p>
 						</div>
-						<p class="text-sm text-slate-700 flex-grow text-center">Apoyar al Gabinete Técnico en la asesoría técnica especializada, análisis de procesos institucionales, desarrollo de proyectos de mejora continua y seguimiento de iniciativas estratégicas.</p>
+						<p class="text-sm text-slate-700 text-center">Impulsamos la innovación y modernización institucional para entregar herramientas de vanguardia que fortalezcan la labor diaria de cada carabinero en todo el territorio.</p>
+                       				{/* Secciones del Departamento */}
+						<div class="bg-gray-50 rounded-lg p-4 mt-6">
+							<p class="text-xs font-semibold text-gray-700 mb-4 text-center">Áreas:</p>
+							<div class="space-y-3">
+								{seccionesDepartamentoGestionTecnica.map((seccion) => (
+									<div key={seccion.id} class="bg-white rounded-lg p-3 border border-gray-200">
+										<div class="flex items-start gap-3">
+											{/* Icono de la Sección */}
+											<div class="w-24 h-24 rounded-full bg-primary-green/10 border-2 border-primary-green/30 flex-shrink-0 flex items-center justify-center">
+												<seccion.icon className="w-12 h-12 text-primary-green" />
+											</div>
+											<div class="flex-1">
+												<h5 class="text-xs font-bold text-slate-900 leading-tight mb-1">{seccion.title}</h5>
+												<p class="text-xs text-slate-600 mb-2">{seccion.desc}</p>
+											</div>
+										</div>
+									</div>
+								))}
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>

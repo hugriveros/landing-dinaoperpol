@@ -127,6 +127,20 @@ export default function Navbar() {
                 activeSection === 'footer' ? 'w-full' : 'w-0 group-hover:w-full'
               }`}></span>
             </button>
+            
+            {/* Separador visual */}
+            <div className="h-6 w-px bg-gradient-to-b from-transparent via-slate-300 to-transparent"></div>
+            
+            {/* Enlace destacado a Documentos */}
+            <a
+              href={`${import.meta.env.BASE_URL}documentos`}
+              className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-primary-green to-secondary-green text-white font-bold rounded-lg shadow-md hover:shadow-lg hover:from-secondary-green hover:to-primary-green transition-all duration-300 hover:scale-105"
+            >
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clipRule="evenodd" />
+              </svg>
+              <span>Documentos</span>
+            </a>
           </div>
 
           {/* Mobile menu button */}
@@ -184,6 +198,20 @@ export default function Navbar() {
             >
               Contacto
             </button>
+            
+            {/* Separador */}
+            <div className="h-px bg-gray-200 my-2"></div>
+            
+            {/* Enlace a Documentos destacado en mobile */}
+            <a
+              href={`${import.meta.env.BASE_URL}documentos`}
+              className="flex items-center justify-center gap-2 mx-3 my-2 px-3 py-3 bg-gradient-to-r from-primary-green to-secondary-green text-white font-bold rounded-lg shadow-md hover:shadow-lg transition-all"
+            >
+              <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                <path fillRule="evenodd" d="M4 4a2 2 0 012-2h4.586A2 2 0 0112 2.586L15.414 6A2 2 0 0116 7.414V16a2 2 0 01-2 2H6a2 2 0 01-2-2V4zm2 6a1 1 0 011-1h6a1 1 0 110 2H7a1 1 0 01-1-1zm1 3a1 1 0 100 2h6a1 1 0 100-2H7z" clipRule="evenodd" />
+              </svg>
+              <span>Documentos</span>
+            </a>
           </div>
         </div>
       )}
