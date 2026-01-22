@@ -19,7 +19,7 @@ export default function Navbar() {
       // Detectar sección activa usando offsets y altura del nav (más determinista)
       const navEl = document.querySelector('nav');
       const navHeight = navEl ? Math.round(navEl.getBoundingClientRect().height) : 80;
-      const sectionIds = ['inicio', 'quienes-somos', 'noticias', 'footer'];
+      const sectionIds = ['inicio', 'director', 'noticias', 'footer'];
       let currentActive = 'inicio';
       for (const id of sectionIds) {
         const el = document.getElementById(id);
@@ -59,79 +59,84 @@ export default function Navbar() {
       backdropFilter: 'blur(10px)'
     }}>
       <div className="max-w-[1400px] mx-auto px-8">
-        <div className="flex justify-center items-center gap-10">
-          {/* Menu izquierdo */}
-          <div className="hidden md:flex items-center gap-10">
-            <button
-              onClick={() => scrollToSection('inicio')}
-              className={`font-medium text-[0.95rem] transition-all duration-300 relative group ${
-                activeSection === 'inicio' ? 'text-primary-green' : 'text-text-dark hover:text-primary-green'
-              }`}
-            >
-              Inicio
-              <span className={`absolute bottom-[-5px] left-0 h-0.5 bg-secondary-green transition-all duration-300 ${
-                activeSection === 'inicio' ? 'w-full' : 'w-0 group-hover:w-full'
-              }`}></span>
-            </button>
-            <button
-              onClick={() => scrollToSection('quienes-somos')}
-              className={`font-medium text-[0.95rem] transition-all duration-300 relative group ${
-                activeSection === 'quienes-somos' ? 'text-primary-green' : 'text-text-dark hover:text-primary-green'
-              }`}
-            >
-              ¿Quiénes somos?
-              <span className={`absolute bottom-[-5px] left-0 h-0.5 bg-secondary-green transition-all duration-300 ${
-                activeSection === 'quienes-somos' ? 'w-full' : 'w-0 group-hover:w-full'
-              }`}></span>
-            </button>
-          </div>
-
-          {/* Logo centrado */}
-          <div className="flex items-center gap-4">
-            {/* Logo animado que aparece al hacer scroll */}
-            <div className={`transition-all duration-500 overflow-hidden ${
-              showLogo ? 'w-12 opacity-100' : 'w-0 opacity-0'
-            }`}>
-              <img
-                src={`${import.meta.env.BASE_URL}logo_carabineros.svg`} 
-                alt="DIRNAOPERPOL"
-                className="w-12 h-12 object-contain transition-transform duration-300 hover:scale-110"
-              />
+        <div className="grid grid-cols-3 items-center">
+          {/* Espaciador izquierdo invisible para balancear */}
+          <div className="hidden md:block w-[140px]"></div>
+          
+          {/* Contenido centrado */}
+          <div className="flex justify-center items-center gap-10">
+            {/* Menu izquierdo */}
+            <div className="hidden md:flex items-center gap-10">
+              <button
+                onClick={() => scrollToSection('inicio')}
+                className={`font-medium text-[0.95rem] transition-all duration-300 relative group ${
+                  activeSection === 'inicio' ? 'text-primary-green' : 'text-text-dark hover:text-primary-green'
+                }`}
+              >
+                Inicio
+                <span className={`absolute bottom-[-5px] left-0 h-0.5 bg-secondary-green transition-all duration-300 ${
+                  activeSection === 'inicio' ? 'w-full' : 'w-0 group-hover:w-full'
+                }`}></span>
+              </button>
+              <button
+                onClick={() => scrollToSection('director')}
+                className={`font-medium text-[0.95rem] transition-all duration-300 relative group whitespace-nowrap ${
+                  activeSection === 'director' ? 'text-primary-green' : 'text-text-dark hover:text-primary-green'
+                }`}
+              >
+                ¿Quiénes somos?
+                <span className={`absolute bottom-[-5px] left-0 h-0.5 bg-secondary-green transition-all duration-300 ${
+                  activeSection === 'director' ? 'w-full' : 'w-0 group-hover:w-full'
+                }`}></span>
+              </button>
             </div>
-            <h1 className="text-2xl font-extrabold tracking-tight bg-gradient-to-r from-primary-green to-secondary-green bg-clip-text text-transparent">
-              DGEA
-            </h1>
-          </div>
 
-          {/* Menu derecho */}
-          <div className="hidden md:flex items-center gap-10">
-            <button
-              onClick={() => scrollToSection('noticias')}
-              className={`font-medium text-[0.95rem] transition-all duration-300 relative group ${
-                activeSection === 'noticias' ? 'text-primary-green' : 'text-text-dark hover:text-primary-green'
-              }`}
-            >
-              Noticias
-              <span className={`absolute bottom-[-5px] left-0 h-0.5 bg-secondary-green transition-all duration-300 ${
-                activeSection === 'noticias' ? 'w-full' : 'w-0 group-hover:w-full'
-              }`}></span>
-            </button>
-            <button
-                onClick={() => scrollToSection('footer')}
-              className={`font-medium text-[0.95rem] transition-all duration-300 relative group ${
-                activeSection === 'footer' ? 'text-primary-green' : 'text-text-dark hover:text-primary-green'
-              }`}
-            >
-              Contacto
-              <span className={`absolute bottom-[-5px] left-0 h-0.5 bg-secondary-green transition-all duration-300 ${
-                activeSection === 'footer' ? 'w-full' : 'w-0 group-hover:w-full'
-              }`}></span>
-            </button>
-            
-            {/* Separador visual */}
-            <div className="h-6 w-px bg-gradient-to-b from-transparent via-slate-300 to-transparent"></div>
-            
-            {/* Enlace destacado a Documentos */}
+            {/* Logo centrado */}
+            <div className="flex items-center gap-4">
+              {/* Logo animado que aparece al hacer scroll */}
+              <div className={`transition-all duration-500 overflow-hidden ${
+                showLogo ? 'w-12 opacity-100' : 'w-0 opacity-0'
+              }`}>
+                <img
+                  src={`${import.meta.env.BASE_URL}logo_carabineros.svg`} 
+                  alt="DIRNAOPERPOL"
+                  className="w-12 h-12 object-contain transition-transform duration-300 hover:scale-110"
+                />
+              </div>
+              <h1 className="text-2xl font-extrabold tracking-tight bg-gradient-to-r from-primary-green to-secondary-green bg-clip-text text-transparent">
+                DGEA
+              </h1>
+            </div>
+
+            {/* Menu derecho */}
+            <div className="hidden md:flex items-center gap-10">
+              <button
+                onClick={() => scrollToSection('noticias')}
+                className={`font-medium text-[0.95rem] transition-all duration-300 relative group ${
+                  activeSection === 'noticias' ? 'text-primary-green' : 'text-text-dark hover:text-primary-green'
+                }`}
+              >
+                Noticias
+                <span className={`absolute bottom-[-5px] left-0 h-0.5 bg-secondary-green transition-all duration-300 ${
+                  activeSection === 'noticias' ? 'w-full' : 'w-0 group-hover:w-full'
+                }`}></span>
+              </button>
+              <button
+                  onClick={() => scrollToSection('footer')}
+                className={`font-medium text-[0.95rem] transition-all duration-300 relative group ${
+                  activeSection === 'footer' ? 'text-primary-green' : 'text-text-dark hover:text-primary-green'
+                }`}
+              >
+                Contacto
+                <span className={`absolute bottom-[-5px] left-0 h-0.5 bg-secondary-green transition-all duration-300 ${
+                  activeSection === 'footer' ? 'w-full' : 'w-0 group-hover:w-full'
+                }`}></span>
+              </button>
+            </div>
+          </div>
+          
+          {/* Botón de Documentos en la esquina derecha */}
+          <div className="hidden md:flex justify-end">
             <a
               href={`${import.meta.env.BASE_URL}documentos`}
               className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-primary-green to-secondary-green text-white font-bold rounded-lg shadow-md hover:shadow-lg hover:from-secondary-green hover:to-primary-green transition-all duration-300 hover:scale-105"
@@ -180,7 +185,7 @@ export default function Navbar() {
               Inicio
             </button>
             <button
-              onClick={() => scrollToSection('quienes-somos')}
+              onClick={() => scrollToSection('director')}
               className="block w-full text-left px-3 py-2 text-text-dark hover:bg-gray-50 hover:text-primary-green rounded-md font-medium transition-all"
             >
               ¿Quiénes somos?

@@ -1,6 +1,6 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { ChevronLeftIcon, ShieldCheckIcon, ArchiveBoxIcon, ChartBarIcon, UserGroupIcon, InboxIcon, ScaleIcon, WrenchScrewdriverIcon, CircleStackIcon } from '@heroicons/react/24/solid';
+import { ChevronLeftIcon, UserGroupIcon, InboxIcon, ScaleIcon, WrenchScrewdriverIcon, CircleStackIcon, GlobeAltIcon } from '@heroicons/react/24/solid';
 import AreasGabineteTecnico from '../components/AreasGabineteTecnico';
 
 const baseUrl = import.meta.env.BASE_URL;
@@ -30,18 +30,18 @@ const areasGabineteTecnico = [
 	{ 
 		id: 1, 
 		title: 'Control y Gestión de Materias Estratégicas', 
-		nombreJefe: 'Cristian Rojas Castillo', 
+		nombreJefe: 'Capitan Cristian Rojas Castillo', 
 		fotoJefe: 'hero_estrategia.png', 
 		desc: 'Garantizamos la vanguardia y continuidad operativa institucional mediante el monitoreo estratégico y la supervisión técnica de proyectos tecnológicos, telecomunicaciones y equipamiento de alta especialización.',
 		responsabilidades: [
 		 
 		],
-		contactoAnexo: '2001'
+		contactoAnexo: '20548'
 	},
 	{ 
 		id: 2, 
 		title: 'Control y Gestión de Cadena de Suministros', 
-		nombreJefe: 'Mauricio Avendaño Pinto', 
+		nombreJefe: 'Capitan Mauricio Avendaño Pinto', 
 		fotoJefe: 'hero_suministro.png', 
 		desc: 'Impulsamos la excelencia institucional mediante una gestión estratégica y eficiente de los recursos, integrando el control logístico, presupuestario y de proyectos para asegurar el cumplimiento riguroso de nuestra misión.',
 		responsabilidades: [
@@ -51,29 +51,29 @@ const areasGabineteTecnico = [
 			'Gestión del Plan Anual de Compras (PAC)',
             'Convenios de Transferencia.'
 		],
-		contactoAnexo: '2002'
+		contactoAnexo: '20510'
 	},
 	{ 
 		id: 3, 
 		title: 'Control y Gestión de Infraestructura', 
-		nombreJefe: 'Jorge Gonzalez Olea', 
+		nombreJefe: 'Capitan Jorge Gonzalez Olea', 
 		fotoJefe: 'hero_estructura.png', 
 		desc: 'Garantizamos la excelencia en la infraestructura institucional mediante la supervisión técnica y presupuestaria de proyectos de construcción, mantenimiento y optimización de cuarteles a nivel nacional.',
 		responsabilidades: [
  
 		],
-		contactoAnexo: '2003'
+		contactoAnexo: '20546'
 	},
     { 
 		id: 4, 
 		title: 'Control y Gestión Financiero', 
-		nombreJefe: 'Cesar Salgado', 
-		fotoJefe: 'hero.png', 
+		nombreJefe: 'Mayor Cesar Salgado', 
+		fotoJefe: 'hero_financiero.png', 
 		desc: 'Brindamos asesoría financiera y presupuestaria estratégica a la alta dirección, coordinando el análisis y seguimiento de los procesos para garantizar una gestión de recursos eficiente, transparente y oportuna en apoyo a la función policial.',
 		responsabilidades: [
  
 		],
-		contactoAnexo: '2004'
+		contactoAnexo: '0000'
 	}
 ];
 ---
@@ -176,9 +176,9 @@ const areasGabineteTecnico = [
 								/>
 							</div>
 							<h4 class="text-xl font-bold text-text-dark mb-1">Gabinete</h4>
-							<p class="text-sm text-primary-green font-semibold">Jefe de Gabinete</p>
+							<p class="text-sm text-primary-green font-semibold">Coronel Rodrigo Mariángel Hernández </p>
 						</div>
-						<p class="text-sm text-slate-700 text-center">Vincular a la Dirección Nacional con las Altas Reparticiones, coordinar el trabajo de las Direcciones dependientes, monitorear la gestión administrativa y supervisar el control de documentación.</p>
+					<p class="text-base text-slate-700 text-center">Vincular a la Dirección Nacional con las Altas Reparticiones, coordinar el trabajo de las Direcciones dependientes, monitorear la gestión administrativa y supervisar el control de documentación.</p>
 						{/* Secciones del Gabinete */}
 						<div class="bg-gray-50 rounded-lg p-4 mt-6">
 							<p class="text-xs font-semibold text-gray-700 mb-4 text-center">Áreas:</p>
@@ -191,8 +191,8 @@ const areasGabineteTecnico = [
 												<seccion.icon className="w-12 h-12 text-primary-green" />
 											</div>
 											<div class="flex-1">
-												<h5 class="text-xs font-bold text-slate-900 leading-tight mb-1">{seccion.title}</h5>
-												<p class="text-xs text-slate-600 mb-2">{seccion.desc}</p>
+												<h5 class="text-base font-bold text-slate-900 leading-tight mb-1">{seccion.title}</h5>
+												<p class="text-sm text-slate-600 mb-2">{seccion.desc}</p>
 											</div>
 										</div>
 									</div>
@@ -213,11 +213,9 @@ const areasGabineteTecnico = [
 								/>
 							</div>
 							<h4 class="text-xl font-bold text-text-dark mb-1">Gabinete Técnico</h4>
-							<p class="text-sm text-secondary-green font-semibold">Jefe de Gabinete Técnico</p>
+							<p class="text-sm text-secondary-green font-semibold">Tte. Coronel Felipe Berna Zambrano</p>
 						</div>
-						<p class="text-sm text-slate-700 text-center">Potenciamos la toma de decisiones estratégicas mediante asesoría técnica especializada en logística, finanzas y tecnología, evaluando proyectos de vanguardia que impulsan el desarrollo y la modernización institucional.</p>
-						
-						{/* Áreas del Gabinete Técnico */}
+					<p class="text-base text-slate-700 text-center">Potenciamos la toma de decisiones estratégicas mediante asesoría técnica especializada en logística, finanzas y tecnología, evaluando proyectos de vanguardia que impulsan el desarrollo y la modernización institucional.</p>
 						<div class="mt-6">
 							<AreasGabineteTecnico areas={areasGabineteTecnico} baseUrl={baseUrl} client:load />
 						</div>
@@ -237,7 +235,7 @@ const areasGabineteTecnico = [
 							<h4 class="text-xl font-bold text-text-dark mb-1">Departamento Gestión Técnica y Mejora Continua</h4>
 							<p class="text-sm text-primary-green font-semibold">Jefe de Departamento</p>
 						</div>
-						<p class="text-sm text-slate-700 text-center">Impulsamos la innovación y modernización institucional para entregar herramientas de vanguardia que fortalezcan la labor diaria de cada carabinero en todo el territorio.</p>
+						<p class="text-base text-slate-700 text-center">Impulsamos la innovación y modernización institucional para entregar herramientas de vanguardia que fortalezcan la labor diaria de cada carabinero en todo el territorio.</p>
                        				{/* Secciones del Departamento */}
 						<div class="bg-gray-50 rounded-lg p-4 mt-6">
 							<p class="text-xs font-semibold text-gray-700 mb-4 text-center">Áreas:</p>
@@ -250,13 +248,27 @@ const areasGabineteTecnico = [
 												<seccion.icon className="w-12 h-12 text-primary-green" />
 											</div>
 											<div class="flex-1">
-												<h5 class="text-xs font-bold text-slate-900 leading-tight mb-1">{seccion.title}</h5>
-												<p class="text-xs text-slate-600 mb-2">{seccion.desc}</p>
+												<h5 class="text-base font-bold text-slate-900 leading-tight mb-1">{seccion.title}</h5>
+												<p class="text-sm text-slate-600 mb-2">{seccion.desc}</p>
 											</div>
 										</div>
 									</div>
 								))}
 							</div>
+						</div>
+						
+						{/* Enlace al ERP Institucional */}
+						<div class="mt-6 text-center">
+							<a
+								href="http://erp.carabineros.cl/"
+								target="_blank"
+								rel="noopener noreferrer"
+								class="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-primary-green to-secondary-green text-white font-bold rounded-full shadow-lg hover:shadow-xl hover:from-secondary-green hover:to-primary-green transition-all duration-300 hover:scale-105"
+							>
+							<GlobeAltIcon className="w-5 h-5 text-white" />
+								<span>Visita el sitio web del Departamento</span>
+							</a>
+							
 						</div>
 					</div>
 				</div>

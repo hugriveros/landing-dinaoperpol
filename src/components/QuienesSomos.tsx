@@ -398,31 +398,7 @@ export default function QuienesSomos() {
               </div>
             </div> */}
         
-            {/* Direcciones Dependientes */}
-            <div className="mt-40">
-              <div ref={headerDireccionesRef} className="text-center mb-12">
-                <div ref={titleDireccionesRef} className="opacity-0">
-                  <div className="text-secondary-green font-semibold text-sm uppercase tracking-[2px] mb-2">NUESTRAS</div>
-                  <h3 className="text-4xl md:text-5xl font-extrabold text-text-dark mb-4">Direcciones Dependientes</h3>
-                  <p className="text-text-light max-w-2xl mx-auto">
-                    Altas Reparticiones especializadas que gestionan recursos financieros, logísticos, tecnológicos y de compras públicas.
-                  </p>
-                </div>
-              </div>
-              <div ref={gridDireccionesRef}>
-                <div ref={gridDireccionesItemsRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-                  {direcciones.map((dir) => (
-                      <div key={dir.id} className="opacity-0 bg-white p-8 rounded-2xl text-center border border-gray-100 hover:border-secondary-green/30 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-2 group">
-                          <div className="w-14 h-14 bg-linear-to-br from-primary-green to-secondary-green rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
-                              {dir.icon}
-                          </div>
-                          <h4 className="text-lg font-bold text-text-dark mb-2">{dir.title}</h4>
-                          <p className="text-sm text-text-light leading-relaxed">{dir.desc}</p>
-                      </div>
-                  ))}
-                </div>
-              </div>
-            </div>
+
 
            
            

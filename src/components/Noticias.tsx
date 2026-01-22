@@ -74,8 +74,7 @@ export default function Noticias() {
   const [horizontalHeaderRef, horizontalHeaderVisible] = useIntersectionObserver({ threshold: 0.2 });
   const [horizontalCarouselContainerRef, horizontalCarouselVisible] = useIntersectionObserver({ threshold: 0.1 });
   const horizontalHeaderTitleRef = useRef(null);
-
-  const STORY_DURATION = 10000; // 10 segundos por historia
+  const [videoDuration, setVideoDuration] = useState(10000); // Duración dinámica del video
 
   const noticias: Noticia[] = [
     {
@@ -355,7 +354,7 @@ export default function Noticias() {
     };
   }, [showDetail, showProyectoDetail]);
 
-  // Autoplay con progreso
+  // Autoplay con progreso basado en la duración real del video
   useEffect(() => {
     const TICK = 100;
 
@@ -365,14 +364,26 @@ export default function Noticias() {
       setProgress(0);
       
       progressIntervalRef.current = window.setInterval(() => {
-        progressRef.current += TICK;
-        const pct = Math.min(100, Math.round((progressRef.current / STORY_DURATION) * 100));
-        setProgress(pct);
-        
-        if (progressRef.current >= STORY_DURATION) {
-          progressRef.current = 0;
-          setProgress(0);
-          changeSlide('next');
+        if (videoRef.current && noticias[currentIndex].video) {
+          // Usar el tiempo actual del video
+          const currentTime = videoRef.current.currentTime * 1000;
+          const duration = videoRef.current.duration * 1000;
+          
+          if (duration && !isNaN(duration)) {
+            const pct = Math.min(100, Math.round((currentTime / duration) * 100));
+            setProgress(pct);
+          }
+        } else {
+          // Fallback para noticias sin video (10 segundos)
+          progressRef.current += TICK;
+          const pct = Math.min(100, Math.round((progressRef.current / videoDuration) * 100));
+          setProgress(pct);
+          
+          if (progressRef.current >= videoDuration) {
+            progressRef.current = 0;
+            setProgress(0);
+            changeSlide('next');
+          }
         }
       }, TICK) as unknown as number;
     };
@@ -388,7 +399,31 @@ export default function Noticias() {
     else stop();
 
     return () => stop();
-  }, [showDetail, currentIndex]);
+  }, [showDetail, currentIndex, videoDuration]);
+
+  // Manejar eventos del video
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    const handleLoadedMetadata = () => {
+      if (video.duration && !isNaN(video.duration)) {
+        setVideoDuration(video.duration * 1000);
+      }
+    };
+
+    const handleVideoEnded = () => {
+      changeSlide('next');
+    };
+
+    video.addEventListener('loadedmetadata', handleLoadedMetadata);
+    video.addEventListener('ended', handleVideoEnded);
+
+    return () => {
+      video.removeEventListener('loadedmetadata', handleLoadedMetadata);
+      video.removeEventListener('ended', handleVideoEnded);
+    };
+  }, [currentIndex]);
 
   // Cleanup global al desmontar
   useEffect(() => {
@@ -482,7 +517,6 @@ export default function Noticias() {
                       src={`${import.meta.env.BASE_URL}${noticias[currentIndex].video}`}
                       className="w-full h-full object-cover"
                       autoPlay
-                      loop
                       muted={isMuted}
                       playsInline
                     />

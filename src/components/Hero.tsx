@@ -107,10 +107,10 @@ export default function Hero() {
             <div className="overflow-hidden">
               <p
                 ref={textRef}
-                className="text-xl md:text-2xl text-gray-300 mb-12 max-w-3xl leading-relaxed opacity-0"
+                className="text-2xl md:text-2xl text-gray-300 mb-12 max-w-3xl leading-relaxed opacity-0"
               >
-                Coordinamos y ejecutamos las operaciones policiales a nivel nacional, garantizando la seguridad ciudadana y el orden público con compromiso y transparencia.
-              </p>
+                Garantizando la excelencia operativa y tecnológica para la seguridad pública
+            </p>
             </div>
 
           </div>
@@ -118,7 +118,7 @@ export default function Hero() {
           {/* Columna derecha: Logo animado */}
           <div
             ref={logoRef}
-            className="w-full flex items-center justify-center mt-12 lg:mt-0 opacity-0"
+            className="w-full flex items-center justify-center lg:ml-50 mt-12 lg:mt-0 opacity-0"
           >
             <AnimatedLogo />
           </div>

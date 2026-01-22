@@ -246,17 +246,21 @@ export  function AnimeOrganigrama() {
   // Animación del header
   useEffect(() => {
     if (!sectionVisible) {
-      anime.set(headerTitleRef.current, { opacity: 0, translateY: 30 });
+      anime.set(headerTitleRef.current, { opacity: 0, translateY: 50, scale: 0.9 });
       setAnimatedHeader(false);
     } else if (headerVisible && !animatedHeader) {
       setAnimatedHeader(true);
-      anime({
-        targets: headerTitleRef.current,
-        translateY: [30, 0],
-        opacity: [0, 1],
+      const timeline = anime.timeline({
         easing: 'easeOutExpo',
-        duration: 1000,
-        delay: 100
+      });
+      
+      timeline.add({
+        targets: headerTitleRef.current,
+        translateY: [50, 0],
+        opacity: [0, 1],
+        scale: [0.9, 1],
+        duration: 1200,
+        delay: 200
       });
     }
   }, [headerVisible, sectionVisible, animatedHeader]);
@@ -264,19 +268,21 @@ export  function AnimeOrganigrama() {
   // Animación del grid
   useEffect(() => {
     if (!sectionVisible) {
-      if(gridRef.current) anime.set(gridRef.current.querySelectorAll('.org-item'), { opacity: 0, scale: 0, translateY: 50 });
+      if(gridRef.current) anime.set(gridRef.current.querySelectorAll('.org-item'), { opacity: 0, scale: 0.8, translateY: 60, rotateY: -15 });
       setAnimatedGrid(false);
     } else if (gridContainerVisible && !animatedGrid && gridRef.current) {
       setAnimatedGrid(true);
       const items = gridRef.current.querySelectorAll('.org-item');
+      
       anime({
         targets: items,
-        scale: [0, 1],
+        scale: [0.8, 1],
         opacity: [0, 1],
-        translateY: [50, 0],
-        delay: anime.stagger(100, { from: 'center' }),
-        duration: 800,
-        easing: 'easeOutElastic(1, .6)',
+        translateY: [60, 0],
+        rotateY: [-15, 0],
+        delay: anime.stagger(150, { from: 'first', direction: 'normal' }),
+        duration: 1000,
+        easing: 'easeOutElastic(1, .5)',
       });
     }
   }, [gridContainerVisible, sectionVisible, animatedGrid]);
@@ -330,7 +336,7 @@ export  function AnimeOrganigrama() {
             {nodesByLevel[0].map((node) => (
               <div
                 key={node.id}
-                className="org-item cursor-pointer group"
+                className="org-item cursor-pointer group perspective-1000"
                 onClick={() => handleExpand(node.id)}
                 role="button"
                 tabIndex={0}
@@ -342,30 +348,34 @@ export  function AnimeOrganigrama() {
                   }
                 }}
               >
-                <div className="relative overflow-hidden bg-linear-to-br from-[#0F172A] to-slate-900 rounded-2xl shadow-xl hover:shadow-2xl border-2 border-[#0F172A] hover:border-secondary-green/40 transition-all duration-500 hover:-translate-y-2 w-full max-w-[500px] focus-within:ring-4 focus-within:ring-primary-green/50">
-                  <div className="absolute inset-0 bg-linear-to-br from-secondary-green/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                <div className="relative overflow-hidden bg-linear-to-br from-[#0F172A] to-slate-900 rounded-2xl shadow-xl hover:shadow-2xl border-2 border-[#0F172A] hover:border-secondary-green/50 transition-all duration-500 hover:-translate-y-3 hover:scale-105 w-full max-w-[500px] focus-within:ring-4 focus-within:ring-primary-green/50 transform-gpu">
+                  <div className="absolute inset-0 bg-linear-to-br from-secondary-green/20 via-primary-green/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(37,163,102,0.1),transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                   <div className="relative h-56 bg-linear-to-br from-[#0F172A] to-slate-900 overflow-hidden">
                     <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="w-40 h-40 rounded-full p-1 bg-linear-to-br from-primary-green via-secondary-green to-[#35AF6F] shadow-lg">
-                        <img
-                          src={`${import.meta.env.BASE_URL}${node.image}`}
-                          alt={`${node.position} - ${node.name}`}
-                          loading="lazy"
-                          className="w-full h-full object-cover rounded-full border-4 border-[#0F172A] group-hover:scale-110 transition-transform duration-300"
-                        />
+                      <div className="relative">
+                        <div className="absolute inset-0 w-40 h-40 rounded-full bg-linear-to-br from-primary-green via-secondary-green to-[#35AF6F] blur-xl opacity-50 group-hover:opacity-75 transition-opacity duration-500"></div>
+                        <div className="relative w-40 h-40 rounded-full p-1 bg-linear-to-br from-primary-green via-secondary-green to-[#35AF6F] shadow-2xl group-hover:shadow-[0_0_40px_rgba(37,163,102,0.5)] transition-all duration-500">
+                          <img
+                            src={`${import.meta.env.BASE_URL}${node.image}`}
+                            alt={`${node.position} - ${node.name}`}
+                            loading="lazy"
+                            className="w-full h-full object-cover rounded-full border-4 border-[#0F172A] group-hover:scale-110 group-hover:rotate-3 transition-all duration-500"
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>
-                  <div className="relative p-7">
-                    <h4 className="font-bold text-xl text-white leading-tight mb-2">{node.name}</h4>
+                  <div className="relative p-7 bg-linear-to-b from-transparent to-slate-900/50">
+                    <h4 className="font-bold text-xl text-white leading-tight mb-2 group-hover:text-secondary-green transition-colors duration-300">{node.name}</h4>
                     <div className="flex items-center gap-2 text-sm text-secondary-green font-medium">
-                      <div className="w-1.5 h-1.5 rounded-full bg-secondary-green" />
-                      <span>{node.department}</span>
+                      <div className="w-1.5 h-1.5 rounded-full bg-secondary-green animate-pulse" />
+                      <span className="group-hover:translate-x-1 transition-transform duration-300">{node.department}</span>
                     </div>
                   </div>
-                  <div className="absolute top-4 right-4 w-8 h-8 rounded-lg bg-secondary-green/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:scale-110">
-                    <svg className="w-4 h-4 text-secondary-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+                  <div className="absolute top-4 right-4 w-10 h-10 rounded-xl bg-secondary-green/20 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:scale-110 group-hover:rotate-12 border border-secondary-green/30">
+                    <svg className="w-5 h-5 text-secondary-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
                     </svg>
                   </div>
                 </div>
@@ -374,6 +384,12 @@ export  function AnimeOrganigrama() {
           </div>
         )}
         {/* Nivel 2 - Direcciones Principales (4 nodos) */}
+        {/* Nivel 2 - Direcciones Principales (4 nodos) */}
+        <div className="text-center mb-14">
+          <div className="text-secondary-green font-semibold text-sm uppercase tracking-[2px] mb-2">NUESTRAS</div>
+          <h3 className="text-4xl md:text-5xl font-extrabold text-text-dark mb-4">Direcciones Dependientes</h3>
+        </div>
+        
         {nodesByLevel[2] && (
           <div className="relative">
             <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 max-w-[2100px] mx-auto">
@@ -392,30 +408,34 @@ export  function AnimeOrganigrama() {
                       }
                     }}
                   >
-                    <div className="relative overflow-hidden bg-linear-to-br from-[#0F172A] to-slate-900 rounded-2xl shadow-xl hover:shadow-2xl border-2 border-[#0F172A] hover:border-secondary-green/40 transition-all duration-500 hover:-translate-y-2 w-full h-full flex flex-col focus-within:ring-4 focus-within:ring-primary-green/50">
-                      <div className="absolute inset-0 bg-linear-to-br from-secondary-green/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                    <div className="relative overflow-hidden bg-linear-to-br from-[#0F172A] to-slate-900 rounded-2xl shadow-xl hover:shadow-2xl border-2 border-[#0F172A] hover:border-secondary-green/50 transition-all duration-500 hover:-translate-y-3 hover:scale-105 w-full h-full flex flex-col focus-within:ring-4 focus-within:ring-primary-green/50 transform-gpu">
+                      <div className="absolute inset-0 bg-linear-to-br from-secondary-green/15 via-primary-green/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(37,163,102,0.15),transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                       <div className="relative h-56 bg-linear-to-br from-[#0F172A] to-slate-900 overflow-hidden shrink-0">
                         <div className="absolute inset-0 flex items-center justify-center">
-                          <div className="w-40 h-40 rounded-full p-1 bg-linear-to-br from-primary-green via-secondary-green to-[#35AF6F] shadow-lg">
-                            <img
-                              src={`${import.meta.env.BASE_URL}${node.image}`}
-                              alt={`${node.position} - ${node.name}`}
-                              loading="lazy"
-                              className="w-full h-full object-cover rounded-full border-4 border-[#0F172A] group-hover:scale-110 transition-transform duration-300"
-                            />
+                          <div className="relative">
+                            <div className="absolute inset-0 w-40 h-40 rounded-full bg-linear-to-br from-primary-green via-secondary-green to-[#35AF6F] blur-xl opacity-50 group-hover:opacity-75 transition-opacity duration-500"></div>
+                            <div className="relative w-40 h-40 rounded-full p-1 bg-linear-to-br from-primary-green via-secondary-green to-[#35AF6F] shadow-2xl group-hover:shadow-[0_0_40px_rgba(37,163,102,0.5)] transition-all duration-500">
+                              <img
+                                src={`${import.meta.env.BASE_URL}${node.image}`}
+                                alt={`${node.position} - ${node.name}`}
+                                loading="lazy"
+                                className="w-full h-full object-cover rounded-full border-4 border-[#0F172A] group-hover:scale-110 group-hover:rotate-3 transition-all duration-500"
+                              />
+                            </div>
                           </div>
                         </div>
                       </div>
-                      <div className="relative p-7 flex-1 flex flex-col justify-center">
-                        <h4 className="font-bold text-xl text-white leading-tight mb-2">{node.name}</h4>
+                      <div className="relative p-7 flex-1 flex flex-col justify-center bg-linear-to-b from-transparent to-slate-900/50">
+                        <h4 className="font-bold text-xl text-white leading-tight mb-2 group-hover:text-secondary-green transition-colors duration-300">{node.name}</h4>
                         <div className="flex items-center gap-2 text-sm text-secondary-green font-medium">
-                          <div className="w-1.5 h-1.5 rounded-full bg-secondary-green" />
-                          <span>{node.department}</span>
+                          <div className="w-1.5 h-1.5 rounded-full bg-secondary-green animate-pulse" />
+                          <span className="group-hover:translate-x-1 transition-transform duration-300">{node.department}</span>
                         </div>
                       </div>
-                      <div className="absolute top-4 right-4 w-8 h-8 rounded-lg bg-secondary-green/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:scale-110">
-                        <svg className="w-4 h-4 text-secondary-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+                      <div className="absolute top-4 right-4 w-10 h-10 rounded-xl bg-secondary-green/20 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:scale-110 group-hover:rotate-12 border border-secondary-green/30">
+                        <svg className="w-5 h-5 text-secondary-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
                         </svg>
                       </div>
                     </div>
@@ -479,8 +499,8 @@ export  function AnimeOrganigrama() {
         <>
           <div
             ref={overlayRef}
-            className="fixed inset-0 bg-slate-50/30 backdrop-blur-md z-999"
-            style={{ animation: 'fadeIn 300ms ease-out' }}
+            className="fixed inset-0 bg-slate-900/60 backdrop-blur-lg z-999"
+            style={{ animation: 'fadeIn 400ms cubic-bezier(0.4, 0, 0.2, 1)' }}
             onClick={handleCollapse}
           />
           <div
@@ -489,10 +509,10 @@ export  function AnimeOrganigrama() {
             aria-modal="true"
             aria-labelledby="organigrama-modal-title"
             className="fixed inset-0 z-999 flex items-center justify-center p-4 md:p-6"
-            style={{ animation: 'fadeIn 300ms ease-out' }}
+            style={{ animation: 'fadeIn 400ms cubic-bezier(0.4, 0, 0.2, 1)' }}
           >
-            <div className="relative w-full max-w-5xl mx-auto bg-white rounded-2xl md:rounded-3xl shadow-2xl overflow-y-auto max-h-[90vh] border border-slate-200"
-              style={{ animation: 'slideUp 300ms ease-out' }}
+            <div className="relative w-full max-w-5xl mx-auto bg-white rounded-2xl md:rounded-3xl shadow-[0_25px_50px_-12px_rgba(0,0,0,0.25)] overflow-y-auto max-h-[90vh] border-2 border-slate-200/50"
+              style={{ animation: 'modalSlideUp 500ms cubic-bezier(0.34, 1.56, 0.64, 1)' }}
             >
             {selectedNode && (
               <div className="expanded-content h-full overflow-y-auto">
@@ -500,10 +520,11 @@ export  function AnimeOrganigrama() {
                 <button
                   onClick={handleCollapse}
                   aria-label="Cerrar detalle del organigrama"
-                  className="absolute top-4 right-4 z-50 w-10 h-10 bg-white/90 hover:bg-white rounded-full flex items-center justify-center text-slate-700 transition-all hover:scale-105 border border-slate-200 shadow-sm focus:outline-none focus:ring-4 focus:ring-primary-green/50"
+                  className="absolute top-4 right-4 z-50 w-12 h-12 bg-white/95 hover:bg-secondary-green rounded-full flex items-center justify-center text-slate-700 hover:text-white transition-all hover:scale-110 hover:rotate-90 border-2 border-slate-200 hover:border-secondary-green shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-primary-green/50"
+                  style={{ animation: 'fadeIn 600ms cubic-bezier(0.4, 0, 0.2, 1)' }}
                 >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M6 18L18 6M6 6l12 12" />
+                  <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
                   </svg>
                 </button>
 
@@ -764,15 +785,23 @@ export  function AnimeOrganigrama() {
               from {
                 opacity: 0;
               }
-              to {
+              to {modalSlideUp {
+              0% {
+                opacity: 0;
+                transform: translateY(40px) scale(0.9) rotateX(10deg);
+              }
+              100% {
                 opacity: 1;
+                transform: translateY(0) scale(1) rotateX(0deg);
               }
             }
-
-            @keyframes slideUp {
-              from {
-                opacity: 0;
-                transform: translateY(20px) scale(0.95);
+            
+            .perspective-1000 {
+              perspective: 1000px;
+            }
+            
+            .transform-gpu {
+              transform: translate3d(0, 0, 0); transform: translateY(20px) scale(0.95);
               }
               to {
                 opacity: 1;

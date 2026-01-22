@@ -53,7 +53,7 @@ export default function AreasGabineteTecnico({ areas, baseUrl }: Props) {
 									</div>
 									<div className="flex-1">
 										<div className="flex items-start justify-between gap-2">
-											<h5 className="text-xs font-bold text-slate-900 leading-tight transition-colors duration-500 ease-in-out group-hover:text-primary-green">{area.title}</h5>
+											<h5 className="text-base font-bold text-slate-900 leading-tight transition-colors duration-500 ease-in-out group-hover:text-primary-green">{area.title}</h5>
 											<svg 
 												className="w-5 h-5 text-primary-green transition-all duration-700 ease-in-out flex-shrink-0"
 												style={{ transform: isExpanded ? 'rotate(180deg)' : 'rotate(0deg)' }}
@@ -64,7 +64,7 @@ export default function AreasGabineteTecnico({ areas, baseUrl }: Props) {
 												<path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
 											</svg>
 										</div>
-										<p className="text-xs text-slate-600 mt-1 transition-colors duration-500 ease-in-out group-hover:text-slate-800">{area.desc}</p>
+										<p className="text-sm text-slate-600 mt-1 transition-colors duration-500 ease-in-out group-hover:text-slate-800">{area.desc}</p>
 									</div>
 								</div>
 							</button>
