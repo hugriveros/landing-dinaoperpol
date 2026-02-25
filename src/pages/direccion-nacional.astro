@@ -2,12 +2,13 @@
 import Layout from '../layouts/Layout.astro';
 import { ChevronLeftIcon, UserGroupIcon, InboxIcon, ScaleIcon, WrenchScrewdriverIcon, CircleStackIcon, GlobeAltIcon } from '@heroicons/react/24/solid';
 import AreasGabineteTecnico from '../components/AreasGabineteTecnico';
+import MapaChile from '../components/MapaChile';
 
 const baseUrl = import.meta.env.BASE_URL;
 
 const seccionesGabinete = [
 	{ id: 1, title: 'Ayudantía', icon: UserGroupIcon, desc: 'Apoyo directo al Jefe de Gabinete en la coordinación de actividades y gestión de agenda institucional.' },
-	{ id: 2, title: 'Oficina de Partes', icon: InboxIcon, desc: 'Recepción, registro y distribución de documentación oficial y correspondencia institucional.' },
+	{ id: 2, title: 'Oficina de Partes', icon: InboxIcon, foto: 'hero_partes.png', desc: 'Recepción, registro y distribución de documentación oficial y correspondencia institucional.' },
 	{ id: 3, title: 'Asesoría Jurídica', icon: ScaleIcon, desc: 'Asesoramiento legal, revisión de contratos y apoyo en procesos administrativos y judiciales.' }
 ];
 
@@ -186,10 +187,21 @@ const areasGabineteTecnico = [
 								{seccionesGabinete.map((seccion) => (
 									<div key={seccion.id} class="bg-white rounded-lg p-3 border border-gray-200">
 										<div class="flex items-start gap-3">
-											{/* Icono de la Sección */}
-											<div class="w-24 h-24 rounded-full bg-primary-green/10 border-2 border-primary-green/30 flex-shrink-0 flex items-center justify-center">
-												<seccion.icon className="w-12 h-12 text-primary-green" />
-											</div>
+									{/* Icono o Foto de la Sección */}
+									{seccion.foto ? (
+										<div class="w-24 h-24 rounded-full bg-gray-300 overflow-hidden border-2 border-primary-green/30 flex-shrink-0 flex items-center justify-center">
+											<img
+												src={`${baseUrl}${seccion.foto}`}
+												alt={seccion.title}
+												loading="lazy"
+												class="w-full h-full object-cover scale-100"
+											/>
+										</div>
+									) : (
+										<div class="w-24 h-24 rounded-full bg-primary-green/10 border-2 border-primary-green/30 flex-shrink-0 flex items-center justify-center">
+											<seccion.icon className="w-12 h-12 text-primary-green" />
+										</div>
+									)}
 											<div class="flex-1">
 												<h5 class="text-base font-bold text-slate-900 leading-tight mb-1">{seccion.title}</h5>
 												<p class="text-sm text-slate-600 mb-2">{seccion.desc}</p>
@@ -243,9 +255,18 @@ const areasGabineteTecnico = [
 								{seccionesDepartamentoGestionTecnica.map((seccion) => (
 									<div key={seccion.id} class="bg-white rounded-lg p-3 border border-gray-200">
 										<div class="flex items-start gap-3">
-											{/* Icono de la Sección */}
-											<div class="w-24 h-24 rounded-full bg-primary-green/10 border-2 border-primary-green/30 flex-shrink-0 flex items-center justify-center">
-												<seccion.icon className="w-12 h-12 text-primary-green" />
+											{/* Icono o Foto de la Sección */}
+											<div class="w-24 h-24 rounded-full bg-primary-green/10 border-2 border-primary-green/30 flex-shrink-0 flex items-center justify-center overflow-hidden">
+												{seccion.foto ? (
+													<img
+														src={`${baseUrl}${seccion.foto}`}
+														alt={seccion.title}
+														loading="lazy"
+														class="w-full h-full object-cover"
+													/>
+												) : (
+													<seccion.icon className="w-12 h-12 text-primary-green" />
+												)}
 											</div>
 											<div class="flex-1">
 												<h5 class="text-base font-bold text-slate-900 leading-tight mb-1">{seccion.title}</h5>
@@ -279,8 +300,10 @@ const areasGabineteTecnico = [
 		</div>
 	</section>
 
-	
-</Layout>
+		<!-- Mapa interactivo de Chile -->
+		<MapaChile client:load baseUrl={baseUrl} />
+
+	</Layout>
 
 <style>
 	@keyframes fadeInUp {

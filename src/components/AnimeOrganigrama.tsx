@@ -199,7 +199,7 @@ const orgData: OrgNode[] = [
     name: 'Dirección de Compras Públicas',
     position: 'Director de Compras Públicas',
     department: 'Dirección de Compras Públicas',
-    image: '',
+    image: 'hero_compras.png',
     description: '"Dirigir y coordinar los procesos de adquisición y compras públicas institucionales, gestionar licitaciones en conformidad con la normativa vigente, administrar el Plan Anual de Compras y garantizar la transparencia y eficiencia en los procesos de adquisición."',
     color: '#25a366',
     level: 2,
@@ -314,7 +314,7 @@ export  function AnimeOrganigrama() {
     <>
       <style>{lineAnimationStyles}</style>
       <section ref={sectionRef} className="p-8 ">
-        <div ref={headerRef} className="text-center mb-24">
+        <div ref={headerRef} className="text-center mb-14">
           <div ref={headerTitleRef} className="opacity-0">
             <div className="text-secondary-green font-semibold text-sm uppercase tracking-[2px] mb-2">
               ESTRUCTURA
@@ -385,9 +385,9 @@ export  function AnimeOrganigrama() {
         )}
         {/* Nivel 2 - Direcciones Principales (4 nodos) */}
         {/* Nivel 2 - Direcciones Principales (4 nodos) */}
-        <div className="text-center mb-14">
-          <div className="text-secondary-green font-semibold text-sm uppercase tracking-[2px] mb-2">NUESTRAS</div>
-          <h3 className="text-4xl md:text-5xl font-extrabold text-text-dark mb-4">Direcciones Dependientes</h3>
+        <div className="text-center mb-12">
+          <div className="text-secondary-green font-semibold text-xs uppercase tracking-[2px] ">NUESTRAS</div>
+          <h3 className="text-4xl md:text-3xl font-extrabold text-text-dark mb-4">Direcciones Dependientes</h3>
         </div>
         
         {nodesByLevel[2] && (

@@ -1,0 +1,161 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
+
+const baseUrl = import.meta.env.BASE_URL;
+---
+
+<Layout>
+	<Navbar client:load />
+	<!-- Hero Section - Banner 100 años -->
+	<section class="relative w-full h-[60vh] sm:h-[75vh] md:h-screen overflow-visible">
+		<!-- Banner Image con animación de revelado -->
+		<div class="banner-container w-full h-full pt-16 sm:pt-20 overflow-hidden">
+			<img
+				src={`${baseUrl}banner_100.png`}
+				alt="Centenario Carabineros - 100 años de servicio"
+				class="w-full h-full object-cover"
+			/>
+		</div>
+		
+		<!-- Logo Carabineros posicionado mitad y mitad -->
+		<div class="absolute -bottom-18 sm:-bottom-25 md:-bottom-30 lg:-bottom-40 left-1/2 z-20 animate-fade-in-logo">
+			<img
+				src={`${baseUrl}logo_carabineros.svg`}
+				alt="Logo Carabineros de Chile"
+				class="w-40 h-auto sm:w-52 md:w-64 lg:w-80 drop-shadow-2xl"
+			/>
+		</div>
+	</section>
+
+	<!-- Historia de Carabineros -->
+	<section class="pt-20 sm:pt-28 md:pt-40 lg:pt-48 pb-16 md:pb-24 bg-gradient-to-br from-gray-50 to-white relative overflow-hidden">
+		<div class="max-w-7xl mx-auto px-4 sm:px-6 md:px-8 relative z-10">
+			<!-- Header -->
+			<div class="text-center mb-12 md:mb-16">
+				<div class="text-secondary-green font-semibold text-xs sm:text-sm uppercase tracking-[2px] mb-2">
+					NUESTRA HISTORIA
+				</div>
+				<h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-text-dark mb-3 md:mb-4">
+					100 Años de Servicio a Chile
+				</h2>
+				<p class="text-text-light max-w-3xl mx-auto text-base sm:text-lg px-4">
+					Un siglo de compromiso, dedicación y servicio a la comunidad chilena
+				</p>
+			</div>
+
+			<!-- Narrativa -->
+			<div class="max-w-4xl mx-auto space-y-6 md:space-y-8">
+				<!-- Párrafo 1: Fundación -->
+				<div class="bg-white p-5 sm:p-6 md:p-8 rounded-xl md:rounded-2xl shadow-lg border-l-4 border-primary-green">
+					<p class="text-text-dark text-sm sm:text-base md:text-lg leading-relaxed">
+						<span class="text-primary-green font-bold text-xl sm:text-2xl">E</span>l 27 de abril de 1927, bajo el gobierno del Presidente Carlos Ibáñez del Campo, nació <strong class="text-primary-green">Carabineros de Chile</strong>, una institución que marcaría para siempre la historia de nuestro país. La fusión de la Policía Fiscal, el Cuerpo de Carabineros y el Regimiento de Carabineros dio origen a una institución unificada que se convertiría en el pilar fundamental del orden y la seguridad pública de la nación.
+					</p>
+				</div>
+
+				<!-- Párrafo 2: Desarrollo y Modernización -->
+				<div class="bg-white p-5 sm:p-6 md:p-8 rounded-xl md:rounded-2xl shadow-lg border-l-4 border-secondary-green">
+					<p class="text-text-dark text-sm sm:text-base md:text-lg leading-relaxed mb-3 md:mb-4">
+						A lo largo de las décadas siguientes, <strong>Carabineros se consolidó como una institución de vanguardia</strong>. Durante los años 50 y 60, se implementaron importantes avances tecnológicos y organizacionales que profesionalizaron la formación del personal y modernizaron los sistemas de comunicación. La institución se adaptó constantemente a los desafíos de cada época, manteniendo siempre su compromiso inquebrantable con el pueblo chileno.
+					</p>
+					<p class="text-text-dark text-sm sm:text-base md:text-lg leading-relaxed">
+						El periodo de transformación que vivió el país entre 1973 y 1990 también marcó cambios significativos en la estructura y funcionamiento de la institución. Con el retorno a la democracia en 1990, Carabineros inició un profundo proceso de modernización y adaptación a las nuevas necesidades de seguridad ciudadana en un contexto democrático, fortaleciendo su rol como garante del orden público y protector de los derechos de todas las personas.
+					</p>
+				</div>
+
+				<!-- Párrafo 3: Era Moderna -->
+				<div class="bg-white p-5 sm:p-6 md:p-8 rounded-xl md:rounded-2xl shadow-lg border-l-4 border-primary-green">
+					<p class="text-text-dark text-sm sm:text-base md:text-lg leading-relaxed mb-3 md:mb-4">
+						El siglo XXI trajo consigo la <strong>era digital y la transparencia institucional</strong>. Carabineros implementó tecnologías avanzadas y sistemas de gestión digital que revolucionaron la forma de entregar servicio a la comunidad. Se establecieron nuevos protocolos de derechos humanos y se fortaleció la relación con los ciudadanos, priorizando siempre el respeto, la cercanía y la eficiencia.
+					</p>
+				</div>
+
+				<!-- Párrafo 4: Centenario -->
+				<div class="bg-gradient-to-br from-primary-green to-secondary-green p-5 sm:p-6 md:p-8 rounded-xl md:rounded-2xl shadow-xl text-white">
+					<p class="text-sm sm:text-base md:text-lg leading-relaxed mb-3 md:mb-4">
+						<strong class="text-xl sm:text-2xl">Hoy, al celebrar nuestro centenario</strong>, miramos con orgullo estos 100 años de historia. Un siglo en el que miles de hombres y mujeres han vestido el uniforme con honor, dedicando sus vidas al servicio de Chile. Cada patrullaje, cada emergencia atendida, cada mano amiga extendida a la comunidad, ha construido el legado que celebramos.
+					</p>
+					<p class="text-sm sm:text-base md:text-lg leading-relaxed">
+						Este centenario no es solo una conmemoración del pasado, sino una renovación de nuestro compromiso con el futuro. <strong>Seguiremos siendo la institución cercana, confiable y profesional</strong> que Chile necesita, adaptándonos a los nuevos desafíos mientras mantenemos los valores que nos han guiado durante un siglo: honor, disciplina y servicio incondicional a la patria.
+					</p>
+				</div>
+			</div>
+
+			<!-- Cifras destacadas -->
+			<div class="mt-16 md:mt-20 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+				<div class="text-center p-4 sm:p-5 md:p-6 bg-white rounded-lg md:rounded-xl shadow-md hover:shadow-lg transition-shadow">
+					<div class="text-3xl sm:text-4xl font-extrabold text-primary-green mb-2">100</div>
+					<div class="text-xs sm:text-sm text-text-light uppercase tracking-wide">Años de Historia</div>
+				</div>
+				<div class="text-center p-4 sm:p-5 md:p-6 bg-white rounded-lg md:rounded-xl shadow-md hover:shadow-lg transition-shadow">
+					<div class="text-3xl sm:text-4xl font-extrabold text-primary-green mb-2">16</div>
+					<div class="text-xs sm:text-sm text-text-light uppercase tracking-wide">Regiones</div>
+				</div>
+				<div class="text-center p-4 sm:p-5 md:p-6 bg-white rounded-lg md:rounded-xl shadow-md hover:shadow-lg transition-shadow">
+					<div class="text-3xl sm:text-4xl font-extrabold text-primary-green mb-2">24/7</div>
+					<div class="text-xs sm:text-sm text-text-light uppercase tracking-wide">Servicio Continuo</div>
+				</div>
+				<div class="text-center p-4 sm:p-5 md:p-6 bg-white rounded-lg md:rounded-xl shadow-md hover:shadow-lg transition-shadow">
+					<div class="text-3xl sm:text-4xl font-extrabold text-primary-green mb-2">∞</div>
+					<div class="text-xs sm:text-sm text-text-light uppercase tracking-wide">Compromiso</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<Footer client:load />
+</Layout>
+
+<style>
+	/* Animación de revelado de arriba hacia abajo */
+	@keyframes reveal-down {
+		from {
+			clip-path: inset(0 0 100% 0);
+		}
+		to {
+			clip-path: inset(0 0 0 0);
+		}
+	}
+
+	.banner-container {
+		animation: reveal-down 0.5s ease-out forwards;
+	}
+
+	/* Animación del logo */
+	@keyframes fade-in-logo {
+		from {
+			opacity: 0;
+			transform: translateX(-50%) translateY(20px);
+		}
+		to {
+			opacity: 1;
+			transform: translateX(-50%) translateY(0);
+		}
+	}
+
+	.animate-fade-in-logo {
+		opacity: 0;
+		animation: fade-in-logo 0.5s ease-out 0.5s forwards;
+	}
+
+	@keyframes fade-in-up {
+		from {
+			opacity: 0;
+			transform: translateY(20px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	.animate-fade-in-up {
+		animation: fade-in-up 0.6s ease-out forwards;
+	}
+
+	.prose h2, .prose h3, .prose h4 {
+		margin-top: 1.5em;
+		margin-bottom: 0.5em;
+	}
+</style>

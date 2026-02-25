@@ -1,0 +1,192 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Navbar from '../components/Navbar';
+import Footer from '../components/Footer';
+---
+
+<Layout>
+	<Navbar client:load />
+	
+	<!-- Hero Section -->
+	<section class="pt-32 pb-16 bg-gradient-to-br from-primary-green to-secondary-green">
+		<div class="max-w-7xl mx-auto px-6">
+			<div class="text-center text-white">
+				<h1 class="text-5xl md:text-6xl font-extrabold mb-6 animate-fade-in-up">
+					Resultados DGEA
+				</h1>
+				<p class="text-xl md:text-2xl opacity-90 max-w-3xl mx-auto animate-fade-in-up" style="animation-delay: 0.1s;">
+					Transparencia y eficiencia en la gestión estratégica
+				</p>
+			</div>
+		</div>
+	</section>
+
+	<!-- Statistics Section -->
+	<section class="py-16 bg-gray-50">
+		<div class="max-w-7xl mx-auto px-6">
+			<div class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-12">
+				<div class="bg-white rounded-xl shadow-lg p-6 text-center animate-fade-in-up">
+					<div class="text-4xl font-extrabold text-primary-green mb-2">2,500+</div>
+					<div class="text-gray-600 font-medium">Procesos Gestionados</div>
+				</div>
+				<div class="bg-white rounded-xl shadow-lg p-6 text-center animate-fade-in-up" style="animation-delay: 0.1s;">
+					<div class="text-4xl font-extrabold text-secondary-green mb-2">98%</div>
+					<div class="text-gray-600 font-medium">Eficiencia Operacional</div>
+				</div>
+				<div class="bg-white rounded-xl shadow-lg p-6 text-center animate-fade-in-up" style="animation-delay: 0.2s;">
+					<div class="text-4xl font-extrabold text-primary-green mb-2">16</div>
+					<div class="text-gray-600 font-medium">Regiones Atendidas</div>
+				</div>
+				<div class="bg-white rounded-xl shadow-lg p-6 text-center animate-fade-in-up" style="animation-delay: 0.3s;">
+					<div class="text-4xl font-extrabold text-secondary-green mb-2">24/7</div>
+					<div class="text-gray-600 font-medium">Disponibilidad</div>
+				</div>
+			</div>
+
+			<!-- Main Content -->
+			<div class="bg-white rounded-xl shadow-lg p-8 md:p-12 animate-fade-in-up">
+				<h2 class="text-3xl font-bold text-text-dark mb-6">
+					Informe de Gestión 2024
+				</h2>
+
+				<!-- Logistics Section -->
+				<div class="mb-10">
+					<h3 class="text-2xl font-bold text-primary-green mb-4 flex items-center">
+						<svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 20 20">
+							<path d="M8 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0zM15 16.5a1.5 1.5 0 11-3 0 1.5 1.5 0 013 0z"></path>
+							<path d="M3 4a1 1 0 00-1 1v10a1 1 0 001 1h1.05a2.5 2.5 0 014.9 0H10a1 1 0 001-1V5a1 1 0 00-1-1H3zM14 7a1 1 0 00-1 1v6.05A2.5 2.5 0 0115.95 16H17a1 1 0 001-1v-5a1 1 0 00-.293-.707l-2-2A1 1 0 0015 7h-1z"></path>
+						</svg>
+						Gestión Logística
+					</h3>
+					<div class="space-y-3 text-gray-700">
+						<div class="flex items-start">
+							<span class="text-primary-green mr-2">•</span>
+							<p>Distribución eficiente de recursos a 16 regiones del país</p>
+						</div>
+						<div class="flex items-start">
+							<span class="text-primary-green mr-2">•</span>
+							<p>Optimización de cadena de suministros con reducción de tiempos en 30%</p>
+						</div>
+						<div class="flex items-start">
+							<span class="text-primary-green mr-2">•</span>
+							<p>Implementación de sistema de trazabilidad en tiempo real</p>
+						</div>
+					</div>
+				</div>
+
+				<!-- Procurement Section -->
+				<div class="mb-10">
+					<h3 class="text-2xl font-bold text-secondary-green mb-4 flex items-center">
+						<svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 20 20">
+							<path d="M3 1a1 1 0 000 2h1.22l.305 1.222a.997.997 0 00.01.042l1.358 5.43-.893.892C3.74 11.846 4.632 14 6.414 14H15a1 1 0 000-2H6.414l1-1H14a1 1 0 00.894-.553l3-6A1 1 0 0017 3H6.28l-.31-1.243A1 1 0 005 1H3z"></path>
+						</svg>
+						Compras Públicas
+					</h3>
+					<div class="space-y-3 text-gray-700">
+						<div class="flex items-start">
+							<span class="text-secondary-green mr-2">•</span>
+							<p>Transparencia total en procesos de adquisición</p>
+						</div>
+						<div class="flex items-start">
+							<span class="text-secondary-green mr-2">•</span>
+							<p>Ahorro de 15% mediante licitaciones estratégicas</p>
+						</div>
+						<div class="flex items-start">
+							<span class="text-secondary-green mr-2">•</span>
+							<p>100% de cumplimiento normativo en procedimientos</p>
+						</div>
+					</div>
+				</div>
+
+				<!-- Technology Section -->
+				<div class="mb-10">
+					<h3 class="text-2xl font-bold text-primary-green mb-4 flex items-center">
+						<svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 20 20">
+							<path fill-rule="evenodd" d="M3 5a2 2 0 012-2h10a2 2 0 012 2v8a2 2 0 01-2 2h-2.22l.123.489.804.804A1 1 0 0113 18H7a1 1 0 01-.707-1.707l.804-.804L7.22 15H5a2 2 0 01-2-2V5zm5.771 7H5V5h10v7H8.771z" clip-rule="evenodd"></path>
+						</svg>
+						Tecnología e Innovación
+					</h3>
+					<div class="space-y-3 text-gray-700">
+						<div class="flex items-start">
+							<span class="text-primary-green mr-2">•</span>
+							<p>Digitalización de procesos administrativos</p>
+						</div>
+						<div class="flex items-start">
+							<span class="text-primary-green mr-2">•</span>
+							<p>Implementación de sistemas de inteligencia artificial para análisis predictivo</p>
+						</div>
+						<div class="flex items-start">
+							<span class="text-primary-green mr-2">•</span>
+							<p>Modernización de infraestructura tecnológica institucional</p>
+						</div>
+					</div>
+				</div>
+
+				<!-- Financial Section -->
+				<div>
+					<h3 class="text-2xl font-bold text-secondary-green mb-4 flex items-center">
+						<svg class="w-6 h-6 mr-2" fill="currentColor" viewBox="0 0 20 20">
+							<path d="M8.433 7.418c.155-.103.346-.196.567-.267v1.698a2.305 2.305 0 01-.567-.267C8.07 8.34 8 8.114 8 8c0-.114.07-.34.433-.582zM11 12.849v-1.698c.22.071.412.164.567.267.364.243.433.468.433.582 0 .114-.07.34-.433.582a2.305 2.305 0 01-.567.267z"></path>
+							<path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-13a1 1 0 10-2 0v.092a4.535 4.535 0 00-1.676.662C6.602 6.234 6 7.009 6 8c0 .99.602 1.765 1.324 2.246.48.32 1.054.545 1.676.662v1.941c-.391-.127-.68-.317-.843-.504a1 1 0 10-1.51 1.31c.562.649 1.413 1.076 2.353 1.253V15a1 1 0 102 0v-.092a4.535 4.535 0 001.676-.662C13.398 13.766 14 12.991 14 12c0-.99-.602-1.765-1.324-2.246A4.535 4.535 0 0011 9.092V7.151c.391.127.68.317.843.504a1 1 0 101.511-1.31c-.563-.649-1.413-1.076-2.354-1.253V5z" clip-rule="evenodd"></path>
+						</svg>
+						Gestión Financiera
+					</h3>
+					<div class="space-y-3 text-gray-700">
+						<div class="flex items-start">
+							<span class="text-secondary-green mr-2">•</span>
+							<p>Ejecución presupuestaria eficiente con 97% de cumplimiento</p>
+						</div>
+						<div class="flex items-start">
+							<span class="text-secondary-green mr-2">•</span>
+							<p>Optimización de recursos financieros institucionales</p>
+						</div>
+						<div class="flex items-start">
+							<span class="text-secondary-green mr-2">•</span>
+							<p>Auditorías internas satisfactorias sin observaciones críticas</p>
+						</div>
+					</div>
+				</div>
+
+				<!-- Download Reports Section -->
+				<div class="mt-12 pt-8 border-t border-gray-200">
+					<h3 class="text-2xl font-bold text-text-dark mb-6">
+						Documentos y Reportes
+					</h3>
+					<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+						<a href="#" class="flex items-center gap-3 p-4 bg-gray-50 rounded-lg hover:bg-primary-green hover:text-white transition-all duration-300">
+							<svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+								<path fill-rule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v3.586l-1.293-1.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V8z" clip-rule="evenodd"></path>
+							</svg>
+							<span class="font-medium">Informe Anual 2024</span>
+						</a>
+						<a href="#" class="flex items-center gap-3 p-4 bg-gray-50 rounded-lg hover:bg-secondary-green hover:text-white transition-all duration-300">
+							<svg class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20">
+								<path fill-rule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v3.586l-1.293-1.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V8z" clip-rule="evenodd"></path>
+							</svg>
+							<span class="font-medium">Estadísticas Trimestrales</span>
+						</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<Footer client:load />
+</Layout>
+
+<style>
+	@keyframes fade-in-up {
+		from {
+			opacity: 0;
+			transform: translateY(20px);
+		}
+		to {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	}
+
+	.animate-fade-in-up {
+		animation: fade-in-up 0.6s ease-out forwards;
+	}
+</style>

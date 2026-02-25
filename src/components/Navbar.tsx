@@ -5,10 +5,37 @@ export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [showLogo, setShowLogo] = useState(false);
   const [activeSection, setActiveSection] = useState('inicio');
+  const [currentPage, setCurrentPage] = useState('');
+
+  useEffect(() => {
+    // Detectar página actual
+    const path = window.location.pathname;
+    const base = import.meta.env.BASE_URL;
+    if (path.includes('centenario')) {
+      setCurrentPage('centenario');
+      setActiveSection('centenario');
+    } else if (path.includes('resultados')) {
+      setCurrentPage('resultados');
+      setActiveSection('resultados');
+    } else if (path.includes('documentos')) {
+      setCurrentPage('documentos');
+    } else {
+      setCurrentPage('home');
+    }
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
+
+      // En páginas que no son home, siempre mostrar el logo
+      if (currentPage === 'centenario' || currentPage === 'resultados' || currentPage === 'documentos') {
+        setShowLogo(true);
+        return;
+      }
+
+      // Solo detectar secciones en la página principal
+      if (currentPage !== 'home') return;
 
       // Detectar si pasamos la sección de inicio (para mostrar logo)
       const heroSection = document.getElementById('inicio');
@@ -35,7 +62,7 @@ export default function Navbar() {
     handleScroll(); // Ejecutar al montar
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [currentPage]);
 
   // Nota: la detección de sección activa se realiza en el listener de scroll
 
@@ -49,6 +76,18 @@ export default function Navbar() {
       window.scrollTo({ top: targetY, behavior: 'smooth' });
       setIsOpen(false);
     }
+  };
+
+  const handleContactClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    const footer = document.getElementById('footer');
+    if (footer) {
+      scrollToSection('footer');
+    } else {
+      // Si no está en home, ir al final de la página actual
+      window.scrollTo({ top: document.body.scrollHeight, behavior: 'smooth' });
+    }
+    setIsOpen(false);
   };
 
   return (
@@ -67,8 +106,8 @@ export default function Navbar() {
           <div className="flex justify-center items-center gap-10">
             {/* Menu izquierdo */}
             <div className="hidden md:flex items-center gap-10">
-              <button
-                onClick={() => scrollToSection('inicio')}
+              <a
+                href={`${import.meta.env.BASE_URL}#inicio`}
                 className={`font-medium text-[0.95rem] transition-all duration-300 relative group ${
                   activeSection === 'inicio' ? 'text-primary-green' : 'text-text-dark hover:text-primary-green'
                 }`}
@@ -77,9 +116,9 @@ export default function Navbar() {
                 <span className={`absolute bottom-[-5px] left-0 h-0.5 bg-secondary-green transition-all duration-300 ${
                   activeSection === 'inicio' ? 'w-full' : 'w-0 group-hover:w-full'
                 }`}></span>
-              </button>
-              <button
-                onClick={() => scrollToSection('director')}
+              </a>
+              <a
+                href={`${import.meta.env.BASE_URL}#director`}
                 className={`font-medium text-[0.95rem] transition-all duration-300 relative group whitespace-nowrap ${
                   activeSection === 'director' ? 'text-primary-green' : 'text-text-dark hover:text-primary-green'
                 }`}
@@ -88,7 +127,18 @@ export default function Navbar() {
                 <span className={`absolute bottom-[-5px] left-0 h-0.5 bg-secondary-green transition-all duration-300 ${
                   activeSection === 'director' ? 'w-full' : 'w-0 group-hover:w-full'
                 }`}></span>
-              </button>
+              </a>
+              <a
+                href={`${import.meta.env.BASE_URL}centenario`}
+                className={`font-medium text-[0.95rem] transition-all duration-300 relative group ${
+                  activeSection === 'centenario' ? 'text-primary-green' : 'text-text-dark hover:text-primary-green'
+                }`}
+              >
+                Centenario
+                <span className={`absolute bottom-[-5px] left-0 h-0.5 bg-secondary-green transition-all duration-300 ${
+                  activeSection === 'centenario' ? 'w-full' : 'w-0 group-hover:w-full'
+                }`}></span>
+              </a>
             </div>
 
             {/* Logo centrado */}
@@ -104,14 +154,25 @@ export default function Navbar() {
                 />
               </div>
               <h1 className="text-2xl font-extrabold tracking-tight bg-gradient-to-r from-primary-green to-secondary-green bg-clip-text text-transparent">
-                DGEA
+                DNGA
               </h1>
             </div>
 
             {/* Menu derecho */}
             <div className="hidden md:flex items-center gap-10">
-              <button
-                onClick={() => scrollToSection('noticias')}
+              <a
+                href={`${import.meta.env.BASE_URL}resultados`}
+                className={`font-medium text-[0.95rem] transition-all duration-300 relative group ${
+                  activeSection === 'resultados' ? 'text-primary-green' : 'text-text-dark hover:text-primary-green'
+                }`}
+              >
+                Resultados
+                <span className={`absolute bottom-[-5px] left-0 h-0.5 bg-secondary-green transition-all duration-300 ${
+                  activeSection === 'resultados' ? 'w-full' : 'w-0 group-hover:w-full'
+                }`}></span>
+              </a>
+              <a
+                href={`${import.meta.env.BASE_URL}#noticias`}
                 className={`font-medium text-[0.95rem] transition-all duration-300 relative group ${
                   activeSection === 'noticias' ? 'text-primary-green' : 'text-text-dark hover:text-primary-green'
                 }`}
@@ -120,9 +181,9 @@ export default function Navbar() {
                 <span className={`absolute bottom-[-5px] left-0 h-0.5 bg-secondary-green transition-all duration-300 ${
                   activeSection === 'noticias' ? 'w-full' : 'w-0 group-hover:w-full'
                 }`}></span>
-              </button>
+              </a>
               <button
-                  onClick={() => scrollToSection('footer')}
+                  onClick={handleContactClick}
                 className={`font-medium text-[0.95rem] transition-all duration-300 relative group ${
                   activeSection === 'footer' ? 'text-primary-green' : 'text-text-dark hover:text-primary-green'
                 }`}
@@ -178,27 +239,42 @@ export default function Navbar() {
       {isOpen && (
         <div className="md:hidden ">
           <div className="px-2 pt-2 pb-3 space-y-1">
-            <button
-              onClick={() => scrollToSection('inicio')}
+            <a
+              href={`${import.meta.env.BASE_URL}#inicio`}
               className="block w-full text-left px-3 py-2 text-text-dark hover:bg-gray-50 hover:text-primary-green rounded-md font-medium transition-all"
             >
               Inicio
-            </button>
-            <button
-              onClick={() => scrollToSection('director')}
+            </a>
+            <a
+              href={`${import.meta.env.BASE_URL}#director`}
               className="block w-full text-left px-3 py-2 text-text-dark hover:bg-gray-50 hover:text-primary-green rounded-md font-medium transition-all"
             >
               ¿Quiénes somos?
-            </button>
-            
-            <button
-              onClick={() => scrollToSection('noticias')}
+            </a>
+            <a
+              href={`${import.meta.env.BASE_URL}centenario`}
+              className={`block w-full text-left px-3 py-2 rounded-md font-medium transition-all ${
+                activeSection === 'centenario' ? 'bg-primary-green text-white' : 'text-text-dark hover:bg-gray-50 hover:text-primary-green'
+              }`}
+            >
+              Centenario
+            </a>
+            <a
+              href={`${import.meta.env.BASE_URL}resultados`}
+              className={`block w-full text-left px-3 py-2 rounded-md font-medium transition-all ${
+                activeSection === 'resultados' ? 'bg-secondary-green text-white' : 'text-text-dark hover:bg-gray-50 hover:text-primary-green'
+              }`}
+            >
+              Resultados
+            </a>
+            <a
+              href={`${import.meta.env.BASE_URL}#noticias`}
               className="block w-full text-left px-3 py-2 text-text-dark hover:bg-gray-50 hover:text-primary-green rounded-md font-medium transition-all"
             >
               Noticias
-            </button>
+            </a>
             <button
-                onClick={() => scrollToSection('footer')}
+                onClick={handleContactClick}
               className="block w-full text-left px-3 py-2 text-text-dark hover:bg-gray-50 hover:text-primary-green rounded-md font-medium transition-all"
             >
               Contacto

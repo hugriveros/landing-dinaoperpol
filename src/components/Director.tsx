@@ -107,7 +107,7 @@ export default function Director() {
                 ¿QUIÉNES SOMOS?
               </div>
               <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-text-dark mb-6 leading-tight">
-                Dirección Nacional de Gestión Estratégica de Abastecimiento
+                Dirección Nacional de Gestión de Abastecimiento
               </h2>
               <h3 className="text-2xl lg:text-3xl font-bold text-text-dark mb-3 leading-tight">
                 General Inspector<br />
@@ -115,7 +115,7 @@ export default function Director() {
               </h3>
                 <div className="inline-block px-4 py-1.5 bg-primary-green/10 rounded-full mb-4">
                 <p className="text-sm font-semibold text-primary-green uppercase tracking-wide">
-                  Director Nacional de Apoyo a las Operaciones Policiales
+                  Director Nacional de Gestión de Abastecimiento
                 </p>
               </div>
             </div>

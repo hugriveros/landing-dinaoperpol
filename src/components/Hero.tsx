@@ -99,7 +99,7 @@ export default function Hero() {
                 ref={titleRef}
                 className="text-5xl md:text-6xl lg:text-7xl font-extrabold text-white leading-tight mb-6 opacity-0"
               >
-                Dirección Nacional de Gestión Estratégica de Abastecimiento
+                Dirección Nacional de Gestión de Abastecimiento
               </h1>
             </div>
 
