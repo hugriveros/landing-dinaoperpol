@@ -39,6 +39,7 @@ interface NoticiaProyecto {
   detalleCompleto: string;
   icon: string;
   categoria: string;
+  destacada: boolean;
 }
 
 export default function Noticias() {
@@ -65,14 +66,12 @@ export default function Noticias() {
   const headerTitleRef = useRef(null);
   const carouselContainerRef = useRef(null);
 
-  // Estados para el carrusel horizontal
-  const [offset, setOffset] = useState(0);
-  const [, setHoveredIndex] = useState<number | null>(null);
-  const horizontalCarouselRef = useRef<HTMLDivElement>(null);
+  // Estado de paginación para noticias
+  const [currentPage, setCurrentPage] = useState(1);
+  const NOTICIAS_PER_PAGE = 9;
   const [animatedHorizontalHeader, setAnimatedHorizontalHeader] = useState(false);
-  const [animatedHorizontalCarousel, setAnimatedHorizontalCarousel] = useState(false);
   const [horizontalHeaderRef, horizontalHeaderVisible] = useIntersectionObserver({ threshold: 0.2 });
-  const [horizontalCarouselContainerRef, horizontalCarouselVisible] = useIntersectionObserver({ threshold: 0.1 });
+  const [horizontalCarouselContainerRef] = useIntersectionObserver({ threshold: 0.1 });
   const horizontalHeaderTitleRef = useRef(null);
   const [videoDuration, setVideoDuration] = useState(10000); // Duración dinámica del video
 
@@ -151,7 +150,8 @@ export default function Noticias() {
       descripcion: "Implementación exitosa del sistema ERP SAP para optimizar la gestión de recursos y procesos operacionales.",
       detalleCompleto: "La Dirección Nacional de Abastecimiento y Operaciones Policiales ha completado exitosamente la implementación del sistema ERP SAP, modernizando la gestión integral de recursos institucionales. Este proyecto ha permitido centralizar la información, automatizar procesos críticos y mejorar la toma de decisiones estratégicas a nivel nacional. El sistema incluye módulos de logística, finanzas, compras públicas y gestión de activos, beneficiando directamente a todas las unidades operativas del país.",
       icon: "💻",
-      categoria: "Tecnología"
+      categoria: "Tecnología",
+      destacada: true
     },
     {
       id: 2,
@@ -160,7 +160,8 @@ export default function Noticias() {
       descripcion: "Reestructuración de la cadena de suministro para mejorar tiempos de respuesta en abastecimiento operacional.",
       detalleCompleto: "Proyecto estratégico que ha rediseñado completamente la red logística institucional, implementando nuevos centros de distribución regionales y sistemas de gestión de inventario automatizados. La iniciativa ha reducido los tiempos de entrega en un 40% y ha mejorado significativamente la disponibilidad de recursos críticos para las operaciones policiales. Se han establecido protocolos de respuesta rápida para situaciones de emergencia y se ha optimizado el uso de recursos de transporte.",
       icon: "📦",
-      categoria: "Logística"
+      categoria: "Logística",
+      destacada: true
     },
     {
       id: 3,
@@ -169,7 +170,8 @@ export default function Noticias() {
       descripcion: "Actualización completa de la infraestructura TIC con servidores de alta disponibilidad y seguridad.",
       detalleCompleto: "Inversión mayor en modernización tecnológica que ha transformado la capacidad operativa institucional. Se han instalado servidores de última generación con arquitectura redundante, sistemas de respaldo automatizados y medidas de ciberseguridad avanzadas. La nueva infraestructura soporta aplicaciones críticas 24/7, garantiza la continuidad operacional y ha mejorado drásticamente los tiempos de respuesta de los sistemas informáticos. Incluye datacenter principal y sitio de contingencia para asegurar disponibilidad permanente.",
       icon: "🖥️",
-      categoria: "Infraestructura"
+      categoria: "Infraestructura",
+      destacada: false
     },
     {
       id: 4,
@@ -178,7 +180,8 @@ export default function Noticias() {
       descripcion: "Formación especializada en procesos de adquisición pública para personal institucional.",
       detalleCompleto: "Programa integral de capacitación que ha formado a más de 200 funcionarios en procedimientos de compras públicas, normativa vigente y uso de plataformas electrónicas. Las jornadas han incluido talleres prácticos, análisis de casos reales y certificación profesional. Este proyecto ha fortalecido las competencias del personal, mejorado la eficiencia en procesos de adquisición y asegurado el cumplimiento de estándares de transparencia y probidad institucional.",
       icon: "📚",
-      categoria: "Formación"
+      categoria: "Formación",
+      destacada: false
     },
     {
       id: 5,
@@ -187,7 +190,8 @@ export default function Noticias() {
       descripcion: "Plataforma digital para control y seguimiento de patrimonio y equipamiento policial.",
       detalleCompleto: "Desarrollo e implementación de sistema integral que permite el registro, seguimiento y control de todos los activos institucionales mediante tecnología RFID y códigos QR. La plataforma facilita inventarios automáticos, genera alertas de mantenimiento preventivo y optimiza la asignación de recursos. Ha mejorado significativamente la trazabilidad del equipamiento, reducido pérdidas y permitido una mejor planificación presupuestaria para renovación de activos.",
       icon: "📊",
-      categoria: "Gestión"
+      categoria: "Gestión",
+      destacada: false
     },
     {
       id: 6,
@@ -196,7 +200,58 @@ export default function Noticias() {
       descripcion: "Convenio de cooperación con instituciones públicas para optimizar recursos compartidos.",
       detalleCompleto: "Acuerdo marco de colaboración con organismos del Estado que establece mecanismos de coordinación para compras consolidadas, uso compartido de infraestructura y transferencia de buenas prácticas. La alianza ha generado importantes ahorros presupuestarios, mejorado la calidad de servicios y fortalecido las capacidades operacionales mediante sinergias interinstitucionales. Incluye protocolos de respuesta coordinada ante emergencias y programas de capacitación conjunta.",
       icon: "🤝",
-      categoria: "Alianzas"
+      categoria: "Alianzas",
+      destacada: false
+    },
+        {
+      id: 7,
+      titulo: "Alianza Estratégica Interinstitucional",
+      fecha: "Junio 2025",
+      descripcion: "Convenio de cooperación con instituciones públicas para optimizar recursos compartidos.",
+      detalleCompleto: "Acuerdo marco de colaboración con organismos del Estado que establece mecanismos de coordinación para compras consolidadas, uso compartido de infraestructura y transferencia de buenas prácticas. La alianza ha generado importantes ahorros presupuestarios, mejorado la calidad de servicios y fortalecido las capacidades operacionales mediante sinergias interinstitucionales. Incluye protocolos de respuesta coordinada ante emergencias y programas de capacitación conjunta.",
+      icon: "🤝",
+      categoria: "Alianzas",
+      destacada: false
+    },
+        {
+      id: 8,
+      titulo: "Alianza Estratégica Interinstitucional",
+      fecha: "Junio 2025",
+      descripcion: "Convenio de cooperación con instituciones públicas para optimizar recursos compartidos.",
+      detalleCompleto: "Acuerdo marco de colaboración con organismos del Estado que establece mecanismos de coordinación para compras consolidadas, uso compartido de infraestructura y transferencia de buenas prácticas. La alianza ha generado importantes ahorros presupuestarios, mejorado la calidad de servicios y fortalecido las capacidades operacionales mediante sinergias interinstitucionales. Incluye protocolos de respuesta coordinada ante emergencias y programas de capacitación conjunta.",
+      icon: "🤝",
+      categoria: "Alianzas",
+      destacada: false
+    },
+        {
+      id: 9,
+      titulo: "Alianza Estratégica Interinstitucional",
+      fecha: "Junio 2025",
+      descripcion: "Convenio de cooperación con instituciones públicas para optimizar recursos compartidos.",
+      detalleCompleto: "Acuerdo marco de colaboración con organismos del Estado que establece mecanismos de coordinación para compras consolidadas, uso compartido de infraestructura y transferencia de buenas prácticas. La alianza ha generado importantes ahorros presupuestarios, mejorado la calidad de servicios y fortalecido las capacidades operacionales mediante sinergias interinstitucionales. Incluye protocolos de respuesta coordinada ante emergencias y programas de capacitación conjunta.",
+      icon: "🤝",
+      categoria: "Alianzas",
+      destacada: false
+    },
+        {
+      id: 10,
+      titulo: "Alianza Estratégica Interinstitucional",
+      fecha: "Junio 2025",
+      descripcion: "Convenio de cooperación con instituciones públicas para optimizar recursos compartidos.",
+      detalleCompleto: "Acuerdo marco de colaboración con organismos del Estado que establece mecanismos de coordinación para compras consolidadas, uso compartido de infraestructura y transferencia de buenas prácticas. La alianza ha generado importantes ahorros presupuestarios, mejorado la calidad de servicios y fortalecido las capacidades operacionales mediante sinergias interinstitucionales. Incluye protocolos de respuesta coordinada ante emergencias y programas de capacitación conjunta.",
+      icon: "🤝",
+      categoria: "Alianzas",
+      destacada: false
+    },
+        {
+      id: 11,
+      titulo: "Alianza Estratégica Interinstitucional",
+      fecha: "Junio 2025",
+      descripcion: "Convenio de cooperación con instituciones públicas para optimizar recursos compartidos.",
+      detalleCompleto: "Acuerdo marco de colaboración con organismos del Estado que establece mecanismos de coordinación para compras consolidadas, uso compartido de infraestructura y transferencia de buenas prácticas. La alianza ha generado importantes ahorros presupuestarios, mejorado la calidad de servicios y fortalecido las capacidades operacionales mediante sinergias interinstitucionales. Incluye protocolos de respuesta coordinada ante emergencias y programas de capacitación conjunta.",
+      icon: "🤝",
+      categoria: "Alianzas",
+      destacada: false
     }
   ];
 
@@ -236,13 +291,6 @@ export default function Noticias() {
 
   const handleNext = () => {
     changeSlide('next');
-  };
-
-  const handleOpenDetail = () => {
-    setShowDetail(true);
-    setTimeout(() => {
-      try { closeBtnRef.current?.focus(); } catch {}
-    }, 100);
   };
 
   const handleCloseDetail = () => {
@@ -315,23 +363,7 @@ export default function Noticias() {
     }
   }, [horizontalHeaderVisible, sectionVisible, animatedHorizontalHeader]);
 
-  // Animación del carrusel horizontal
-  useEffect(() => {
-    if (!sectionVisible) {
-      anime.set(horizontalCarouselRef.current, { opacity: 0, translateX: -50 });
-      setAnimatedHorizontalCarousel(false);
-    } else if (horizontalCarouselVisible && !animatedHorizontalCarousel) {
-      setAnimatedHorizontalCarousel(true);
-      anime({
-        targets: horizontalCarouselRef.current,
-        translateX: [-50, 0],
-        opacity: [0, 1],
-        duration: 1000,
-        easing: 'easeOutExpo',
-        delay: 200
-      });
-    }
-  }, [horizontalCarouselVisible, sectionVisible, animatedHorizontalCarousel]);
+
 
   // Control del modal
   useEffect(() => {
@@ -720,10 +752,12 @@ export default function Noticias() {
         {/* Nueva Sección: Noticias Destacadas con Carrusel Horizontal */}
       </div>
       
-      {/* Contenedor full-width fuera del max-w */}
-      <div id="noticias-proyectos" className="mt-32 w-full px-5">
+      {/* Sección noticias: destacadas + grid paginado */}
+      <div id="noticias-proyectos" className="mt-32 w-full">
         <div className="max-w-[1400px] mx-auto px-8">
-          <div ref={horizontalHeaderRef} className="text-center mb-12">
+
+          {/* ── Header ── */}
+          <div ref={horizontalHeaderRef} className="text-center mb-14">
             <div ref={horizontalHeaderTitleRef} className="opacity-0">
               <div className="text-secondary-green font-semibold text-sm uppercase tracking-[2px] mb-2">
                 MÁS INFORMACIÓN
@@ -736,102 +770,148 @@ export default function Noticias() {
               </p>
             </div>
           </div>
-        </div>
 
-        <div ref={horizontalCarouselContainerRef} className="relative h-[520px] overflow-hidden w-full">
-          <div 
-            ref={horizontalCarouselRef}
-            className="flex gap-6 absolute left-0 top-8 px-8"
-          >
-              {proyectos.map((proyecto, index) => (
-                <div
-                  key={proyecto.id}
-                  className="w-[340px] flex-shrink-0 group cursor-pointer"
-                  onMouseEnter={() => setHoveredIndex(index)}
-                  onMouseLeave={() => setHoveredIndex(null)}
-                  onClick={() => handleOpenProyectoDetail(proyecto)}
-                >
-                  <div className="relative bg-gradient-to-br from-slate-800 via-slate-900 to-[#0F172A] rounded-2xl overflow-hidden border border-[#25a366]/40 transition-all duration-500 hover:scale-105 hover:shadow-[#25a366]/20 hover:shadow-2xl hover:border-[#25a366]/80 h-[440px]">
-                    <div className="absolute inset-0 bg-gradient-to-br from-[#25a366]/0 to-[#1D7D4D]/0 group-hover:from-[#25a366]/10 group-hover:to-[#1D7D4D]/10 transition-all duration-500" />
-                    
-                    {/* Icono del proyecto */}
-                    <div className="h-[170px] bg-gradient-to-br from-[#1D7D4D] via-[#25a366] to-[#35AF6F] flex items-center justify-center text-6xl relative overflow-hidden">
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent" />
-                      <div className="absolute inset-0 bg-[#25a366]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                      <span className="relative z-10 transition-transform duration-500 group-hover:scale-110">{proyecto.icon}</span>
-                    </div>
-                    
-                    <div className="p-6 relative">
-                      <div className="flex items-center justify-between mb-3">
-                        <span className="inline-block px-3 py-1.5 text-[#25a366] rounded-full text-xs font-bold">
-                          {proyecto.categoria}
-                        </span>
-                        <span className="text-gray-500 text-xs">{proyecto.fecha}</span>
-                      </div>
-                      <h3 className="text-white font-bold text-base mb-3 leading-tight group-hover:text-[#25a366] transition-colors line-clamp-2">{proyecto.titulo}</h3>
-                      <p className="text-gray-300 text-sm leading-relaxed line-clamp-3">{proyecto.descripcion}</p>
-                      <div className="mt-4 flex items-center text-[#25a366] text-sm font-semibold opacity-0 group-hover:opacity-100 transition-opacity">
-                        Ver proyecto
-                        <svg className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-                        </svg>
-                      </div>
-                    </div>
-                    <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-[#1D7D4D] via-[#25a366] to-[#35AF6F] transform scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left" />
-                  </div>
+          {/* ── Noticias Destacadas ── */}
+          {(() => {
+            const destacadas = proyectos.filter(p => p.destacada);
+            if (destacadas.length === 0) return null;
+            return (
+              <div className="mb-20">
+                  <div className="flex items-center gap-3 mb-8">
+                  <span className="text-lg font-bold text-slate-800">Noticias Destacadas</span>
+                  <div className="h-px flex-1 bg-gray-300" />
+                  
                 </div>
-              ))}
-            </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {destacadas.map((proyecto) => (
+                    <div
+                      key={proyecto.id}
+                      className="group cursor-pointer bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden flex gap-0"
+                      onClick={() => handleOpenProyectoDetail(proyecto)}
+                    >
+                      {/* Franja lateral coloreada + icono */}
+                      <div className="w-28 shrink-0 bg-linear-to-br from-primary-green via-secondary-green to-[#35AF6F] flex flex-col items-center justify-center gap-2 relative overflow-hidden">
+                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
+                        <span className="relative z-10 text-4xl group-hover:scale-110 transition-transform duration-300">{proyecto.icon}</span>
+                        <span className="relative z-10 text-white/80 text-[10px] font-bold uppercase tracking-wider px-2 text-center">{proyecto.categoria}</span>
+                      </div>
+                      {/* Contenido */}
+                      <div className="flex-1 p-5 flex flex-col justify-between">
+                        <div>
+                          <div className="flex items-center justify-between mb-2">
+                            <span className="text-xs text-secondary-green font-semibold bg-secondary-green/8 px-2 py-0.5 rounded-full">{proyecto.categoria}</span>
+                            <span className="text-xs text-gray-400">{proyecto.fecha}</span>
+                          </div>
+                          <h3 className="font-bold text-slate-800 text-base leading-snug mb-2 group-hover:text-secondary-green transition-colors line-clamp-2">{proyecto.titulo}</h3>
+                          <p className="text-gray-500 text-sm leading-relaxed line-clamp-2">{proyecto.descripcion}</p>
+                        </div>
+                        <div className="mt-3 flex items-center text-secondary-green text-sm font-semibold gap-1">
+                          Leer más
+                          <svg className="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            );
+          })()}
 
-            <button
-              onClick={() => {
-                const cardWidth = 340;
-                const gap = 24;
-                const scrollAmount = cardWidth + gap;
-                const newOffset = Math.min(offset + scrollAmount, 0);
-                setOffset(newOffset);
-                if (horizontalCarouselRef.current) {
-                  anime({
-                    targets: horizontalCarouselRef.current,
-                    translateX: newOffset,
-                    duration: 700,
-                    easing: 'easeInOutCubic'
-                  });
-                }
-              }}
-              className="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 bg-linear-to-br from-primary-green to-secondary-green hover:from-secondary-green hover:to-[#35AF6F] backdrop-blur-sm rounded-full flex items-center justify-center text-white shadow-2xl transition-all duration-300 hover:scale-110"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
-              </svg>
-            </button>
-            <button
-              onClick={() => {
-                const cardWidth = 340;
-                const gap = 24;
-                const scrollAmount = cardWidth + gap;
-                const containerWidth = horizontalCarouselContainerRef.current?.offsetWidth || window.innerWidth;
-                const totalWidth = proyectos.length * (cardWidth + gap);
-                const maxOffset = -(totalWidth - containerWidth + 32); // +32 para padding
-                const newOffset = Math.max(offset - scrollAmount, maxOffset);
-                setOffset(newOffset);
-                if (horizontalCarouselRef.current) {
-                  anime({
-                    targets: horizontalCarouselRef.current,
-                    translateX: newOffset,
-                    duration: 700,
-                    easing: 'easeInOutCubic'
-                  });
-                }
-              }}
-              className="absolute right-4 top-1/2 -translate-y-1/2 z-20 w-12 h-12 bg-linear-to-br from-primary-green to-secondary-green hover:from-secondary-green hover:to-[#35AF6F] backdrop-blur-sm rounded-full flex items-center justify-center text-white shadow-2xl transition-all duration-300 hover:scale-110"
-            >
-              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
-              </svg>
-            </button>
-          </div>
+          {/* ── Últimas Noticias + Paginación ── */}
+          {(() => {
+            const noDestacadas = proyectos.filter(p => !p.destacada);
+            const totalPages = Math.ceil(noDestacadas.length / NOTICIAS_PER_PAGE);
+            const paginated = noDestacadas.slice(
+              (currentPage - 1) * NOTICIAS_PER_PAGE,
+              currentPage * NOTICIAS_PER_PAGE
+            );
+            return (
+              <div ref={horizontalCarouselContainerRef}>
+                <div className="flex items-center gap-3 mb-8">
+                  <span className="text-lg font-bold text-slate-800">Últimas Noticias</span>
+                  <div className="h-px flex-1 bg-gray-300" />
+                  <span className="text-sm text-gray-500">{noDestacadas.length} publicaciones</span>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {paginated.map((proyecto) => (
+                    <div
+                      key={proyecto.id}
+                      className="group cursor-pointer bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden flex flex-col"
+                      onClick={() => handleOpenProyectoDetail(proyecto)}
+                    >
+                      {/* Cabecera coloreada */}
+                      <div className="h-36 bg-linear-to-br from-primary-green via-secondary-green to-[#35AF6F] flex items-center justify-center relative overflow-hidden">
+                        <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
+                        <span className="relative z-10 text-5xl group-hover:scale-110 transition-transform duration-300">{proyecto.icon}</span>
+                      </div>
+                      {/* Contenido */}
+                      <div className="p-5 flex flex-col flex-1">
+                        <div className="flex items-center justify-between mb-2">
+                          <span className="text-xs text-secondary-green font-semibold bg-secondary-green/8 px-2 py-0.5 rounded-full">{proyecto.categoria}</span>
+                          <span className="text-xs text-gray-400">{proyecto.fecha}</span>
+                        </div>
+                        <h3 className="font-bold text-slate-800 text-sm leading-snug mb-2 group-hover:text-secondary-green transition-colors line-clamp-2">{proyecto.titulo}</h3>
+                        <p className="text-gray-500 text-xs leading-relaxed line-clamp-3 flex-1">{proyecto.descripcion}</p>
+                        <div className="mt-3 flex items-center text-secondary-green text-xs font-semibold gap-1">
+                          Leer más
+                          <svg className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+
+                {/* Paginación */}
+                {totalPages > 1 && (
+                  <div className="flex items-center justify-center gap-2 mt-12">
+                    <button
+                      onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                      disabled={currentPage === 1}
+                      className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-secondary-green hover:text-white hover:border-secondary-green disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-200"
+                      aria-label="Página anterior"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M15 19l-7-7 7-7" />
+                      </svg>
+                    </button>
+
+                    {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+                      <button
+                        key={page}
+                        onClick={() => setCurrentPage(page)}
+                        className={`w-10 h-10 rounded-full text-sm font-semibold transition-all duration-200 ${
+                          page === currentPage
+                            ? 'bg-secondary-green text-white shadow-md shadow-secondary-green/30'
+                            : 'border border-gray-200 text-gray-600 hover:bg-secondary-green/10 hover:border-secondary-green/30'
+                        }`}
+                      >
+                        {page}
+                      </button>
+                    ))}
+
+                    <button
+                      onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                      disabled={currentPage === totalPages}
+                      className="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-gray-500 hover:bg-secondary-green hover:text-white hover:border-secondary-green disabled:opacity-30 disabled:cursor-not-allowed transition-all duration-200"
+                      aria-label="Página siguiente"
+                    >
+                      <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M9 5l7 7-7 7" />
+                      </svg>
+                    </button>
+                  </div>
+                )}
+              </div>
+            );
+          })()}
+
         </div>
+      </div>
 
         {/* Modal de detalle de proyectos */}
         {showProyectoDetail && selectedProyecto && (
@@ -839,7 +919,7 @@ export default function Noticias() {
             role="dialog"
             aria-modal="true"
             aria-labelledby="proyecto-modal-title"
-            className="fixed inset-0 bg-slate-50/30 backdrop-blur-md z-[9999] flex items-center justify-center p-4 md:p-6"
+            className="fixed inset-0 bg-slate-50/30 backdrop-blur-md z-9999 flex items-center justify-center p-4 md:p-6"
             style={{
               animation: 'fadeIn 300ms ease-out'
             }}

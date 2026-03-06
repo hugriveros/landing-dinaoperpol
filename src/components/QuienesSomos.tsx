@@ -2,11 +2,11 @@ import { useEffect, useRef, useState } from 'react';
 import anime from 'animejs';
 import AnimeOrganigrama from './AnimeOrganigrama';
 import {
-  ShieldCheckIcon, ChartBarIcon, UsersIcon, LightBulbIcon,
+  ShieldCheckIcon, ChartBarIcon, UsersIcon,
   ArchiveBoxIcon, ShoppingCartIcon, CurrencyDollarIcon, ComputerDesktopIcon,
   DocumentTextIcon, TruckIcon, CircleStackIcon, CpuChipIcon, LockClosedIcon,
   MapPinIcon, ShieldExclamationIcon, AcademicCapIcon, ScaleIcon,
-  HeartIcon, StarIcon, ChevronDownIcon
+  StarIcon, ChevronDownIcon, HeartIcon
 } from '@heroicons/react/24/solid';
 
 
@@ -40,7 +40,9 @@ const todosLosEjes = [
     numero: "EJE 1",
     titulo: "Fortalecimiento del Carabinero en el Territorio",
     objetivo: "Gestión policial eficaz",
-    icon: <MapPinIcon className="w-6 h-6 text-white" />,
+    icon: <MapPinIcon className="w-8 h-8 text-blue-500" />,
+    iconBg: 'bg-blue-50',
+    neonColor: '#24c570',
     esDirnaoperpol: false,
   },
   {
@@ -48,7 +50,9 @@ const todosLosEjes = [
     numero: "EJE 2",
     titulo: "Nuevo Modelo de Actuación en Control del Orden Público",
     objetivo: "Gestión policial eficaz + Legitimidad",
-    icon: <ShieldExclamationIcon className="w-6 h-6 text-white" />,
+    icon: <ShieldExclamationIcon className="w-8 h-8 text-orange-500" />,
+    iconBg: 'bg-orange-50',
+    neonColor: '#24c570',
     esDirnaoperpol: false,
   },
   {
@@ -56,7 +60,9 @@ const todosLosEjes = [
     numero: "EJE 3",
     titulo: "Reconocimiento y Fortalecimiento de la Educación",
     objetivo: "Desarrollo del capital humano",
-    icon: <AcademicCapIcon className="w-6 h-6 text-white" />,
+    icon: <AcademicCapIcon className="w-8 h-8 text-purple-500" />,
+    iconBg: 'bg-purple-50',
+    neonColor: '#24c570',
     esDirnaoperpol: false,
   },
   {
@@ -64,7 +70,9 @@ const todosLosEjes = [
     numero: "EJE 4",
     titulo: "Refuerzo de la Ética Policial y Control Efectivo",
     objetivo: "Legitimidad institucional",
-    icon: <ScaleIcon className="w-6 h-6 text-white" />,
+    icon: <ScaleIcon className="w-8 h-8 text-amber-500" />,
+    iconBg: 'bg-amber-50',
+    neonColor: '#24c570',
     esDirnaoperpol: false,
   },
   {
@@ -72,7 +80,9 @@ const todosLosEjes = [
     numero: "EJE 5",
     titulo: "Optimización de la Dotación",
     objetivo: "Eficiencia en el uso de los recursos",
-    icon: <ChartBarIcon className="w-6 h-6 text-white" />,
+    icon: <ChartBarIcon className="w-8 h-8 text-cyan-500" />,
+    iconBg: 'bg-cyan-50',
+    neonColor: '#24c570',
     esDirnaoperpol: false,
   },
   {
@@ -80,7 +90,10 @@ const todosLosEjes = [
     numero: "EJE 6",
     titulo: "Cadena Logística Eficiente de Apoyo a las Funciones Policiales",
     objetivo: "Eficiencia en el uso de los recursos",
-    icon: <TruckIcon className="w-6 h-6 text-white" />,
+    icon: <TruckIcon className="w-8 h-8 text-green-600" />,
+    iconBg: 'bg-green-50',
+    shadowColor: '#16a34a',
+    neonColor: '#24c570',
     esDirnaoperpol: true,
   },
   {
@@ -88,7 +101,10 @@ const todosLosEjes = [
     numero: "EJE 7",
     titulo: "Modernización del Sistema de Bienestar",
     objetivo: "Desarrollo del capital humano",
-    icon: <HeartIcon className="w-6 h-6 text-white" />,
+    icon: <HeartIcon className="w-8 h-8 text-pink-400" />,
+    iconBg: 'bg-pink-50',
+    centered: true,
+    neonColor: '#ff3b3b',
     esDirnaoperpol: false,
   },
   {
@@ -96,7 +112,10 @@ const todosLosEjes = [
     numero: "EJE 8",
     titulo: "Transformación Digital",
     objetivo: "Eficiencia en el uso de los recursos",
-    icon: <CpuChipIcon className="w-6 h-6 text-white" />,
+    icon: <CpuChipIcon className="w-8 h-8 text-indigo-500" />,
+    iconBg: 'bg-indigo-50',
+    shadowColor: '#6366f1',
+    neonColor: '#24c570',
     esDirnaoperpol: true,
   },
 ];
@@ -168,10 +187,10 @@ const ejesDetallados = [
 ];
 
 const objetivos = [
-  { id: 1, icon: <ShieldCheckIcon className="w-6 h-6 text-white" />, titulo: "Seguridad Ciudadana", descripcion: "Garantizar la protección y seguridad de todos los ciudadanos mediante operaciones coordinadas y eficientes." },
-  { id: 2, icon: <ChartBarIcon className="w-6 h-6 text-white" />, titulo: "Gestión Técnica", descripcion: "Implementar sistemas modernos de gestión para optimizar recursos y procesos operacionales." },
-  { id: 3, icon: <UsersIcon className="w-6 h-6 text-white" />, titulo: "Coordinación Nacional", descripcion: "Articular y sincronizar operaciones policiales en todo el territorio nacional." },
-  { id: 4, icon: <LightBulbIcon className="w-6 h-6 text-white" />, titulo: "Innovación", descripcion: "Incorporar tecnología y mejores prácticas para modernizar las operaciones policiales." },
+  { id: 1, bgImage: 'seguridad.png', titulo: "Seguridad Ciudadana", descripcion: "Garantizar la protección y seguridad de todos los ciudadanos mediante operaciones coordinadas y eficientes." },
+  { id: 2, bgImage: 'gestion_tecnica.png', titulo: "Gestión Técnica", descripcion: "Implementar sistemas modernos de gestión para optimizar recursos y procesos operacionales." },
+  { id: 3, bgImage: 'coordinacion.png', titulo: "Coordinación Nacional", descripcion: "Articular y sincronizar operaciones policiales en todo el territorio nacional." },
+  { id: 4, bgImage: 'innovacion.png', titulo: "Innovación", descripcion: "Incorporar tecnología y mejores prácticas para modernizar las operaciones policiales." },
 ];
 
 const gabinete = [
@@ -326,15 +345,20 @@ export default function QuienesSomos() {
         </div>
 
         <div ref={grid1Ref}>
-          <div ref={grid1ItemsRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-32">
+          <div ref={grid1ItemsRef} className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-32">
             {objetivos.map((objetivo) => (
-              <div key={objetivo.id} className="opacity-0 bg-white p-8 rounded-2xl text-center border border-gray-100 hover:border-secondary-green/30 shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-2 group">
-                <div className="w-14 h-14 bg-linear-to-br from-primary-green to-secondary-green rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
-                  {objetivo.icon}
-                </div>
-                <h3 className="text-lg font-bold text-text-dark mb-2">{objetivo.titulo}</h3>
-                <p className="text-sm text-text-light leading-relaxed">{objetivo.descripcion}</p>
-              </div>
+                  <div key={objetivo.id} className="opacity-0 relative rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 hover:-translate-y-2 group min-h-80">
+                    <img
+                      src={`${import.meta.env.BASE_URL}${objetivo.bgImage}`}
+                      alt={objetivo.titulo}
+                      className="absolute inset-0 w-full h-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-black/35 group-hover:bg-black/15 transition-colors duration-300" />
+                    <div className="relative h-full p-10 flex flex-col justify-end text-center min-h-80">
+                      <h3 className="text-2xl font-bold text-white mb-2 drop-shadow">{objetivo.titulo}</h3>
+                      <p className="text-lg text-white/85 leading-relaxed drop-shadow">{objetivo.descripcion}</p>
+                    </div>
+                  </div>
             ))}
           </div>
         </div>
@@ -360,47 +384,65 @@ export default function QuienesSomos() {
             {todosLosEjes.map((eje) => (
               <div
                 key={eje.id}
-                className={`opacity-0 relative p-6 rounded-2xl border-2 transition-all duration-300 hover:-translate-y-1 group
+                className={`opacity-0 relative p-8 rounded-2xl border-2 transition-all duration-300 group flex flex-col items-center text-center
                   ${eje.esDirnaoperpol
-                    ? 'bg-gradient-to-br from-primary-green to-secondary-green border-transparent shadow-xl hover:shadow-2xl'
-                    : 'bg-white border-gray-100 hover:border-secondary-green/30 shadow-md hover:shadow-lg'
+                    ? 'bg-white border-transparent'
+                    : 'bg-white border-transparent'
                   }`}
+                style={(eje as any).shadowColor ? {
+                  boxShadow: `0 2px 10px 0 ${(eje as any).shadowColor}22`,
+                  transform: 'translateY(-4px)',
+                  transition: 'box-shadow 0.3s ease, transform 0.3s ease',
+                } : { boxShadow: 'none', transition: 'box-shadow 0.3s ease, transform 0.3s ease' }}
+                onMouseEnter={e => {
+                  const sc = (eje as any).shadowColor;
+                  if (sc) {
+                    e.currentTarget.style.boxShadow = `0 0 0 1px ${sc}, 0 6px 16px 2px ${sc}33`;
+                    e.currentTarget.style.transform = 'translateY(-4px)';
+                  }
+                }}
+                onMouseLeave={e => {
+                  const sc = (eje as any).shadowColor;
+                  if (sc) {
+                    e.currentTarget.style.boxShadow = `0 4px 18px 0 ${sc}44`;
+                    e.currentTarget.style.transform = 'translateY(-4px)';
+                  }
+                }}
               >
-                {/* Badge DIRNAOPERPOL */}
+                {/* Badge DNGA */}
                 {eje.esDirnaoperpol && (
-                  <div className="absolute -top-3 left-4 bg-white text-primary-green text-[10px] font-bold px-3 py-1 rounded-full shadow-md flex items-center gap-1">
+                  <div className="absolute -top-3 left-4 bg-primary-green text-white text-[10px] font-bold px-3 py-1 rounded-full shadow-md flex items-center gap-1">
                     <StarIcon className="w-3 h-3" />
                     DNGA
                   </div>
                 )}
 
                 {/* Número del eje */}
-                <div className={`text-xs font-bold tracking-widest mb-3 ${eje.esDirnaoperpol ? 'text-white/70' : 'text-secondary-green'}`}>
+                <div className="text-[18px] font-bold tracking-widest mb-5 text-slate-800 uppercase"
+                style={{
+                      
+                    }}
+                    >
                   {eje.numero}
                 </div>
 
-                {/* Ícono */}
-                <div className={`w-12 h-12 rounded-xl flex items-center justify-center mb-4 transition-transform duration-300 group-hover:scale-110
-                  ${eje.esDirnaoperpol ? 'bg-white/20 backdrop-blur-sm' : 'bg-gradient-to-br from-primary-green to-secondary-green'}`}>
-                  {eje.icon}
+                {/* Ícono grande */}
+                <div className={`rounded-full flex items-center justify-center mb-5 w-16 h-16 transition-transform duration-300 group-hover:scale-110 ${(eje as any).iconBg || 'bg-slate-100'}`}>
+                  <div>{eje.icon}</div>
                 </div>
 
                 {/* Título */}
-                <h3 className={`text-base font-bold mb-2 leading-snug ${eje.esDirnaoperpol ? 'text-white' : 'text-text-dark'}`}>
-                  {eje.titulo}
-                </h3>
+                
+                  <h3 className="text-base font-bold leading-snug text-slate-800">
+                    {eje.titulo}
+                  </h3>
+             
 
-                {/* Objetivo */}
-                <div className={`text-xs px-2 py-1 rounded-lg inline-block mt-1
-                  ${eje.esDirnaoperpol ? 'bg-white/20 text-white/90' : 'bg-primary-green/10 text-primary-green'}`}>
-                  {eje.objetivo}
-                </div>
-
-                {/* Anchor a detalle */}
+                {/* Botón ver detalle */}
                 {eje.esDirnaoperpol && (
                   <button
                     onClick={() => handleVerDetalle(eje.id)}
-                    className="mt-4 flex items-center gap-1 text-white/80 hover:text-white text-xs font-semibold transition-all duration-200 hover:gap-2 group/btn"
+                    className="mt-5 flex items-center gap-1 text-slate-500 hover:text-slate-900 text-xs font-semibold transition-all duration-200 hover:gap-2 group/btn"
                   >
                     <span>Ver detalle</span>
                     <ChevronDownIcon className="w-3.5 h-3.5 group-hover/btn:translate-y-0.5 transition-transform" />

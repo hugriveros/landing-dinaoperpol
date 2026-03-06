@@ -123,11 +123,16 @@ export default function Director() {
             {/* Misión y Visión en cards */}
             <div ref={cardsContainerRef} className="grid grid-cols-1 md:grid-cols-2 gap-6">
               {/* Misión */}
-              <div className="group p-6 rounded-xl bg-white/60 border border-primary-green/10 hover:border-primary-green/30 transition-transform duration-300 transform hover:-translate-y-1 hover:shadow-2xl opacity-0">
+              <div
+                className="group p-6 rounded-xl bg-white/60 border border-transparent opacity-0"
+                style={{ boxShadow: '0 6px 18px 0 rgba(0,0,0,0.10)', transform: 'translateY(-3px)', transition: 'box-shadow 0.3s ease, transform 0.3s ease' }}
+                onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 0 0 1px #16a34a, 0 6px 16px 2px #16a34a33'; e.currentTarget.style.transform = 'translateY(-6px)'; }}
+                onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(-3px)'; e.currentTarget.style.boxShadow = '0 6px 18px 0 rgba(0,0,0,0.10)'; }}
+              >
                 <div className="flex items-start gap-4 mb-3">
                   <div className="shrink-0">
-                    <div className="w-12 h-12 rounded-lg flex items-center justify-center text-white text-xl bg-gradient-to-br from-primary-green to-secondary-green shadow-md group-hover:scale-110 transition-transform duration-300">
-                      <ShieldCheckIcon className="w-6 h-6" aria-hidden="true" />
+                    <div className="w-12 h-12 rounded-full flex items-center justify-center bg-green-50 group-hover:scale-110 transition-transform duration-300">
+                      <ShieldCheckIcon className="w-6 h-6 text-green-600" aria-hidden="true" />
                     </div>
                   </div>
                   <div>
@@ -140,11 +145,16 @@ export default function Director() {
               </div>
 
               {/* Visión */}
-              <div className="group p-6 rounded-xl bg-white/60 border border-secondary-green/10 hover:border-secondary-green/30 transition-transform duration-300 transform hover:-translate-y-1 hover:shadow-2xl opacity-0">
+              <div
+                className="group p-6 rounded-xl bg-white/60 border border-transparent opacity-0"
+                style={{ boxShadow: '0 6px 18px 0 rgba(0,0,0,0.10)', transform: 'translateY(-3px)', transition: 'box-shadow 0.3s ease, transform 0.3s ease' }}
+                onMouseEnter={e => { e.currentTarget.style.boxShadow = '0 0 0 1px #3b82f6, 0 6px 16px 2px #3b82f633'; e.currentTarget.style.transform = 'translateY(-6px)'; }}
+                onMouseLeave={e => { e.currentTarget.style.transform = 'translateY(-3px)'; e.currentTarget.style.boxShadow = '0 6px 18px 0 rgba(0,0,0,0.10)'; }}
+              >
                 <div className="flex items-start gap-4 mb-3">
                   <div className="shrink-0">
-                    <div className="w-12 h-12 rounded-lg flex items-center justify-center text-white text-xl bg-gradient-to-br from-secondary-green to-primary-green shadow-md group-hover:scale-110 transition-transform duration-300">
-                      <EyeIcon className="w-6 h-6" aria-hidden="true" />
+                    <div className="w-12 h-12 rounded-full flex items-center justify-center bg-blue-50 group-hover:scale-110 transition-transform duration-300">
+                      <EyeIcon className="w-6 h-6 text-blue-500" aria-hidden="true" />
                     </div>
                   </div>
                   <div>

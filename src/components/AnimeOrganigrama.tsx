@@ -68,6 +68,65 @@ const lineAnimationStyles = `
     animation: flowParticles 4s linear infinite;
     box-shadow: 0 0 8px rgba(37, 163, 102, 0.3);
   }
+
+  /* ── Wallet Card Effect ── */
+  .wallet-card {
+    position: relative;
+    overflow: hidden;
+    background: #fff;
+    border-radius: 16px;
+    transition: transform 0.5s cubic-bezier(.23,1,.32,1), box-shadow 0.5s cubic-bezier(.23,1,.32,1);
+    will-change: transform;
+  }
+  .wallet-card:hover {
+    transform: translateY(-7px) scale(1.015);
+  }
+
+  .wallet-circle-wrap {
+    border: 3px solid transparent;
+    border-radius: 50%;
+    transition: border-color 0.4s ease, background 0.4s ease, box-shadow 0.4s ease;
+  }
+  .wallet-card:hover .wallet-circle-wrap {
+    box-shadow: 0 0 0 4px var(--wallet-bg-light);
+  }
+
+  .wallet-title {
+    transition: color 0.4s ease;
+    color: #1e293b;
+  }
+  .wallet-card:hover .wallet-title {
+    color: #fff;
+  }
+
+  .wallet-dept {
+    transition: color 0.4s ease, background 0.4s ease;
+  }
+  .wallet-card:hover .wallet-dept {
+    color: #fff;
+    background: rgba(255,255,255,0.20) !important;
+  }
+
+  .wallet-dot {
+    transition: background 0.4s ease;
+  }
+  .wallet-card:hover .wallet-dot {
+    background: #fff !important;
+  }
+
+  .wallet-icon-btn {
+    transition: opacity 0.3s ease, transform 0.3s ease, background 0.3s ease, border-color 0.3s ease;
+    opacity: 0;
+  }
+  .wallet-card:hover .wallet-icon-btn {
+    opacity: 1;
+    transform: scale(1.1) rotate(12deg);
+    background: rgba(255,255,255,0.20) !important;
+    border-color: rgba(255,255,255,0.40) !important;
+  }
+  .wallet-card:hover .wallet-icon-btn svg {
+    color: #fff !important;
+  }
 `;
 
 // Componente de partículas (igual que DirectorParticles)
@@ -165,6 +224,9 @@ interface OrgNode {
   image: string;
   description: string;
   color: string;
+  bgColor: string;
+  bgColorLight: string;
+  shadowColor: string;
   level: number;
   parentId: number | null;
 }
@@ -173,12 +235,15 @@ const orgData: OrgNode[] = [
   // Nivel 0 - Dirección Nacional
   {
     id: 0,
-    name: 'Dirección Nacional de Apoyo a las Operaciones Policiales',
+    name: 'Dirección Nacional de Gestión de Abastecimiento',
     position: 'Director Nacional',
-    department: 'DINAOPERPOL',
+    department: 'DNGA',
     image: 'hero_director.png',
     description: '"Dirigir, administrar, evaluar y coordinar los procesos de las áreas financieras, logísticas, tecnológicas y de compras públicas, con el propósito de proveer los bienes y servicios para el desempeño de la función policial de Carabineros de Chile a lo largo del territorio nacional."',
-    color: '#088152',
+    color: '#4A88C7',
+    bgColor: '#4A88C7',
+    bgColorLight: '#E0EDF8',
+    shadowColor: 'rgba(74,136,199,0.45)',
     level: 0,
     parentId: null,
   },
@@ -187,10 +252,13 @@ const orgData: OrgNode[] = [
     id: 4,
     name: 'Dirección de Logística',
     position: 'Director de Logística',
-    department: 'Dirección de Logística',
+    department: 'DILOCAR',
     image: 'hero_logistica.png',
     description: '"Dirigir y coordinar la gestión integral de recursos logísticos, administrar la cadena de suministro institucional, proveer bienes y servicios necesarios para el desempeño de la función policial y optimizar los procesos de almacenamiento y distribución a nivel nacional."',
-    color: '#1D7D4D',
+    color: '#C97845',
+    bgColor: '#C97845',
+    bgColorLight: '#F8EDE3',
+    shadowColor: 'rgba(201,120,69,0.45)',
     level: 2,
     parentId: 0,
   },
@@ -198,10 +266,13 @@ const orgData: OrgNode[] = [
     id: 5,
     name: 'Dirección de Compras Públicas',
     position: 'Director de Compras Públicas',
-    department: 'Dirección de Compras Públicas',
+    department: 'DICOPUC',
     image: 'hero_compras.png',
     description: '"Dirigir y coordinar los procesos de adquisición y compras públicas institucionales, gestionar licitaciones en conformidad con la normativa vigente, administrar el Plan Anual de Compras y garantizar la transparencia y eficiencia en los procesos de adquisición."',
-    color: '#25a366',
+    color: '#8060C8',
+    bgColor: '#8060C8',
+    bgColorLight: '#EDE8F8',
+    shadowColor: 'rgba(128,96,200,0.45)',
     level: 2,
     parentId: 0,
   },
@@ -209,25 +280,114 @@ const orgData: OrgNode[] = [
     id: 6,
     name: 'Dirección de Finanzas',
     position: 'Director de Finanzas',
-    department: 'Dirección de Finanzas',
+    department: 'DIFINCAR',
     image: 'hero_finanzas.png',
     description: '"Dirigir y administrar la gestión financiera, presupuestaria y contable institucional, coordinar la ejecución presupuestaria, controlar los recursos financieros y elaborar análisis económico-financieros para la toma de decisiones del Alto Mando."',
-    color: '#2D9963',
+    color: '#45A868',
+    bgColor: '#45A868',
+    bgColorLight: '#E2F3E9',
+    shadowColor: 'rgba(69,168,104,0.45)',
     level: 2,
     parentId: 0,
   },
   {
     id: 7,
     name: 'Dirección de Tecnologías de la Información y las Comunicaciones',
-    position: 'Director de TIC',
-    department: 'Dirección de TIC',
+    position: 'Director TIC',
+    department: 'DIRTIC',
     image: 'hero_tic.png',
     description: '"Dirigir y coordinar la gestión de infraestructura tecnológica institucional, administrar sistemas de información, garantizar la seguridad informática, proveer soluciones tecnológicas innovadoras y gestionar las comunicaciones digitales a nivel nacional."',
-    color: '#35AF6F',
+    color: '#2E9CB8',
+    bgColor: '#2E9CB8',
+    bgColorLight: '#DDF0F5',
+    shadowColor: 'rgba(46,156,184,0.45)',
     level: 2,
     parentId: 0,
   },
 ];
+
+// ── Componente reutilizable WalletCard ──────────────────────────────────────
+function WalletCard({ node, maxWidth = '', fullHeight = false }: { node: OrgNode; maxWidth?: string; fullHeight?: boolean }) {
+  const [hovered, setHovered] = useState(false);
+
+  const cardStyle: React.CSSProperties = {
+    boxShadow: hovered
+      ? `0 24px 36px rgba(0,0,0,0.12), 0 24px 46px ${node.shadowColor}`
+      : '0 4px 18px rgba(0,0,0,0.08)',
+  };
+
+  const circleStyle: React.CSSProperties = {
+    border: `3px solid ${node.bgColorLight}`,
+    background: node.bgColor,
+    transition: 'box-shadow 0.4s ease',
+    boxShadow: hovered ? `0 0 0 8px ${node.bgColorLight}` : `0 0 0 5px ${node.bgColorLight}`,
+  };
+
+  return (
+    <div
+      className={`wallet-card w-full ${maxWidth} ${fullHeight ? 'h-full flex flex-col' : ''}`}
+      style={cardStyle}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+    >
+      {/* Overlay radial: se expande desde el borde del círculo de foto hacia afuera */}
+      <div
+        style={{
+          position: 'absolute',
+          inset: 0,
+          zIndex: 0,
+          pointerEvents: 'none',
+          background: `radial-gradient(circle at 50% 112px, transparent 0%, transparent 76px, ${node.bgColor} 102px)`,
+          clipPath: hovered ? 'circle(150% at 50% 112px)' : 'circle(0% at 50% 112px)',
+          transition: 'clip-path 0.65s cubic-bezier(.23,1,.32,1)',
+        }}
+      />
+
+      {/* Área de foto */}
+      <div className={`relative z-10 ${fullHeight ? 'h-56 shrink-0' : 'h-56'} flex items-center justify-center`}>
+        <div className="relative">
+          {/* Halo detrás */}
+          <div
+            className="absolute inset-0 w-40 h-40 rounded-full blur-xl transition-opacity duration-500"
+            style={{ background: node.bgColor, opacity: hovered ? 0.5 : 0.2 }}
+          />
+          {/* Círculo foto */}
+          <div
+            className="wallet-circle-wrap relative w-40 h-40 rounded-full p-1.5"
+            style={circleStyle}
+          >
+            <img
+              src={`${import.meta.env.BASE_URL}${node.image}`}
+              alt={`${node.position} - ${node.name}`}
+              loading="lazy"
+              className="w-full h-full object-cover rounded-full"
+              style={{ border: `4px solid ${hovered ? node.bgColorLight : '#e2e8f0'}`, transition: 'border-color 0.4s ease' }}
+            />
+          </div>
+        </div>
+      </div>
+
+      {/* Contenido textual */}
+      <div className={`relative z-10 p-6 text-center ${fullHeight ? 'flex-1 flex flex-col justify-center items-center' : ''}`}>
+        <h4 className="wallet-title font-bold text-lg leading-tight mb-3">{node.name}</h4>
+        <div className="flex items-center justify-center gap-2">
+          <span
+            className="wallet-dept text-sm font-semibold px-3 py-1 rounded-full"
+            style={{
+              color: hovered ? '#fff' : node.bgColor,
+              background: hovered ? 'rgba(255,255,255,0.25)' : `${node.bgColor}28`,
+              transition: 'color 0.4s ease, background 0.4s ease',
+            }}
+          >
+            {node.department}
+          </span>
+        </div>
+      </div>
+
+
+    </div>
+  );
+}
 
 export  function AnimeOrganigrama() {
   const [expandedNode, setExpandedNode] = useState<number | null>(null);
@@ -336,7 +496,7 @@ export  function AnimeOrganigrama() {
             {nodesByLevel[0].map((node) => (
               <div
                 key={node.id}
-                className="org-item cursor-pointer group perspective-1000"
+                className="org-item cursor-pointer perspective-1000"
                 onClick={() => handleExpand(node.id)}
                 role="button"
                 tabIndex={0}
@@ -347,38 +507,9 @@ export  function AnimeOrganigrama() {
                     handleExpand(node.id);
                   }
                 }}
+                style={{ '--wallet-bg': node.bgColor, '--wallet-bg-light': node.bgColorLight, '--wallet-shadow': node.shadowColor } as React.CSSProperties}
               >
-                <div className="relative overflow-hidden bg-linear-to-br from-[#0F172A] to-slate-900 rounded-2xl shadow-xl hover:shadow-2xl border-2 border-[#0F172A] hover:border-secondary-green/50 transition-all duration-500 hover:-translate-y-3 hover:scale-105 w-full max-w-[500px] focus-within:ring-4 focus-within:ring-primary-green/50 transform-gpu">
-                  <div className="absolute inset-0 bg-linear-to-br from-secondary-green/20 via-primary-green/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(37,163,102,0.1),transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                  <div className="relative h-56 bg-linear-to-br from-[#0F172A] to-slate-900 overflow-hidden">
-                    <div className="absolute inset-0 flex items-center justify-center">
-                      <div className="relative">
-                        <div className="absolute inset-0 w-40 h-40 rounded-full bg-linear-to-br from-primary-green via-secondary-green to-[#35AF6F] blur-xl opacity-50 group-hover:opacity-75 transition-opacity duration-500"></div>
-                        <div className="relative w-40 h-40 rounded-full p-1 bg-linear-to-br from-primary-green via-secondary-green to-[#35AF6F] shadow-2xl group-hover:shadow-[0_0_40px_rgba(37,163,102,0.5)] transition-all duration-500">
-                          <img
-                            src={`${import.meta.env.BASE_URL}${node.image}`}
-                            alt={`${node.position} - ${node.name}`}
-                            loading="lazy"
-                            className="w-full h-full object-cover rounded-full border-4 border-[#0F172A] group-hover:scale-110 group-hover:rotate-3 transition-all duration-500"
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="relative p-7 bg-linear-to-b from-transparent to-slate-900/50">
-                    <h4 className="font-bold text-xl text-white leading-tight mb-2 group-hover:text-secondary-green transition-colors duration-300">{node.name}</h4>
-                    <div className="flex items-center gap-2 text-sm text-secondary-green font-medium">
-                      <div className="w-1.5 h-1.5 rounded-full bg-secondary-green animate-pulse" />
-                      <span className="group-hover:translate-x-1 transition-transform duration-300">{node.department}</span>
-                    </div>
-                  </div>
-                  <div className="absolute top-4 right-4 w-10 h-10 rounded-xl bg-secondary-green/20 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:scale-110 group-hover:rotate-12 border border-secondary-green/30">
-                    <svg className="w-5 h-5 text-secondary-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
-                    </svg>
-                  </div>
-                </div>
+                <WalletCard node={node} maxWidth="max-w-[500px]" />
               </div>
             ))}
           </div>
@@ -396,7 +527,7 @@ export  function AnimeOrganigrama() {
               {nodesByLevel[2].map((node) => (
                 <div key={node.id} className="relative flex justify-center">
                   <div
-                    className="org-item cursor-pointer group w-[350px] h-[420px]"
+                    className="org-item cursor-pointer w-[350px] h-[420px]"
                     onClick={() => handleExpand(node.id)}
                     role="button"
                     tabIndex={0}
@@ -407,38 +538,9 @@ export  function AnimeOrganigrama() {
                         handleExpand(node.id);
                       }
                     }}
+                    style={{ '--wallet-bg': node.bgColor, '--wallet-bg-light': node.bgColorLight, '--wallet-shadow': node.shadowColor } as React.CSSProperties}
                   >
-                    <div className="relative overflow-hidden bg-linear-to-br from-[#0F172A] to-slate-900 rounded-2xl shadow-xl hover:shadow-2xl border-2 border-[#0F172A] hover:border-secondary-green/50 transition-all duration-500 hover:-translate-y-3 hover:scale-105 w-full h-full flex flex-col focus-within:ring-4 focus-within:ring-primary-green/50 transform-gpu">
-                      <div className="absolute inset-0 bg-linear-to-br from-secondary-green/15 via-primary-green/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_120%,rgba(37,163,102,0.15),transparent_70%)] opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                      <div className="relative h-56 bg-linear-to-br from-[#0F172A] to-slate-900 overflow-hidden shrink-0">
-                        <div className="absolute inset-0 flex items-center justify-center">
-                          <div className="relative">
-                            <div className="absolute inset-0 w-40 h-40 rounded-full bg-linear-to-br from-primary-green via-secondary-green to-[#35AF6F] blur-xl opacity-50 group-hover:opacity-75 transition-opacity duration-500"></div>
-                            <div className="relative w-40 h-40 rounded-full p-1 bg-linear-to-br from-primary-green via-secondary-green to-[#35AF6F] shadow-2xl group-hover:shadow-[0_0_40px_rgba(37,163,102,0.5)] transition-all duration-500">
-                              <img
-                                src={`${import.meta.env.BASE_URL}${node.image}`}
-                                alt={`${node.position} - ${node.name}`}
-                                loading="lazy"
-                                className="w-full h-full object-cover rounded-full border-4 border-[#0F172A] group-hover:scale-110 group-hover:rotate-3 transition-all duration-500"
-                              />
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div className="relative p-7 flex-1 flex flex-col justify-center bg-linear-to-b from-transparent to-slate-900/50">
-                        <h4 className="font-bold text-xl text-white leading-tight mb-2 group-hover:text-secondary-green transition-colors duration-300">{node.name}</h4>
-                        <div className="flex items-center gap-2 text-sm text-secondary-green font-medium">
-                          <div className="w-1.5 h-1.5 rounded-full bg-secondary-green animate-pulse" />
-                          <span className="group-hover:translate-x-1 transition-transform duration-300">{node.department}</span>
-                        </div>
-                      </div>
-                      <div className="absolute top-4 right-4 w-10 h-10 rounded-xl bg-secondary-green/20 backdrop-blur-sm flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 group-hover:scale-110 group-hover:rotate-12 border border-secondary-green/30">
-                        <svg className="w-5 h-5 text-secondary-green" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
-                        </svg>
-                      </div>
-                    </div>
+                    <WalletCard node={node} fullHeight />
                   </div>
                 </div>
               ))}
