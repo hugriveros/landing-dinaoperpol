@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+﻿import { useState, useEffect } from 'react';
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
@@ -19,6 +19,9 @@ export default function Navbar() {
       setActiveSection('resultados');
     } else if (path.includes('documentos')) {
       setCurrentPage('documentos');
+    } else if (path.includes('/noticia/')) {
+      setCurrentPage('noticia');
+      setActiveSection('noticias');
     } else {
       setCurrentPage('home');
     }
@@ -29,7 +32,7 @@ export default function Navbar() {
       setScrolled(window.scrollY > 50);
 
       // En páginas que no son home, siempre mostrar el logo
-      if (currentPage === 'centenario' || currentPage === 'resultados' || currentPage === 'documentos') {
+      if (currentPage === 'centenario' || currentPage === 'resultados' || currentPage === 'documentos' || currentPage === 'noticia') {
         setShowLogo(true);
         return;
       }
@@ -154,7 +157,7 @@ export default function Navbar() {
                 />
               </div>
               <h1 className="text-2xl font-extrabold tracking-tight bg-gradient-to-r from-primary-green to-secondary-green bg-clip-text text-transparent">
-                DNGA
+                DGA
               </h1>
             </div>
 

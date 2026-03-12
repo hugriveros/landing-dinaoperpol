@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import anime from 'animejs';
+import { noticiasVideos as noticias, proyectos, noticiaUrl } from '../data/noticias';
 
 // Hook personalizado de visibilidad
 const useIntersectionObserver = (options: IntersectionObserverInit = {}) => {
@@ -21,39 +22,12 @@ const useIntersectionObserver = (options: IntersectionObserverInit = {}) => {
   return [elementRef, isVisible] as const;
 };
 
-interface Noticia {
-  id: number;
-  titulo: string;
-  fecha: string;
-  descripcion: string;
-  icon?: string;
-  video?: string;
-  categoria: string;
-}
-
-interface NoticiaProyecto {
-  id: number;
-  titulo: string;
-  fecha: string;
-  descripcion: string;
-  detalleCompleto: string;
-  icon: string;
-  categoria: string;
-  destacada: boolean;
-}
-
 export default function Noticias() {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [progress, setProgress] = useState(0);
-  const [showDetail, setShowDetail] = useState(false);
   const [isVisible, setIsVisible] = useState(true);
   const [isMuted, setIsMuted] = useState(true);
-  const [showProyectoDetail, setShowProyectoDetail] = useState(false);
-  const [selectedProyecto, setSelectedProyecto] = useState<NoticiaProyecto | null>(null);
   const progressIntervalRef = useRef<number | null>(null);
-  const modalRef = useRef<HTMLDivElement>(null);
-  const proyectoModalRef = useRef<HTMLDivElement>(null);
-  const closeBtnRef = useRef<HTMLButtonElement | null>(null);
   const progressRef = useRef<number>(0);
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -68,192 +42,13 @@ export default function Noticias() {
 
   // Estado de paginación para noticias
   const [currentPage, setCurrentPage] = useState(1);
-  const NOTICIAS_PER_PAGE = 9;
+  const NOTICIAS_PER_PAGE = 6;
   const [animatedHorizontalHeader, setAnimatedHorizontalHeader] = useState(false);
   const [horizontalHeaderRef, horizontalHeaderVisible] = useIntersectionObserver({ threshold: 0.2 });
   const [horizontalCarouselContainerRef] = useIntersectionObserver({ threshold: 0.1 });
   const horizontalHeaderTitleRef = useRef(null);
   const [videoDuration, setVideoDuration] = useState(10000); // Duración dinámica del video
 
-  const noticias: Noticia[] = [
-    {
-      id: 1,
-      titulo: "Aniversario Departamento Finanzas",
-      fecha: "2025",
-      descripcion: "Celebración del aniversario del Departamento de Finanzas reconociendo su labor estratégica.",
-      video: "ANIVERSARIO DEPTO FINANZAS.mp4",
-      categoria: "Institucional"
-    },
-    {
-      id: 2,
-      titulo: "Aniversario L.6",
-      fecha: "05 de Agosto, 2025",
-      descripcion: "Conmemoración del aniversario del Departamento L.6 y su contribución operacional.",
-      video: "ANIVERSARIO L.6 05-08-25.mov",
-      categoria: "Institucional"
-    },
-    {
-      id: 3,
-      titulo: "Aniversario MICC",
-      fecha: "2025",
-      descripcion: "Celebración del aniversario del Módulo de Información y Control de Carabineros.",
-      video: "ANIVERSARIO MICC.mov",
-      categoria: "Institucional"
-    },
-    {
-      id: 4,
-      titulo: "Día del SOM 2025",
-      fecha: "2025",
-      descripcion: "Conmemoración del Día del Servicio de Orden y Movilización institucional.",
-      video: "DIA DEL SOM 2025.mp4",
-      categoria: "Celebración"
-    },
-    {
-      id: 5,
-      titulo: "Video Aniversario Depto L.6",
-      fecha: "05 de Junio, 2025",
-      descripcion: "Video conmemorativo del aniversario del Departamento L.6 institucional.",
-      video: "VIDEO ANIVERSARIO DEPTO L.6 05-06-25.mov",
-      categoria: "Institucional"
-    },
-    {
-      id: 6,
-      titulo: "Día de la Ingeniería",
-      fecha: "13 de Mayo, 2025",
-      descripcion: "Celebración del Día de la Ingeniería y reconocimiento al personal técnico.",
-      video: "VIDEO DIA DE LA INGENIERIA 13-05-25.mov",
-      categoria: "Celebración"
-    },
-    {
-      id: 7,
-      titulo: "Día de la Madre",
-      fecha: "10 de Mayo, 2025",
-      descripcion: "Homenaje institucional en el Día de la Madre a funcionarias y familias.",
-      video: "VIDEO DIA DE LA MADRE 10-05-25.mov",
-      categoria: "Celebración"
-    },
-    {
-      id: 8,
-      titulo: "Lanzamiento Subasta Inversa Electrónica",
-      fecha: "19 de Junio, 2025",
-      descripcion: "Lanzamiento oficial del sistema de Subasta Inversa Electrónica institucional.",
-      video: "VIDEO SUBASTA INVERSA ELECTRONICA LANZAMIENTO 19-06-25.mov",
-      categoria: "Tecnología"
-    }
-  ];
-
-  const proyectos: NoticiaProyecto[] = [
-    {
-      id: 1,
-      titulo: "Modernización Sistema SAP Institucional",
-      fecha: "Noviembre 2025",
-      descripcion: "Implementación exitosa del sistema ERP SAP para optimizar la gestión de recursos y procesos operacionales.",
-      detalleCompleto: "La Dirección Nacional de Abastecimiento y Operaciones Policiales ha completado exitosamente la implementación del sistema ERP SAP, modernizando la gestión integral de recursos institucionales. Este proyecto ha permitido centralizar la información, automatizar procesos críticos y mejorar la toma de decisiones estratégicas a nivel nacional. El sistema incluye módulos de logística, finanzas, compras públicas y gestión de activos, beneficiando directamente a todas las unidades operativas del país.",
-      icon: "💻",
-      categoria: "Tecnología",
-      destacada: true
-    },
-    {
-      id: 2,
-      titulo: "Optimización Red Logística Nacional",
-      fecha: "Octubre 2025",
-      descripcion: "Reestructuración de la cadena de suministro para mejorar tiempos de respuesta en abastecimiento operacional.",
-      detalleCompleto: "Proyecto estratégico que ha rediseñado completamente la red logística institucional, implementando nuevos centros de distribución regionales y sistemas de gestión de inventario automatizados. La iniciativa ha reducido los tiempos de entrega en un 40% y ha mejorado significativamente la disponibilidad de recursos críticos para las operaciones policiales. Se han establecido protocolos de respuesta rápida para situaciones de emergencia y se ha optimizado el uso de recursos de transporte.",
-      icon: "📦",
-      categoria: "Logística",
-      destacada: true
-    },
-    {
-      id: 3,
-      titulo: "Infraestructura Tecnológica de Última Generación",
-      fecha: "Septiembre 2025",
-      descripcion: "Actualización completa de la infraestructura TIC con servidores de alta disponibilidad y seguridad.",
-      detalleCompleto: "Inversión mayor en modernización tecnológica que ha transformado la capacidad operativa institucional. Se han instalado servidores de última generación con arquitectura redundante, sistemas de respaldo automatizados y medidas de ciberseguridad avanzadas. La nueva infraestructura soporta aplicaciones críticas 24/7, garantiza la continuidad operacional y ha mejorado drásticamente los tiempos de respuesta de los sistemas informáticos. Incluye datacenter principal y sitio de contingencia para asegurar disponibilidad permanente.",
-      icon: "🖥️",
-      categoria: "Infraestructura",
-      destacada: false
-    },
-    {
-      id: 4,
-      titulo: "Programa de Capacitación en Compras Públicas",
-      fecha: "Agosto 2025",
-      descripcion: "Formación especializada en procesos de adquisición pública para personal institucional.",
-      detalleCompleto: "Programa integral de capacitación que ha formado a más de 200 funcionarios en procedimientos de compras públicas, normativa vigente y uso de plataformas electrónicas. Las jornadas han incluido talleres prácticos, análisis de casos reales y certificación profesional. Este proyecto ha fortalecido las competencias del personal, mejorado la eficiencia en procesos de adquisición y asegurado el cumplimiento de estándares de transparencia y probidad institucional.",
-      icon: "📚",
-      categoria: "Formación",
-      destacada: false
-    },
-    {
-      id: 5,
-      titulo: "Sistema de Gestión de Activos Institucionales",
-      fecha: "Julio 2025",
-      descripcion: "Plataforma digital para control y seguimiento de patrimonio y equipamiento policial.",
-      detalleCompleto: "Desarrollo e implementación de sistema integral que permite el registro, seguimiento y control de todos los activos institucionales mediante tecnología RFID y códigos QR. La plataforma facilita inventarios automáticos, genera alertas de mantenimiento preventivo y optimiza la asignación de recursos. Ha mejorado significativamente la trazabilidad del equipamiento, reducido pérdidas y permitido una mejor planificación presupuestaria para renovación de activos.",
-      icon: "📊",
-      categoria: "Gestión",
-      destacada: false
-    },
-    {
-      id: 6,
-      titulo: "Alianza Estratégica Interinstitucional",
-      fecha: "Junio 2025",
-      descripcion: "Convenio de cooperación con instituciones públicas para optimizar recursos compartidos.",
-      detalleCompleto: "Acuerdo marco de colaboración con organismos del Estado que establece mecanismos de coordinación para compras consolidadas, uso compartido de infraestructura y transferencia de buenas prácticas. La alianza ha generado importantes ahorros presupuestarios, mejorado la calidad de servicios y fortalecido las capacidades operacionales mediante sinergias interinstitucionales. Incluye protocolos de respuesta coordinada ante emergencias y programas de capacitación conjunta.",
-      icon: "🤝",
-      categoria: "Alianzas",
-      destacada: false
-    },
-        {
-      id: 7,
-      titulo: "Alianza Estratégica Interinstitucional",
-      fecha: "Junio 2025",
-      descripcion: "Convenio de cooperación con instituciones públicas para optimizar recursos compartidos.",
-      detalleCompleto: "Acuerdo marco de colaboración con organismos del Estado que establece mecanismos de coordinación para compras consolidadas, uso compartido de infraestructura y transferencia de buenas prácticas. La alianza ha generado importantes ahorros presupuestarios, mejorado la calidad de servicios y fortalecido las capacidades operacionales mediante sinergias interinstitucionales. Incluye protocolos de respuesta coordinada ante emergencias y programas de capacitación conjunta.",
-      icon: "🤝",
-      categoria: "Alianzas",
-      destacada: false
-    },
-        {
-      id: 8,
-      titulo: "Alianza Estratégica Interinstitucional",
-      fecha: "Junio 2025",
-      descripcion: "Convenio de cooperación con instituciones públicas para optimizar recursos compartidos.",
-      detalleCompleto: "Acuerdo marco de colaboración con organismos del Estado que establece mecanismos de coordinación para compras consolidadas, uso compartido de infraestructura y transferencia de buenas prácticas. La alianza ha generado importantes ahorros presupuestarios, mejorado la calidad de servicios y fortalecido las capacidades operacionales mediante sinergias interinstitucionales. Incluye protocolos de respuesta coordinada ante emergencias y programas de capacitación conjunta.",
-      icon: "🤝",
-      categoria: "Alianzas",
-      destacada: false
-    },
-        {
-      id: 9,
-      titulo: "Alianza Estratégica Interinstitucional",
-      fecha: "Junio 2025",
-      descripcion: "Convenio de cooperación con instituciones públicas para optimizar recursos compartidos.",
-      detalleCompleto: "Acuerdo marco de colaboración con organismos del Estado que establece mecanismos de coordinación para compras consolidadas, uso compartido de infraestructura y transferencia de buenas prácticas. La alianza ha generado importantes ahorros presupuestarios, mejorado la calidad de servicios y fortalecido las capacidades operacionales mediante sinergias interinstitucionales. Incluye protocolos de respuesta coordinada ante emergencias y programas de capacitación conjunta.",
-      icon: "🤝",
-      categoria: "Alianzas",
-      destacada: false
-    },
-        {
-      id: 10,
-      titulo: "Alianza Estratégica Interinstitucional",
-      fecha: "Junio 2025",
-      descripcion: "Convenio de cooperación con instituciones públicas para optimizar recursos compartidos.",
-      detalleCompleto: "Acuerdo marco de colaboración con organismos del Estado que establece mecanismos de coordinación para compras consolidadas, uso compartido de infraestructura y transferencia de buenas prácticas. La alianza ha generado importantes ahorros presupuestarios, mejorado la calidad de servicios y fortalecido las capacidades operacionales mediante sinergias interinstitucionales. Incluye protocolos de respuesta coordinada ante emergencias y programas de capacitación conjunta.",
-      icon: "🤝",
-      categoria: "Alianzas",
-      destacada: false
-    },
-        {
-      id: 11,
-      titulo: "Alianza Estratégica Interinstitucional",
-      fecha: "Junio 2025",
-      descripcion: "Convenio de cooperación con instituciones públicas para optimizar recursos compartidos.",
-      detalleCompleto: "Acuerdo marco de colaboración con organismos del Estado que establece mecanismos de coordinación para compras consolidadas, uso compartido de infraestructura y transferencia de buenas prácticas. La alianza ha generado importantes ahorros presupuestarios, mejorado la calidad de servicios y fortalecido las capacidades operacionales mediante sinergias interinstitucionales. Incluye protocolos de respuesta coordinada ante emergencias y programas de capacitación conjunta.",
-      icon: "🤝",
-      categoria: "Alianzas",
-      destacada: false
-    }
-  ];
 
   const changeSlide = (direction: 'next' | 'prev') => {
     const newIndex = direction === 'next'
@@ -291,23 +86,6 @@ export default function Noticias() {
 
   const handleNext = () => {
     changeSlide('next');
-  };
-
-  const handleCloseDetail = () => {
-    setShowDetail(false);
-  };
-
-  const handleOpenProyectoDetail = (proyecto: NoticiaProyecto) => {
-    setSelectedProyecto(proyecto);
-    setShowProyectoDetail(true);
-    setTimeout(() => {
-      try { closeBtnRef.current?.focus(); } catch {}
-    }, 100);
-  };
-
-  const handleCloseProyectoDetail = () => {
-    setShowProyectoDetail(false);
-    setSelectedProyecto(null);
   };
 
   // Animación del header
@@ -363,29 +141,6 @@ export default function Noticias() {
     }
   }, [horizontalHeaderVisible, sectionVisible, animatedHorizontalHeader]);
 
-
-
-  // Control del modal
-  useEffect(() => {
-    if (!showDetail && !showProyectoDetail) return;
-    const previousOverflow = document.body.style.overflow;
-    document.body.style.overflow = 'hidden';
-
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        handleCloseDetail();
-        handleCloseProyectoDetail();
-      }
-    };
-
-    document.addEventListener('keydown', onKey);
-
-    return () => {
-      document.removeEventListener('keydown', onKey);
-      document.body.style.overflow = previousOverflow;
-    };
-  }, [showDetail, showProyectoDetail]);
-
   // Autoplay con progreso basado en la duración real del video
   useEffect(() => {
     const TICK = 100;
@@ -427,11 +182,10 @@ export default function Noticias() {
       }
     };
 
-    if (!showDetail) start();
-    else stop();
+    start();
 
     return () => stop();
-  }, [showDetail, currentIndex, videoDuration]);
+  }, [currentIndex, videoDuration]);
 
   // Manejar eventos del video
   useEffect(() => {
@@ -466,24 +220,6 @@ export default function Noticias() {
       }
     };
   }, []);
-
-  // Escuchar evento personalizado para abrir proyecto específico
-  useEffect(() => {
-    const handleOpenProyecto = (event: Event) => {
-      const customEvent = event as CustomEvent<{ id: number }>;
-      const proyectoId = customEvent.detail.id;
-      const proyecto = proyectos.find(p => p.id === proyectoId);
-      if (proyecto) {
-        handleOpenProyectoDetail(proyecto);
-      }
-    };
-
-    window.addEventListener('openProyecto', handleOpenProyecto);
-
-    return () => {
-      window.removeEventListener('openProyecto', handleOpenProyecto);
-    };
-  }, [proyectos]);
 
   return (
     <section ref={sectionRef} id="noticias" className="pt-36 pb-40 bg-linear-to-b from-white to-gray-50">
@@ -630,125 +366,6 @@ export default function Noticias() {
           </div>
         </div>
 
-        {/* Modal de detalle */}
-        {showDetail && (
-            <div
-              role="dialog"
-              aria-modal="true"
-              aria-labelledby="noticias-modal-title"
-              className="fixed inset-0 bg-slate-50/30 backdrop-blur-md z-999 flex items-center justify-center p-4 md:p-6"
-              style={{
-                animation: 'fadeIn 300ms ease-out'
-              }}
-            >
-              <div
-                ref={modalRef}
-                className="relative w-full max-w-5xl mx-auto bg-white rounded-2xl md:rounded-3xl shadow-2xl overflow-hidden border border-slate-200 max-h-[90vh] overflow-y-auto"
-                style={{
-                  animation: 'slideUp 300ms ease-out'
-                }}
-              >
-                <button
-                  ref={closeBtnRef}
-                  onClick={handleCloseDetail}
-                  aria-label="Cerrar detalle"
-                  className="absolute top-4 right-4 z-50 w-10 h-10 bg-white/90 hover:bg-white rounded-full flex items-center justify-center text-slate-700 transition-transform hover:scale-105 border border-slate-200 shadow-sm"
-                >
-                  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M6 18L18 6M6 6l12 12" />
-                  </svg>
-                </button>
-
-                <div className="md:grid md:grid-cols-2">
-                  {/* Visual */}
-                  <div className="relative h-56 md:h-auto md:min-h-80 flex items-center justify-center bg-linear-to-br from-primary-green via-secondary-green to-[#35AF6F]">
-                    <div className="relative z-10 text-[96px] md:text-[120px] drop-shadow-sm text-white">
-                      {noticias[currentIndex].icon}
-                    </div>
-                    <div className="absolute -bottom-8 left-8 md:left-10 z-20">
-                      <span className="inline-block px-3 py-1.5 bg-white/10 text-white rounded-full text-xs font-semibold border border-white/12 shadow-sm">
-                        {noticias[currentIndex].categoria}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Contenido */}
-                  <div className="p-4 md:p-10 lg:p-12 bg-white text-slate-900">
-                    <div className="flex items-center justify-between mb-4">
-                      <div className="flex items-center gap-2 md:gap-4">
-                        <span className="inline-block px-3 py-2 bg-secondary-green/10 text-secondary-green rounded-full text-xs md:text-sm font-bold border border-secondary-green/20">
-                          {noticias[currentIndex].categoria}
-                        </span>
-                        <span className="text-slate-500 text-xs md:text-sm hidden sm:block">{noticias[currentIndex].fecha}</span>
-                      </div>
-                    </div>
-
-                    <h2 id="noticias-modal-title" className="text-slate-900 font-extrabold text-2xl md:text-3xl lg:text-4xl mb-4 leading-tight">
-                      {noticias[currentIndex].titulo}
-                    </h2>
-
-                    <p className="text-slate-700 text-sm md:text-base lg:text-lg leading-relaxed mb-4 md:mb-6">
-                      {noticias[currentIndex].descripcion}
-                    </p>
-
-                    <div className="space-y-6 pt-4 border-t border-slate-100 mt-6">
-                      <div className="flex items-start gap-4">
-                        <div className="w-12 h-12 shrink-0 rounded-xl flex items-center justify-center bg-linear-to-br from-primary-green via-secondary-green to-[#35AF6F] shadow-sm">
-                          <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                          </svg>
-                        </div>
-                        <div className="flex-1">
-                          <h3 className="text-slate-900 font-bold text-lg mb-2">Detalles de la Noticia</h3>
-                          <p className="text-slate-700 leading-relaxed">
-                            {noticias[currentIndex].descripcion} Esta noticia representa un hito importante en nuestro desarrollo institucional y refleja el compromiso continuo con la excelencia operacional y el servicio a la comunidad.
-                          </p>
-                        </div>
-                      </div>
-
-                      <div className="flex items-start gap-4">
-                        <div className="w-12 h-12 shrink-0 rounded-xl flex items-center justify-center bg-linear-to-br from-primary-green via-secondary-green to-[#35AF6F] shadow-sm">
-                          <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                          </svg>
-                        </div>
-                        <div className="flex-1">
-                          <h3 className="text-slate-900 font-bold text-lg mb-2">Impacto Institucional</h3>
-                          <p className="text-slate-700 leading-relaxed">
-                            Esta iniciativa fortalece nuestra capacidad operativa y mejora la eficiencia en los procesos clave de la institución, beneficiando directamente a todo el personal y a la ciudadanía que servimos.
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-
-        {/* Estilos CSS para animaciones del modal */}
-        <style>{`
-          @keyframes fadeIn {
-            from {
-              opacity: 0;
-            }
-            to {
-              opacity: 1;
-            }
-          }
-
-          @keyframes slideUp {
-            from {
-              opacity: 0;
-              transform: translateY(20px) scale(0.95);
-            }
-            to {
-              opacity: 1;
-              transform: translateY(0) scale(1);
-            }
-          }
-        `}</style>
-
         {/* Nueva Sección: Noticias Destacadas con Carrusel Horizontal */}
       </div>
       
@@ -784,16 +401,23 @@ export default function Noticias() {
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {destacadas.map((proyecto) => (
-                    <div
+                    <a
                       key={proyecto.id}
+                      href={noticiaUrl(proyecto.titulo, proyecto.id)}
                       className="group cursor-pointer bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden flex gap-0"
-                      onClick={() => handleOpenProyectoDetail(proyecto)}
                     >
-                      {/* Franja lateral coloreada + icono */}
-                      <div className="w-28 shrink-0 bg-linear-to-br from-primary-green via-secondary-green to-[#35AF6F] flex flex-col items-center justify-center gap-2 relative overflow-hidden">
+                      {/* Franja lateral: portada o gradiente */}
+                      <div className="w-28 shrink-0 relative overflow-hidden">
+                        {proyecto.portada ? (
+                          <img
+                            src={`${import.meta.env.BASE_URL}${proyecto.portada}`}
+                            alt={proyecto.titulo}
+                            className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                          />
+                        ) : (
+                          <div className="absolute inset-0 bg-linear-to-br from-primary-green via-secondary-green to-[#35AF6F]" />
+                        )}
                         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
-                        <span className="relative z-10 text-4xl group-hover:scale-110 transition-transform duration-300">{proyecto.icon}</span>
-                        <span className="relative z-10 text-white/80 text-[10px] font-bold uppercase tracking-wider px-2 text-center">{proyecto.categoria}</span>
                       </div>
                       {/* Contenido */}
                       <div className="flex-1 p-5 flex flex-col justify-between">
@@ -812,7 +436,7 @@ export default function Noticias() {
                           </svg>
                         </div>
                       </div>
-                    </div>
+                    </a>
                   ))}
                 </div>
               </div>
@@ -821,7 +445,7 @@ export default function Noticias() {
 
           {/* ── Últimas Noticias + Paginación ── */}
           {(() => {
-            const noDestacadas = proyectos.filter(p => !p.destacada);
+            const noDestacadas = proyectos;
             const totalPages = Math.ceil(noDestacadas.length / NOTICIAS_PER_PAGE);
             const paginated = noDestacadas.slice(
               (currentPage - 1) * NOTICIAS_PER_PAGE,
@@ -837,15 +461,23 @@ export default function Noticias() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                   {paginated.map((proyecto) => (
-                    <div
+                    <a
                       key={proyecto.id}
+                      href={noticiaUrl(proyecto.titulo, proyecto.id)}
                       className="group cursor-pointer bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden flex flex-col"
-                      onClick={() => handleOpenProyectoDetail(proyecto)}
                     >
-                      {/* Cabecera coloreada */}
-                      <div className="h-36 bg-linear-to-br from-primary-green via-secondary-green to-[#35AF6F] flex items-center justify-center relative overflow-hidden">
+                      {/* Cabecera: portada o gradiente */}
+                      <div className="h-36 relative overflow-hidden">
+                        {proyecto.portada ? (
+                          <img
+                            src={`${import.meta.env.BASE_URL}${proyecto.portada}`}
+                            alt={proyecto.titulo}
+                            className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                          />
+                        ) : (
+                          <div className="absolute inset-0 bg-linear-to-br from-primary-green via-secondary-green to-[#35AF6F]" />
+                        )}
                         <div className="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300" />
-                        <span className="relative z-10 text-5xl group-hover:scale-110 transition-transform duration-300">{proyecto.icon}</span>
                       </div>
                       {/* Contenido */}
                       <div className="p-5 flex flex-col flex-1">
@@ -862,7 +494,7 @@ export default function Noticias() {
                           </svg>
                         </div>
                       </div>
-                    </div>
+                    </a>
                   ))}
                 </div>
 
@@ -912,93 +544,6 @@ export default function Noticias() {
 
         </div>
       </div>
-
-        {/* Modal de detalle de proyectos */}
-        {showProyectoDetail && selectedProyecto && (
-          <div
-            role="dialog"
-            aria-modal="true"
-            aria-labelledby="proyecto-modal-title"
-            className="fixed inset-0 bg-slate-50/30 backdrop-blur-md z-9999 flex items-center justify-center p-4 md:p-6"
-            style={{
-              animation: 'fadeIn 300ms ease-out'
-            }}
-          >
-            <div
-              ref={proyectoModalRef}
-              className="relative w-full max-w-5xl mx-auto bg-white rounded-2xl md:rounded-3xl shadow-2xl overflow-hidden border border-slate-200 max-h-[90vh] overflow-y-auto"
-              style={{
-                animation: 'slideUp 300ms ease-out'
-              }}
-            >
-              <button
-                ref={closeBtnRef}
-                onClick={handleCloseProyectoDetail}
-                aria-label="Cerrar detalle"
-                className="absolute top-4 right-4 z-50 w-10 h-10 bg-white/90 hover:bg-white rounded-full flex items-center justify-center text-slate-700 transition-transform hover:scale-105 border border-slate-200 shadow-sm"
-              >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.2} d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-
-              <div className="md:grid md:grid-cols-2">
-                {/* Visual */}
-                <div className="relative h-56 md:h-auto md:min-h-[500px] flex items-center justify-center bg-linear-to-br from-primary-green via-secondary-green to-[#35AF6F] overflow-hidden">
-                  <div className="relative z-10 text-[120px] md:text-[180px] drop-shadow-2xl opacity-95 text-white">
-                    {selectedProyecto.icon}
-                  </div>
-                  <div className="absolute bottom-8 left-8 md:left-10 z-20">
-                    <span className="inline-block px-4 py-2 bg-white/20 backdrop-blur-md text-white rounded-full text-sm font-semibold border border-white/30 shadow-sm">
-                      {selectedProyecto.categoria}
-                    </span>
-                  </div>
-                </div>
-
-                {/* Contenido */}
-                <div className="p-6 md:p-10 lg:p-12 bg-white text-slate-900">
-                  <div className="flex items-center justify-between mb-4">
-                    <span className="inline-block px-3 py-2 bg-secondary-green/10 text-secondary-green rounded-full text-xs md:text-sm font-bold border border-secondary-green/20">
-                      {selectedProyecto.categoria}
-                    </span>
-                    <span className="text-slate-500 text-xs md:text-sm">{selectedProyecto.fecha}</span>
-                  </div>
-
-                  <h2 id="proyecto-modal-title" className="text-slate-900 font-extrabold text-2xl md:text-3xl lg:text-4xl mb-4 leading-tight">
-                    {selectedProyecto.titulo}
-                  </h2>
-
-                  <p className="text-slate-600 text-sm md:text-base lg:text-lg leading-relaxed mb-4 font-semibold">
-                    {selectedProyecto.descripcion}
-                  </p>
-
-                  <div className="space-y-4 pt-4 border-t border-slate-100 mt-4">
-                    <h3 className="text-slate-900 font-bold text-lg mb-3">Descripción del Proyecto</h3>
-                    <p className="text-slate-700 text-sm md:text-base leading-relaxed">
-                      {selectedProyecto.detalleCompleto}
-                    </p>
-                  </div>
-
-                  <div className="space-y-4 pt-6 mt-6 border-t border-slate-100">
-                    <div className="flex items-start gap-4">
-                      <div className="w-12 h-12 shrink-0 rounded-xl flex items-center justify-center bg-linear-to-br from-primary-green via-secondary-green to-[#35AF6F] shadow-sm">
-                        <svg className="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
-                        </svg>
-                      </div>
-                      <div className="flex-1">
-                        <h3 className="text-slate-900 font-bold text-base mb-2">Impacto Institucional</h3>
-                        <p className="text-slate-700 text-sm leading-relaxed">
-                          Este proyecto representa un avance significativo en la modernización institucional, mejorando la eficiencia operativa y fortaleciendo las capacidades de gestión a nivel nacional.
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        )}
     </section>
   );
 }

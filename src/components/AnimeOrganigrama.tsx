@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from 'react';
+﻿import React, { useState, useRef, useEffect } from 'react';
 import { createPortal } from 'react-dom';
 import anime from 'animejs';
 
@@ -237,7 +237,7 @@ const orgData: OrgNode[] = [
     id: 0,
     name: 'Dirección Nacional de Gestión de Abastecimiento',
     position: 'Director Nacional',
-    department: 'DNGA',
+    department: 'DGA',
     image: 'hero_director.png',
     description: '"Dirigir, administrar, evaluar y coordinar los procesos de las áreas financieras, logísticas, tecnológicas y de compras públicas, con el propósito de proveer los bienes y servicios para el desempeño de la función policial de Carabineros de Chile a lo largo del territorio nacional."',
     color: '#4A88C7',

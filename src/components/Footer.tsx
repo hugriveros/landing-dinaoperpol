@@ -1,4 +1,4 @@
-export default function Footer() {
+﻿export default function Footer() {
   return (
     <footer id="footer" className="relative bg-slate-900 text-white scroll-mt-32 shadow-2xl overflow-hidden">
       {/* Gradiente superior para transición suave */}
@@ -19,7 +19,7 @@ export default function Footer() {
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
                     </svg>
                   </div>
-                  <h3 className="text-2xl font-bold text-white">DNGA</h3>
+                  <h3 className="text-2xl font-bold text-white">DGA</h3>
                 </div>
                 <p className="text-gray-300 leading-relaxed text-sm mb-6">
                  Dirección Nacional de Gestión de Abastecimiento. Comprometidos con la seguridad, 
@@ -265,7 +265,7 @@ export default function Footer() {
           <div className="max-w-[1400px] mx-auto px-8 py-8">
             <div className="flex flex-col md:flex-row justify-between items-center gap-6">
               <p className="text-gray-400 text-sm text-center md:text-left">
-                &copy; 2026 DNGA - Dirección Nacional de Gestión de Abastecimiento.
+                &copy; 2026 DGA - Dirección Nacional de Gestión de Abastecimiento.
                 Todos los derechos reservados.
               </p>
               <div className="flex flex-wrap justify-center gap-6 text-sm">

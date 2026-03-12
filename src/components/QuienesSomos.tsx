@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+﻿import { useEffect, useRef, useState } from 'react';
 import anime from 'animejs';
 import AnimeOrganigrama from './AnimeOrganigrama';
 import {
@@ -409,11 +409,11 @@ export default function QuienesSomos() {
                   }
                 }}
               >
-                {/* Badge DNGA */}
+                {/* Badge DGA */}
                 {eje.esDirnaoperpol && (
                   <div className="absolute -top-3 left-4 bg-primary-green text-white text-[10px] font-bold px-3 py-1 rounded-full shadow-md flex items-center gap-1">
                     <StarIcon className="w-3 h-3" />
-                    DNGA
+                    DGA
                   </div>
                 )}
 
